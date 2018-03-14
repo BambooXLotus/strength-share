@@ -1,38 +1,13 @@
-<div id="home" class="container-fluid">
-  <div class="row">
-    <div class="col-12 col-md-6">
-      <div class="card">
-        <div class="card-header default-color white-text">Input</div>
-        <div class="card-body">
-          <h6 class="card-title">Squat</h6>
-          <div class="form-row">
-            <div class="col-12 col-md-3">
-              <div class="md-form form-sm">
-                <input mdbActive type="text" id="squat-weight" class="form-control">
-                <label for="form1" class="">Weight</label>
-              </div>
-            </div>
-            <div class="col-12 col-md-3">
-              <div class="md-form form-sm">
-                <input mdbActive type="text" id="squat-reps" class="form-control">
-                <label for="form1" class="">Reps</label>
-              </div>
-            </div>
-            <div class="col-12 col-md-3">
-              <div class="md-form form-sm">
-                <input mdbActive type="text" id="squat-rpe" class="form-control">
-                <label for="form1" class="">RPE</label>
-              </div>
-            </div>
-            <div class="col-12 col-md-3">
-              <div class="md-form form-sm">
-                <input mdbActive type="text" id="squat-max" class="form-control" value="123" disabled>
-                <label for="form1" class="">Extimated Max</label>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="container-fluid blue-grey lighten-5">
+
+    <mat-tab-group class="d-flex align-self-stretch">
+        <mat-tab label="Inputs">
+            <app-input></app-input>
+        </mat-tab>
+        <mat-tab label="Training">
+            <h1>Some more tab content</h1>
+            <p>...</p>
+        </mat-tab>
+    </mat-tab-group>
+
 </div>

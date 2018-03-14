@@ -1,42 +1,60 @@
-<mdb-navbar SideClass="navbar fixed-top navbar-expand-lg navbar-dark bg-pink scrolling-navbar ie-nav" [containerInside]="false">
-  <logo>
-    <a class="logo navbar-brand" href="#">
-      <strong>Strength Share</strong>
-    </a>
-  </logo>
-  <links>
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active waves-light" mdbRippleRadius>
-        <a class="nav-link">Home
-          <span class="sr-only">(current)</span>
-        </a>
-      </li>
-      <li class="nav-item waves-light" mdbRippleRadius>
-        <a class="nav-link">Features</a>
-      </li>
-      <li class="nav-item waves-light" mdbRippleRadius>
-        <a class="nav-link">Pricing</a>
-      </li>
-      <li class="nav-item waves-light" mdbRippleRadius>
-        <a class="nav-link">Opinions</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav nav-flex-icons">
-      <li class="nav-item waves-light" mdbRippleRadius>
-        <a class="nav-link">
-          <i class="fa fa-facebook"></i>
-        </a>
-      </li>
-      <li class="nav-item waves-light" mdbRippleRadius>
-        <a class="nav-link">
-          <i class="fa fa-twitter"></i>
-        </a>
-      </li>
-      <li class="nav-item waves-light" mdbRippleRadius>
-        <a class="nav-link">
-          <i class="fa fa-instagram"></i>
-        </a>
-      </li>
-    </ul>
-  </links>
-</mdb-navbar>
+<!--Main Navigation-->
+<header>
+
+
+    <!--Navbar-->
+    <mdb-navbar SideClass="navbar navbar-expand-lg  navbar-light blue-grey lighten-5" [containerInside]="false">
+
+        <!-- Navbar brand -->
+        <logo>
+            <a class="navbar-brand" href="#">Strength Share</a>
+        </logo>
+
+        <!-- Collapsible content -->
+        <links>
+
+            <!-- Links -->
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link waves-light" mdbRippleRadius>Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-light" mdbRippleRadius>Features</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-light" mdbRippleRadius>Pricing</a>
+                </li>
+
+                <!-- Dropdown -->
+                <li class="nav-item dropdown" dropdown>
+                    <a dropdownToggle mdbRippleRadius type="button" class="nav-link dropdown-toggle waves-light" mdbRippleRadius>
+                        Basic dropdown
+                        <span class="caret"></span>
+                    </a>
+                    <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
+                        <a class="dropdown-item waves-light" mdbRippleRadius href="#">Action</a>
+                        <a class="dropdown-item waves-light" mdbRippleRadius href="#">Another action</a>
+                        <a class="dropdown-item waves-light" mdbRippleRadius href="#">Something else here</a>
+                        <div class="divider dropdown-divider"></div>
+                        <a class="dropdown-item waves-light" mdbRippleRadius href="#">Separated link</a>
+                    </div>
+                </li>
+
+            </ul>
+            <!-- Links -->
+
+            <!-- Search form -->
+            <form class="form-inline  waves-light" mdbRippleRadius>
+                <input class="form-control mr-sm-2" type="text" placeholder="Search">
+            </form>
+        </links>
+        <!-- Collapsible content -->
+
+    </mdb-navbar>
+    <!--/.Navbar-->
+
+
+</header>
+<!--Main Navigation-->
