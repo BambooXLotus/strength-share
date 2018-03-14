@@ -4,7 +4,11 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { RouterModule, Routes } from '@angular/router';
 
+const appRoutes: Routes = [
+  { path: '', component: HomeComponent },
+];
 
 @NgModule({
   declarations: [
@@ -13,7 +17,10 @@ import { HomeComponent } from './home/home.component';
   ],
   imports: [
     BrowserModule,
-    MDBBootstrapModule.forRoot()
+    MDBBootstrapModule.forRoot(),
+    RouterModule.forRoot(
+      appRoutes
+    )
   ],
   providers: [],
   bootstrap: [AppComponent],
