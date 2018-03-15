@@ -1,3 +1,4 @@
+import { ExerciseInput } from './../../training/exercise/exercise.model';
 import { Injectable } from '@angular/core';
 
 import { LiftInput } from './../../input/lift-input/lift-input.model';
@@ -18,6 +19,23 @@ export class CalcService {
     console.log(calcRpe);
     if (calcRpe && calcRpe.length > 0) {
       returnValue = input.weight / calcRpe[0].percent;
+    }
+    return returnValue;
+  }
+
+  calcLoad(input: ExerciseInput): number {
+    let returnValue = 0;
+    const rpeTable = this.rpeTable();
+
+    let estimate = 360;
+
+    const calcRpe = rpeTable.filter(
+      f => f.level === input.rpe && f.rep === input.reps
+    );
+
+    console.log(calcRpe);
+    if (calcRpe && calcRpe.length > 0) {
+      returnValue = estimate * calcRpe[0].percent;
     }
     return returnValue;
   }

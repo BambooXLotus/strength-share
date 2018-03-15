@@ -1,3 +1,4 @@
+import { ExerciseInput } from './exercise/exercise.model';
 import { LiftInput } from './../input/lift-input/lift-input.model';
 import { Component, OnInit, Input } from '@angular/core';
 
@@ -7,7 +8,9 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./training.component.scss']
 })
 export class TrainingComponent implements OnInit {
-  inputs: LiftInput[] = new Array<LiftInput>();
+  @Input() squat1RM = 420;
+  workoutName = 'Beginner Day 1 (Monday)';
+  inputs: ExerciseInput[] = new Array<ExerciseInput>();
 
   exercises = [
     { value: 'squat', viewValue: 'Squat' },
@@ -18,10 +21,14 @@ export class TrainingComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.inputs.push(new LiftInput(0, 0, 0, 0));
+    this.inputs.push(new ExerciseInput('', 0, 0, 0));
   }
 
+  calculateLift() {}
+
   addLift() {
-    this.inputs.push(new LiftInput(0, 0, 0, 0));
+    if (this.inputs.length < 20) {
+      this.inputs.push(new ExerciseInput('', 0, 0, 0));
+    }
   }
 }

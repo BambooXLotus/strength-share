@@ -4,12 +4,14 @@
             <div class="card my-1">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-11">
                             <div class="md-form">
-                                <input mdbActive type="text" class="form-control">
+                                <input mdbActive type="text" class="form-control" [(ngModel)]="workoutName">
                                 <label for="form1" class="">Workout Name</label>
                             </div>
-                            <button class="float-right indigo" mat-mini-fab>
+                        </div>
+                        <div class="col-1">
+                            <button class="indigo" mat-mini-fab>
                                 <mat-icon aria-label="Add Exercise" (click)="addLift()">add</mat-icon>
                             </button>
                         </div>
@@ -17,7 +19,7 @@
                 </div>
                 <div class="card-body">
                     <div class="form-row" *ngFor="let input of inputs">
-                        <div class="col-3">
+                        <div class="col-md-3">
                             <select class="custom-select">
                                 <option selected>Exercise</option>
                                 <option value="1">Squat</option>
@@ -25,13 +27,13 @@
                                 <option value="3">Deadlift</option>
                             </select>
                         </div>
-                        <div class="col-3">
+                        <div class="col-md-3">
                             <div class="md-form form-sm">
                                 <input mdbActive type="number" [(ngModel)]="input.reps" class="form-control" (keyup)="calcEstimate()">
                                 <label>Reps</label>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-md-3">
                             <h6> {{ input.estimate }}</h6>
                         </div>
                     </div>

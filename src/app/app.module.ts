@@ -12,9 +12,10 @@ import { NavbarComponent } from './layout/navbar/navbar.component';
 import { MaterialModule } from './material/material.module';
 import { LiftInputComponent } from './input/lift-input/lift-input.component';
 import { TrainingComponent } from './training/training.component';
+import { ExerciseComponent } from './training/exercise/exercise.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, NavbarComponent, InputComponent, LiftInputComponent, TrainingComponent],
+  declarations: [AppComponent, HomeComponent, NavbarComponent, InputComponent, LiftInputComponent, TrainingComponent, ExerciseComponent],
   imports: [
     BrowserModule,
     MDBBootstrapModule.forRoot(),
