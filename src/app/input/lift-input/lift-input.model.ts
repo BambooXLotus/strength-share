@@ -1,4 +1,4 @@
-export class Input {
+export class LiftInput {
   constructor(
     public weight: number,
     public reps: number,

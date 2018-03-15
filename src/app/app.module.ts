@@ -1,18 +1,20 @@
-import { AppRoutingModule } from './app-routing.module';
+import { CalcService } from './services/calc/calc.service';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule, Routes } from '@angular/router';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { InputComponent } from './input/input.component';
 import { NavbarComponent } from './layout/navbar/navbar.component';
-import { MaterialModule } from './material.module';
-import { FormsModule } from '@angular/forms';
+import { MaterialModule } from './material/material.module';
+import { LiftInputComponent } from './input/lift-input/lift-input.component';
+import { TrainingComponent } from './training/training.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, NavbarComponent, InputComponent],
+  declarations: [AppComponent, HomeComponent, NavbarComponent, InputComponent, LiftInputComponent, TrainingComponent],
   imports: [
     BrowserModule,
     MDBBootstrapModule.forRoot(),
@@ -20,7 +22,7 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     FormsModule
   ],
-  providers: [],
+  providers: [CalcService],
   bootstrap: [AppComponent],
   schemas: [NO_ERRORS_SCHEMA]
 })

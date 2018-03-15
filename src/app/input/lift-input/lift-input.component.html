@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col">
+        <span class="card-title">{{ lift }}</span>
+        <span class="card-title float-right">RM: {{ input.estimate | number }}</span>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-12 col-md-4">
+        <div class="md-form form-sm">
+            <input mdbActive type="number" class="form-control" [(ngModel)]="input.weight" (max)="2000" (keyup)="calcEstimate()">
+            <label>Weight</label>
+        </div>
+    </div>
+    <div class="col-12 col-md-4">
+        <div class="md-form form-sm">
+            <input mdbActive type="number" [(ngModel)]="input.reps" class="form-control" (keyup)="calcEstimate()">
+            <label>Reps</label>
+        </div>
+    </div>
+    <div class="col-12 col-md-4">
+        <div class="md-form form-sm">
+            <input mdbActive type="number" [(ngModel)]="input.rpe" class="form-control" (keyup)="calcEstimate()">
+            <label for="form1" class="">RPE</label>
+        </div>
+    </div>
+</div>

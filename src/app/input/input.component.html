@@ -1,90 +1,40 @@
 <div id="input" class="container-fluid py-3">
+    <!-- <div class="row">
+        <div class="col">
+            <div class="card my-1">
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="col-12 col-md-4">
+                            <div class="md-form form-sm">
+                                <input mdbActive type="number" class="form-control" [(ngModel)]="input.weight">
+                                <label>Name</label>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="md-form form-sm">
+                                <input mdbActive type="number" [(ngModel)]="input.reps" class="form-control">
+                                <label>Body Weight</label>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="md-form form-sm">
+                                <input mdbActive type="number" [(ngModel)]="input.rpe" class="form-control">
+                                <label for="form1" class="">Gender</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
     <div class="row">
         <div class="col-12 col-md-8">
-            <div class="card">
+            <div class="card my-1">
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <span class="card-title">Squat</span>
-                            <span class="card-title float-right">RM: {{ squatInput.weight }}</span>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-12 col-md-4">
-                            <div class="md-form form-sm">
-                                <input mdbActive type="number" [(ngModel)]="squatInput.weight" class="form-control">
-                                <label>Weight</label>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <div class="md-form form-sm">
-                                <input mdbActive type="number" [(ngModel)]="squatInput.reps" class="form-control">
-                                <label>Reps</label>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <div class="md-form form-sm">
-                                <input mdbActive type="number" [(ngModel)]="squatInput.rpe" class="form-control">
-                                <label for="form1" class="">RPE</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- <h6 class="card-title">Bench</h6>
-                    <div class="form-row">
-                        <div class="col-12 col-md-3">
-                            <div class="md-form form-sm">
-                                <input mdbActive type="text" id="squat-weight" class="form-control">
-                                <label for="form1" class="">Weight</label>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <div class="md-form form-sm">
-                                <input mdbActive type="text" id="squat-reps" class="form-control">
-                                <label for="form1" class="">Reps</label>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <div class="md-form form-sm">
-                                <input mdbActive type="text" id="squat-rpe" class="form-control">
-                                <label for="form1" class="">RPE</label>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <div class="md-form form-sm">
-                                <input mdbActive type="text" id="squat-max" class="form-control" value="123" disabled>
-                                <label for="form1" class="">Extimated Max</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h6 class="card-title">Deadlift</h6>
-                    <div class="form-row">
-                        <div class="col-12 col-md-3">
-                            <div class="md-form form-sm">
-                                <input mdbActive type="text" id="squat-weight" class="form-control">
-                                <label for="form1" class="">Weight</label>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <div class="md-form form-sm">
-                                <input mdbActive type="text" id="squat-reps" class="form-control">
-                                <label for="form1" class="">Reps</label>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <div class="md-form form-sm">
-                                <input mdbActive type="text" id="squat-rpe" class="form-control">
-                                <label for="form1" class="">RPE</label>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <div class="md-form form-sm">
-                                <input mdbActive type="text" id="squat-max" class="form-control" value="123" disabled>
-                                <label for="form1" class="">Extimated Max</label>
-                            </div>
-                        </div>
-                    </div> -->
+                    <app-lift-input lift="Squat"></app-lift-input>
+                    <app-lift-input lift="Bench"></app-lift-input>
+                    <app-lift-input lift="Deadlift"></app-lift-input>
+                    <a href="#" class="btn btn-sm btn-primary default-color" mdbRippleRadius>Save</a>
                 </div>
             </div>
         </div>
