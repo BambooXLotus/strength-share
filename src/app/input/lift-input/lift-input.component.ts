@@ -21,7 +21,7 @@ export class LiftInputComponent implements OnInit {
 
   ngOnInit() {}
 
-  private calcEstimate(): void {
+  calcEstimate(): void {
     this.input.estimate = this.calcService.calc(this.input);
   }
 }
