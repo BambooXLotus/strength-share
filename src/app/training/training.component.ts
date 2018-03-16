@@ -24,11 +24,14 @@ export class TrainingComponent implements OnInit {
     this.inputs.push(new ExerciseInput('', 0, 0, 0));
   }
 
-  calculateLift() {}
-
   addLift() {
     if (this.inputs.length < 20) {
       this.inputs.push(new ExerciseInput('', 0, 0, 0));
     }
+  }
+
+  removeLift(index: number) {
+    console.log(index);
+    this.inputs.splice(index, 1);
   }
 }
