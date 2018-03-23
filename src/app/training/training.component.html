@@ -3,14 +3,14 @@
         <div class="col-12 col-md-8">
             <div class="card my-1">
                 <div class="card-header default-color">
-                    <div class="row">
-                        <div class="col-11">
+                    <div class="row justify-content-between">
+                        <div class="col-md-5">
                             <div class="md-form">
                                 <input mdbActive type="text" class="form-control white-text" [(ngModel)]="workoutName">
                                 <label class="white-text">Workout Name</label>
                             </div>
                         </div>
-                        <div class="col-1">
+                        <div class="col-auto">
                             <button class="indigo float-right" mat-mini-fab>
                                 <mat-icon aria-label="Add Exercise" (click)="addLift()">add</mat-icon>
                             </button>

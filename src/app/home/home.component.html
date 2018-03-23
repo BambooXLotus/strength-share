@@ -1,12 +1,30 @@
-<div class="container-fluid blue-grey lighten-5">
-
-    <mat-tab-group class="d-flex align-self-stretch">
+<div class=" blue-grey lighten-5">
+    <div class="row">
+        <div class="col">
+            <div class="card my-1">
+                <div class="card-body">
+                    <ng-container *ngFor="let rm of RepMaxes">
+                        <div class="row">
+                            <div class="col-auto">
+                                <h5>{{ rm.lift }}</h5>
+                            </div>
+                            <div class="col-6">
+                                <h5>{{ rm.weight }}</h5>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-training></app-training>
+    <!-- <mat-tab-group class="d-flex align-self-stretch">
         <mat-tab label="Training">
             <app-training></app-training>
         </mat-tab>
         <mat-tab label="Inputs">
             <app-input></app-input>
         </mat-tab>
-    </mat-tab-group>
+    </mat-tab-group> -->
 
 </div>

@@ -1,25 +1,27 @@
 <div class="form-row">
-    <div class="col">
-        <select class="custom-select">
-            <option selected>Exercise</option>
-            <option value="1">Squat</option>
-            <option value="2">Bench</option>
-            <option value="3">Deadlift</option>
-        </select>
+    <div class="col-md">
+        <div class="md-form form-sm">
+            <select class="custom-select">
+                <option selected>Exercise</option>
+                <option value="1">Squat</option>
+                <option value="2">Bench</option>
+                <option value="3">Deadlift</option>
+            </select>
+        </div>
     </div>
-    <div class="col">
+    <div class="col-md">
         <div class="md-form form-sm">
             <input mdbActive type="number" [(ngModel)]="input.reps" class="form-control" (keyup)="calcLoad()">
             <label>Reps</label>
         </div>
     </div>
-    <div class="col">
+    <div class="col-md">
         <div class="md-form form-sm">
             <input mdbActive type="number" [(ngModel)]="input.reps" class="form-control" (keyup)="calcLoad()">
             <label>Load</label>
         </div>
     </div>
-    <div class="col">
+    <div class="col-auto mb-2">
         <button class="indigo" (click)="onRemove()" mat-mini-fab>
             <mat-icon aria-label="Remove Exercise">remove</mat-icon>
         </button>

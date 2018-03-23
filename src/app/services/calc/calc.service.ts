@@ -1,8 +1,8 @@
-import { ExerciseInput } from './../../training/exercise/exercise.model';
-import { Injectable } from '@angular/core';
+import { ExerciseInput } from "./../../training/exercise/exercise.model";
+import { Injectable } from "@angular/core";
 
-import { LiftInput } from './../../input/lift-input/lift-input.model';
-import { RPE } from './rpe.model';
+import { LiftInput } from "./../../input/lift-input/lift-input.model";
+import { RPE } from "./rpe.model";
 
 @Injectable()
 export class CalcService {
@@ -16,7 +16,6 @@ export class CalcService {
       f => f.level === input.rpe && f.rep === input.reps
     );
 
-    console.log(calcRpe);
     if (calcRpe && calcRpe.length > 0) {
       returnValue = input.weight / calcRpe[0].percent;
     }
@@ -33,7 +32,6 @@ export class CalcService {
       f => f.level === input.rpe && f.rep === input.reps
     );
 
-    console.log(calcRpe);
     if (calcRpe && calcRpe.length > 0) {
       returnValue = estimate * calcRpe[0].percent;
     }

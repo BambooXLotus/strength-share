@@ -13,9 +13,10 @@ import { MaterialModule } from './material/material.module';
 import { LiftInputComponent } from './input/lift-input/lift-input.component';
 import { TrainingComponent } from './training/training.component';
 import { ExerciseComponent } from './training/exercise/exercise.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, NavbarComponent, InputComponent, LiftInputComponent, TrainingComponent, ExerciseComponent],
+  declarations: [AppComponent, HomeComponent, NavbarComponent, InputComponent, LiftInputComponent, TrainingComponent, ExerciseComponent, ProfileComponent],
   imports: [
     BrowserModule,
     MDBBootstrapModule.forRoot(),
