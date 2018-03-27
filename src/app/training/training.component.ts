@@ -11,6 +11,11 @@ export class TrainingComponent implements OnInit {
   @Input() squat1RM = 420;
   workoutName = 'Beginner Day 1 (Monday)';
   inputs: ExerciseInput[] = new Array<ExerciseInput>();
+  RepMaxes: RepMax[] = [
+    new RepMax('Bench', 100),
+    new RepMax('Squat', 100),
+    new RepMax('Deadlift', 100)
+  ];
 
   exercises = [
     { value: 'squat', viewValue: 'Squat' },
@@ -34,4 +39,8 @@ export class TrainingComponent implements OnInit {
     console.log(index);
     this.inputs.splice(index, 1);
   }
+}
+
+export class RepMax {
+  constructor(private lift: string, private weight: number) {}
 }

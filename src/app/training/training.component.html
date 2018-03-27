@@ -1,10 +1,10 @@
 <div id="training" class="container-fluid py-3">
     <div class="row">
-        <div class="col-12 col-md-8">
+        <div class="col-sm-12 col-md-8">
             <div class="card my-1">
                 <div class="card-header default-color">
                     <div class="row justify-content-between">
-                        <div class="col-md-5">
+                        <div class="col">
                             <div class="md-form">
                                 <input mdbActive type="text" class="form-control white-text" [(ngModel)]="workoutName">
                                 <label class="white-text">Workout Name</label>
@@ -12,17 +12,129 @@
                         </div>
                         <div class="col-auto">
                             <button class="indigo float-right" mat-mini-fab>
-                                <mat-icon aria-label="Add Exercise" (click)="addLift()">add</mat-icon>
+                                <mat-icon aria-label="Add Exercise" (click)="form.show()">add</mat-icon>
                             </button>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <ng-container *ngFor="let input of inputs; let i = index">
-                        <app-exercise [input]="input" (remove)="removeLift(i)"></app-exercise>
+                    <ul class="list-group">
+                        <!-- <li class="list-group-item">Cras justo odio</li>
+                        <li class="list-group-item">Dapibus ac facilisis in</li>
+                        <li class="list-group-item">Morbi leo risus</li>
+                        <li class="list-group-item">Porta ac consectetur ac</li>
+                        <li class="list-group-item">Vestibulum at eros</li> -->
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col">
+                                    Exercise
+                                </div>
+                                <div class="col">
+                                    Reps
+                                </div>
+                                <div class="col">
+                                    Sets
+                                </div>
+                                <div class="col">
+                                    Load
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col">
+                                    Bench
+                                </div>
+                                <div class="col">
+                                    5
+                                </div>
+                                <div class="col">
+                                    5
+                                </div>
+                                <div class="col">
+                                    180
+                                </div>
+                            </div>
+                        </li>
+                        <!-- <ng-container *ngFor="let input of inputs; let i = index">
+
+                            <app-exercise [input]="input" (remove)="removeLift(i)"></app-exercise>
+
+                        </ng-container> -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4 col-lg-3 order-first order-md-last">
+            <div class="card">
+                <div class="card-body">
+                    <ng-container *ngFor="let rm of RepMaxes">
+                        <!-- <div class="row">
+                            <div class="col-6">{{ rm.lift }}
+                            </div>
+                            <div class="col-6">{{ rm.weight }}
+                            </div>
+                        </div> -->
+                        <dl class="row">
+                            <dt class="col-6">{{ rm.lift }}</dt>
+                            <dd class="col-6">{{ rm.weight }}</dd>
+                        </dl>
                     </ng-container>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<div mdbModal #form="mdb-modal" class="modal fade" id="modalContactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog cascading-modal" role="document">
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Header-->
+            <div class="modal-header light-blue darken-3 white-text">
+                <h4 class="title">
+                    <i class="fa fa-pencil"></i> Contact form</h4>
+                <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close" (click)="form.hide()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body mb-0">
+                <div class="md-form form-sm">
+                    <i class="fa fa-envelope prefix"></i>
+                    <input mdbActive type="text" id="form19" class="form-control">
+                    <label for="form19">Your name</label>
+                </div>
+
+                <div class="md-form form-sm">
+                    <i class="fa fa-lock prefix"></i>
+                    <input mdbActive type="password" id="form20" class="form-control">
+                    <label for="form20">Your email</label>
+                </div>
+
+                <div class="md-form form-sm">
+                    <i class="fa fa-tag prefix"></i>
+                    <input mdbActive type="text" id="form21" class="form-control">
+                    <label for="form21">Subject</label>
+                </div>
+
+                <div class="md-form form-sm">
+                    <i class="fa fa-pencil prefix"></i>
+                    <textarea mdbActive type="text" id="form8" class="md-textarea mb-0"></textarea>
+                    <label for="form8">Your message</label>
+                </div>
+
+                <div class="text-center mt-1-half">
+                    <button class="btn btn-info mb-2 waves-light" mdbRippleRadius>Send
+                        <i class="fa fa-send ml-1"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!--Modal: Contact form-->
