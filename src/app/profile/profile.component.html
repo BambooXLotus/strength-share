@@ -1,1 +1,23 @@
-<app-input></app-input>
+<div class="container-fluid py-3">
+    <div class="row">
+        <div class="col">
+            <h1>{{ profile.username }}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <mat-form-field>
+                <input matInput placeholder="Height">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Body Weight">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-select placeholder="Select">
+                    <mat-option value="option">Option</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <app-input></app-input>
+</div>

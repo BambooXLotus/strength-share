@@ -1,8 +1,9 @@
-import { ExerciseInput } from "./../../training/exercise/exercise.model";
-import { Injectable } from "@angular/core";
+import { CalcLoadInput } from './calc.service';
+import { ExerciseInput } from './../../training/exercise/exercise.model';
+import { Injectable } from '@angular/core';
 
-import { LiftInput } from "./../../input/lift-input/lift-input.model";
-import { RPE } from "./rpe.model";
+import { LiftInput } from './../../input/lift-input/lift-input.model';
+import { RPE } from './rpe.model';
 
 @Injectable()
 export class CalcService {
@@ -12,9 +13,7 @@ export class CalcService {
     let returnValue = 0;
     const rpeTable = this.rpeTable();
 
-    const calcRpe = rpeTable.filter(
-      f => f.level === input.rpe && f.rep === input.reps
-    );
+    const calcRpe = rpeTable.filter((f) => f.level === input.rpe && f.rep === input.reps);
 
     if (calcRpe && calcRpe.length > 0) {
       returnValue = input.weight / calcRpe[0].percent;
@@ -22,20 +21,16 @@ export class CalcService {
     return returnValue;
   }
 
-  calcLoad(input: ExerciseInput): number {
+  calcLoad(input: CalcLoadInput, mod: number = 1): number {
     let returnValue = 0;
     const rpeTable = this.rpeTable();
 
-    let estimate = 360;
-
-    const calcRpe = rpeTable.filter(
-      f => f.level === input.rpe && f.rep === input.reps
-    );
+    const calcRpe = rpeTable.filter((f) => f.level === input.rpe && f.rep === input.reps);
 
     if (calcRpe && calcRpe.length > 0) {
-      returnValue = estimate * calcRpe[0].percent;
+      returnValue = input.repMaxEst * calcRpe[0].percent;
     }
-    return returnValue;
+    return Math.ceil((returnValue * mod) / 5) * 5;
   }
 
   private rpeTable(): Array<RPE> {
@@ -138,4 +133,10 @@ export class CalcService {
       new RPE(6.5, 12, 0.618)
     ];
   }
+}
+
+export interface CalcLoadInput {
+  rpe: number;
+  reps: number;
+  repMaxEst: number;
 }
