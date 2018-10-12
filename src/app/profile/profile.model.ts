@@ -1,5 +1,18 @@
-export interface Profile {
+import { Training } from './training.model';
+
+export class Profile {
+  constructor() {}
+
   id: string;
-  username: string;
+  name: string;
   photo: string;
+  bodyWeight: number;
+  height: number;
+
+  benchMax: number;
+  squatMax: number;
+  deadliftMax: number;
+
+  currentTraining: Training;
+  training: Training[];
 }

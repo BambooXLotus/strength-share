@@ -1,11 +1,12 @@
 export class TrainingWork {
-  constructor() {}
+  constructor(
+    public order: number,
+    public name: string,
+    public weight: string,
+    public sets: string,
+    public reps: string,
+    public restTime: string
+  ) {}
 
   id: string;
-  name: string;
-  weight: string;
-  sets: number;
-  reps: string;
-  restTime: string;
-  order: number;
 }

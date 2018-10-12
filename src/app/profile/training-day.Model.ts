@@ -1,12 +1,10 @@
 import { TrainingWork } from './training-work.model';
 
 export class TrainingDay {
-  constructor() {
+  constructor(public name: string, public order: number) {
     this.works = [];
   }
 
   id: string;
-  name: string;
-  order: number;
   works: TrainingWork[];
 }

@@ -1,23 +1,123 @@
 <div class="container-fluid py-3">
     <div class="row">
         <div class="col">
-            <h1>{{ profile.username }}</h1>
+            <h1>{{ profile.name }}</h1>
         </div>
     </div>
     <div class="row">
         <div class="col">
             <mat-form-field>
-                <input matInput placeholder="Height">
+                <input matInput placeholder="Height" [(ngModel)]="profile.height">
             </mat-form-field>
             <mat-form-field>
-                <input matInput placeholder="Body Weight">
+                <input matInput placeholder="Body Weight" [(ngModel)]="profile.bodyWeight">
             </mat-form-field>
             <mat-form-field>
                 <mat-select placeholder="Select">
-                    <mat-option value="option">Option</mat-option>
+                    <mat-option value="option">GNK</mat-option>
+                    <mat-option value="option">GH2H</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
     </div>
-    <app-input></app-input>
+    <div class="col-sm-12 col-md-4 col-lg-3 order-first order-md-last">
+        <div class="card">
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-6">Squat</dt>
+                    <dd class="col-6">{{ profile.squatMax }}</dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-6">Bench</dt>
+                    <dd class="col-6">{{ profile.benchMax }}</dd>
+                </dl>
+                <dl class="row">
+                    <dt class="col-6">Deadlift</dt>
+                    <dd class="col-6">{{ profile.deadliftMax }}</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h5>{{ profile.currentTraining.name }}</h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <mat-tab-group *ngFor="let week of profile.currentTraining.weeks">
+                <mat-tab label="{{ week.name }}">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-8">
+                                <mat-card class="card my-1 mb-2" *ngFor="let day of week.days">
+                                    <mat-card-header>
+                                        <mat-card-title>{{ day.name }}</mat-card-title>
+                                        <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+                                    </mat-card-header>
+                                    <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+                                        alt="Photo of a Shiba Inu"> -->
+                                    <mat-card-content>
+                                        <ul class="list-group">
+                                            <li class="list-group-item" *ngFor="let lift of day.works">
+                                                <div class="row">
+                                                    <div class="col-12 col-md">
+                                                        {{ lift.name }} <small>{{ lift.restTime }}</small>
+                                                    </div>
+                                                    <div class="col">
+                                                        {{ lift.reps }}
+                                                    </div>
+                                                    <div class="col">
+                                                        {{ lift.sets }}
+                                                    </div>
+                                                    <div class="col">
+                                                        {{ lift.weight }}
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </mat-card-content>
+                                </mat-card>
+                                <!-- <div class="card my-1 mb-2" *ngFor="let day of week.days">
+                                    <div class="card-header default-color">
+                                        <div class="row justify-content-between">
+                                            <div class="col">
+                                                <label class="white-text">{{ day.name }}</label>
+                                            </div>
+                                            <div class="col-auto">
+                                                <button class="indigo float-right" mat-mini-fab>
+                                                    <mat-icon aria-label="Add Exercise" (click)="form.show()">add</mat-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-group">
+                                            <li class="list-group-item" *ngFor="let lift of day.works">
+                                                <div class="row">
+                                                    <div class="col-12 col-md">
+                                                        {{ lift.name }} <small>{{ lift.restTime }}</small>
+                                                    </div>
+                                                    <div class="col">
+                                                        {{ lift.reps }}
+                                                    </div>
+                                                    <div class="col">
+                                                        {{ lift.sets }}
+                                                    </div>
+                                                    <div class="col">
+                                                        {{ lift.weight }}
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
 </div>

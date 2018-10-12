@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 
 import { LiftInput } from './../../input/lift-input/lift-input.model';
 import { RPE } from './rpe.model';
+import { CalcLoadInput1 } from './calc-load-input.model';
 
 @Injectable()
 export class CalcService {
@@ -29,6 +30,18 @@ export class CalcService {
 
     if (calcRpe && calcRpe.length > 0) {
       returnValue = input.repMaxEst * calcRpe[0].percent;
+    }
+    return Math.ceil((returnValue * mod) / 5) * 5;
+  }
+
+  calcLoadV1(input: CalcLoadInput1, mod: number = 1): number {
+    let returnValue = 0;
+    const rpeTable = this.rpeTable();
+
+    const calcRpe = rpeTable.filter((f) => f.level === input.rpe && f.rep === input.reps);
+
+    if (calcRpe && calcRpe.length > 0) {
+      returnValue = input.weight * calcRpe[0].percent;
     }
     return Math.ceil((returnValue * mod) / 5) * 5;
   }

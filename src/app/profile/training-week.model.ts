@@ -1,11 +1,13 @@
-import { TrainingWork } from './training-work.model';
+import { TrainingDay } from './training-day.Model';
 
 export class TrainingWeek {
-  constructor() {}
+  constructor() {
+    this.days = [];
+  }
 
   id: string;
   name: string;
   order: number;
 
-  days: TrainingWork[];
+  days: TrainingDay[];
 }

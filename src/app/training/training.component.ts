@@ -1,7 +1,7 @@
-import { LiftInput } from './../input/lift-input/lift-input.model';
 import { Component, Input, OnInit } from '@angular/core';
 
-import { CalcService, CalcLoadInput } from './../services/calc/calc.service';
+import { TrainingWeek } from './../profile/training-week.model';
+import { CalcLoadInput, CalcService } from './../services/calc/calc.service';
 import { ExerciseInput } from './exercise/exercise.model';
 
 @Component({
@@ -15,6 +15,7 @@ export class TrainingComponent implements OnInit {
   RepMaxes: RepMax[] = [new RepMax('Bench', 165), new RepMax('Squat', 265), new RepMax('Deadlift', 295)];
 
   days: Day[] = [];
+  weeks: TrainingWeek[] = [];
 
   exercises = [
     { value: 'squat', viewValue: 'Squat' },
