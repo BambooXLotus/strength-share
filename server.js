@@ -1,14 +1,15 @@
-const path = require('path');
+//Install express server
 const express = require('express');
+const path = require('path');
+
 const app = express();
 
-// Serve static files
-app.use(express.static(__dirname + '/dist/strength-share'));
+// Serve only the static files form the dist directory
+app.use(express.static('./dist/strength-share'));
 
-// Send all requests to index.html
 app.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname + '/dist/strength-share/index.html'));
+  res.sendFile(path.join(__dirname, '/dist/strength-share/index.html'));
 });
 
-// default Heroku port
-app.listen(process.env.PORT || 5000);
+// Start the app by listening on the default Heroku port
+app.listen(process.env.PORT || 8080);
