@@ -20,8 +20,8 @@
             </mat-form-field>
         </div>
     </div>
-    <div class="col-sm-12 col-md-4 col-lg-3 order-first order-md-last">
-        <div class="card">
+    <div class="col-sm-12 col-md-6 col-lg-2 order-first order-md-last">
+        <!-- <div class="card">
             <div class="card-body">
                 <dl class="row">
                     <dt class="col-6">Squat</dt>
@@ -36,7 +36,25 @@
                     <dd class="col-6">{{ profile.deadliftMax }}</dd>
                 </dl>
             </div>
-        </div>
+        </div> -->
+        <mat-card class="p-2">
+            <mat-card-content>
+                <mat-list>
+                    <div class="row">
+                        <div class="col">Squat</div>
+                        <div class="col text-right">{{ profile.squatMax }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">Bench</div>
+                        <div class="col text-right">{{ profile.benchMax }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">Deadlift</div>
+                        <div class="col text-right">{{ profile.deadliftMax }}</div>
+                    </div>
+                </mat-list>
+            </mat-card-content>
+        </mat-card>
     </div>
     <div class="row">
         <div class="col">
@@ -58,7 +76,7 @@
                                     <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
                                         alt="Photo of a Shiba Inu"> -->
                                     <mat-card-content>
-                                        <ul class="list-group">
+                                        <!-- <ul class="list-group">
                                             <li class="list-group-item" *ngFor="let lift of day.works">
                                                 <div class="row">
                                                     <div class="col-12 col-md">
@@ -75,7 +93,26 @@
                                                     </div>
                                                 </div>
                                             </li>
-                                        </ul>
+                                        </ul> -->
+                                        <mat-list>
+                                            <ng-container *ngFor="let lift of day.works; let last = last">
+                                                <mat-list-item>
+                                                    <div class="col-12 col-md">
+                                                        {{ lift.name }} <small>{{ lift.restTime }}</small>
+                                                    </div>
+                                                    <div class="col">
+                                                        {{ lift.reps }}
+                                                    </div>
+                                                    <div class="col">
+                                                        {{ lift.sets }}
+                                                    </div>
+                                                    <div class="col">
+                                                        {{ lift.weight }}
+                                                    </div>
+                                                </mat-list-item>
+                                                <mat-divider *ngIf="!last"></mat-divider>
+                                            </ng-container>
+                                        </mat-list>
                                     </mat-card-content>
                                 </mat-card>
                                 <!-- <div class="card my-1 mb-2" *ngFor="let day of week.days">
