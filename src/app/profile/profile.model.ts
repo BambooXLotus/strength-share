@@ -6,7 +6,7 @@ export class Profile {
   id: string;
   name: string;
   photo: string;
-  bodyWeight: number;
+  weight: number;
   height: number;
 
   benchMax: number;
