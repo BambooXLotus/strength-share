@@ -9,15 +9,31 @@ import { TrainingPlan } from './training-plan/training-plan.model';
 import { TrainingDay } from './training-plan/training-week/training-day/training-day.model';
 import { TrainingWork } from './training-plan/training-week/training-day/training-work/training-work.model';
 import { TrainingWeek } from './training-plan/training-week/training-week.model';
+import { ProfileService } from './profile/profile.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
-  constructor(private db: AngularFirestore, private storage: AngularFireStorage) {}
+  constructor(
+    private db: AngularFirestore,
+    private storage: AngularFireStorage,
+    private profileService: ProfileService
+  ) {}
 
   public getProfile(userName: string): Observable<Profile> {
-    return this.db.doc<Profile>('profiles/' + userName).valueChanges();
+    return this.db
+      .doc<Profile>('profiles/' + userName)
+      .snapshotChanges()
+      .pipe(
+        map((actions) => {
+          const data = actions.payload.data() as Profile;
+          const id = actions.payload.id;
+
+          this.profileService.setUserProfile({ id, ...data });
+          return { id, ...data };
+        })
+      );
   }
 
   public addProfile(profile: Profile) {
@@ -61,6 +77,29 @@ export class FirebaseService {
 
   public addTrainingWork(item: TrainingWork) {
     return from(this.db.collection('trainingPlanLifts').add(Object.assign({}, item)));
+  }
+
+  public getTrainingWorkLoad(trainingWorkId: string, profileId: string) {
+    const workWeightPath = `trainingPlanLiftLoads/${trainingWorkId}_${profileId}`;
+
+    return from(
+      this.db
+        .doc(workWeightPath)
+        .snapshotChanges()
+        .pipe(
+          map((a) => {
+            const data = a.payload.data() as Profile;
+            const id = a.payload.id;
+            return { id, ...data };
+          })
+        )
+    );
+  }
+
+  public setTrainingWorkWeight(trainingWorkId: string, profileId: string, weight: number) {
+    const workWeightPath = `trainingPlanLiftLoads/${trainingWorkId}_${profileId}`;
+
+    return from(this.db.doc(workWeightPath).set({ load: weight }));
   }
 
   public getTrainingDays(trainingPlanWeekId: string): Observable<TrainingDay[]> {

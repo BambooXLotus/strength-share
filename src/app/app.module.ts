@@ -4,6 +4,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
@@ -18,14 +19,14 @@ import { NavbarComponent } from './layout/navbar/navbar.component';
 import { MaterialModule } from './material/material.module';
 import { ProfileComponent } from './profile/profile.component';
 import { CalcService } from './services/calc/calc.service';
+import { TrainingPlanComponent } from './training-plan/training-plan.component';
+import { TrainingDayAddComponent } from './training-plan/training-week/training-day/training-day-add/training-day-add.component';
+import { TrainingDayComponent } from './training-plan/training-week/training-day/training-day.component';
+import { TrainingWorkLoadComponent } from './training-plan/training-week/training-day/training-work/training-work-load/training-work-load.component';
+import { TrainingWorkComponent } from './training-plan/training-week/training-day/training-work/training-work.component';
+import { TrainingWeekComponent } from './training-plan/training-week/training-week.component';
 import { ExerciseComponent } from './training/exercise/exercise.component';
 import { TrainingComponent } from './training/training.component';
-import { TrainingPlanComponent } from './training-plan/training-plan.component';
-import { TrainingWeekComponent } from './training-plan/training-week/training-week.component';
-import { TrainingDayComponent } from './training-plan/training-week/training-day/training-day.component';
-import { TrainingWorkComponent } from './training-plan/training-week/training-day/training-work/training-work.component';
-import { TrainingDayAddComponent } from './training-plan/training-week/training-day/training-day-add/training-day-add.component';
-import { MatDialogModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { MatDialogModule } from '@angular/material';
     TrainingWeekComponent,
     TrainingDayComponent,
     TrainingWorkComponent,
-    TrainingDayAddComponent
+    TrainingDayAddComponent,
+    TrainingWorkLoadComponent
   ],
   imports: [
     BrowserModule,

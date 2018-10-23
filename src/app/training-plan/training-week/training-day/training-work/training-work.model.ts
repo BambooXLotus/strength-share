@@ -4,7 +4,8 @@ export class TrainingWork {
     public name: string,
     public weight: string,
     public sets: string,
-    public reps: string,
+    public rpe: number,
+    public reps: number,
     public restTime: string
   ) {}
 
