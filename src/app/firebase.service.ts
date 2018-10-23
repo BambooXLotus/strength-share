@@ -79,21 +79,11 @@ export class FirebaseService {
     return from(this.db.collection('trainingPlanLifts').add(Object.assign({}, item)));
   }
 
-  public getTrainingWorkLoad(trainingWorkId: string, profileId: string) {
+  public getTrainingWorkLoad(trainingWorkId: string) {
+    const profileId = this.profileService.currentUserProfile().id;
     const workWeightPath = `trainingPlanLiftLoads/${trainingWorkId}_${profileId}`;
 
-    return from(
-      this.db
-        .doc(workWeightPath)
-        .snapshotChanges()
-        .pipe(
-          map((a) => {
-            const data = a.payload.data() as Profile;
-            const id = a.payload.id;
-            return { id, ...data };
-          })
-        )
-    );
+    return this.db.doc(workWeightPath).snapshotChanges();
   }
 
   public setTrainingWorkWeight(trainingWorkId: string, profileId: string, weight: number) {
