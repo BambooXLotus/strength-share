@@ -1,0 +1,9 @@
+<ng-container *ngIf="trainingWorks | async as works">
+    <tr mdbTableCol *ngFor="let work of works">
+        <th scope="row">{{ work.name }}</th>
+        <td>{{ work.restTime }}</td>
+        <td>{{ work.reps }}</td>
+        <td>{{ work.sets }}</td>
+        <td>{{ work.weight }}</td>
+    </tr>
+</ng-container>

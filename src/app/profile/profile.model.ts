@@ -13,6 +13,7 @@ export class Profile {
   squatMax: number;
   deadliftMax: number;
 
-  currentTraining: Training;
+  //   currentTraining: Training;
+  currentTrainingPlanId: string;
   training: Training[];
 }

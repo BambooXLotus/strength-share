@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { TrainingWeek } from './../profile/training-week.model';
+import { TrainingWeek } from '../training-plan/training-week/training-week.model';
 import { CalcLoadInput, CalcService } from './../services/calc/calc.service';
 import { ExerciseInput } from './exercise/exercise.model';
 

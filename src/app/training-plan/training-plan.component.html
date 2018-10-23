@@ -1,0 +1,60 @@
+<ng-container *ngIf="currentTraining | async as training">
+
+    <h6>Current Training:</h6>
+    {{ training.name }}
+
+    <app-training-week [trainingPlanId]="trainingPlanId"></app-training-week>
+</ng-container>
+
+
+<!-- <div class="row" *ngIf="currentTraining">
+    <div class="col">
+        <mat-card>
+            <mat-card-title>
+                <div class="row">
+                    <div class="col">
+                        <h5>{{ profile.currentTraining.name }}</h5>
+                    </div>
+                    <div class="col-auto">
+                        <button class="indigo float-right" mat-mini-fab>
+                            <mat-icon aria-label="Add Week" (click)="form.show()">add</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </mat-card-title>
+            <mat-card-content>
+                <div class="row">
+                    <div class="col">
+                        <mat-tab-group *ngFor="let week of profile.currentTraining.weeks">
+                            <mat-tab label="{{ week.name }}">
+
+                                <div class="row no-gutters">
+                                    <ng-container>
+                                        <div class="col-sm-12 col-md-6" *ngFor="let day of week.days">
+                                            <table mdbTable small="true">
+                                                <thead>
+                                                    <tr>
+                                                        <h5>{{day.name}}</h5>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr mdbTableCol *ngFor="let lift of day.works">
+                                                        <th scope="row">{{ lift.name }}</th>
+                                                        <td>{{ lift.restTime }}</td>
+                                                        <td>{{ lift.reps }}</td>
+                                                        <td>{{ lift.sets }}</td>
+                                                        <td>{{ lift.weight }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </mat-tab>
+                        </mat-tab-group>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div> -->

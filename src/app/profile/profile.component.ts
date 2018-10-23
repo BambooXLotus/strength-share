@@ -3,13 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { FirebaseService } from './../firebase.service';
-import { CalcLoadInput1 } from './../services/calc/calc-load-input.model';
 import { CalcService } from './../services/calc/calc.service';
 import { Profile } from './profile.model';
-import { TrainingDay } from './training-day.Model';
-import { TrainingWeek } from './training-week.model';
-import { TrainingWork } from './training-work.model';
-import { Training } from './training.model';
 
 @Component({
   selector: 'app-profile',
@@ -34,9 +29,9 @@ export class ProfileComponent implements OnInit {
 
     // this.profile.currentTraining = this.createTraining();
 
-    this.currentProfile = this.firebaseService.getProfile('crystalrose');
+    this.currentProfile = this.firebaseService.getProfile('bambooderen');
 
-    this.firebaseService.getProfile('sanka').subscribe((s) => console.log(s));
+    // this.firebaseService.getProfile('sanka').subscribe((s) => console.log(s));
   }
 
   //   createProfile(): Profile {

@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Add Training Day</h1>
+<div mat-dialog-content>
+    <mat-form-field>
+        <input matInput [(ngModel)]="data.name">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-fab color="warn">
+        <mat-icon>clear</mat-icon>
+    </button>
+    <button mat-fab [mat-dialog-close]="data" cdkFocusInitial>
+        <mat-icon>check</mat-icon>
+    </button>
+</div>

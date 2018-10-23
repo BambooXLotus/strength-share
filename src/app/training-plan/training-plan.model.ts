@@ -1,6 +1,6 @@
-import { TrainingWeek } from '../training-plan/training-week/training-week.model';
+import { TrainingWeek } from './training-week/training-week.model';
 
-export class Training {
+export class TrainingPlan {
   constructor() {
     this.weeks = [];
   }

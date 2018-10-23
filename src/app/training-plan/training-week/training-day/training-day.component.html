@@ -1,0 +1,23 @@
+<ng-container *ngIf="trainingDays | async as days">
+    <button (click)="openAddDayDialog(days.length)" mat-mini-fab>
+        <mat-icon>add</mat-icon>
+    </button>
+
+    <div *ngFor="let day of days">
+        <table mdbTable>
+            <thead>
+                <tr>
+                    <th scope="col">{{day.name}} </th>
+                    <th scope="col"> <button (click)="openAddDayDialog(days.length)" mat-mini-fab>
+                            <mat-icon>add</mat-icon>
+                        </button></th>
+                </tr>
+            </thead>
+            <tbody>
+                <app-training-work [trainingDayId]="day.id"></app-training-work>
+            </tbody>
+        </table>
+    </div>
+
+
+</ng-container>

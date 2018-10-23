@@ -20,6 +20,12 @@ import { ProfileComponent } from './profile/profile.component';
 import { CalcService } from './services/calc/calc.service';
 import { ExerciseComponent } from './training/exercise/exercise.component';
 import { TrainingComponent } from './training/training.component';
+import { TrainingPlanComponent } from './training-plan/training-plan.component';
+import { TrainingWeekComponent } from './training-plan/training-week/training-week.component';
+import { TrainingDayComponent } from './training-plan/training-week/training-day/training-day.component';
+import { TrainingWorkComponent } from './training-plan/training-week/training-day/training-work/training-work.component';
+import { TrainingDayAddComponent } from './training-plan/training-week/training-day/training-day-add/training-day-add.component';
+import { MatDialogModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -30,19 +36,27 @@ import { TrainingComponent } from './training/training.component';
     LiftInputComponent,
     TrainingComponent,
     ExerciseComponent,
-    ProfileComponent
+    ProfileComponent,
+    TrainingPlanComponent,
+    TrainingWeekComponent,
+    TrainingDayComponent,
+    TrainingWorkComponent,
+    TrainingDayAddComponent
   ],
   imports: [
     BrowserModule,
     MDBBootstrapModule.forRoot(),
     MaterialModule,
+    MatDialogModule,
     AppRoutingModule,
     FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
     AngularFireStorageModule,
     AngularFireAuthModule
   ],
+  entryComponents: [TrainingDayAddComponent],
   providers: [CalcService, FirebaseService],
   bootstrap: [AppComponent],
   schemas: [NO_ERRORS_SCHEMA]
