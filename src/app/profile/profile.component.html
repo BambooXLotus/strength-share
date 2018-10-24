@@ -1,49 +1,234 @@
 <ng-container *ngIf="currentProfile | async as profile">
     <div class="container-fluid py-3">
-        <div class="row">
-            <div class="col">
-                <h1>{{ profile.name }}</h1>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <mat-form-field>
-                    <input matInput placeholder="Height" [(ngModel)]="profile.height">
-                </mat-form-field>
-                <mat-form-field>
-                    <input matInput placeholder="Body Weight" [(ngModel)]="profile.weight">
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-select placeholder="Select">
-                        <mat-option value="option">GNK</mat-option>
-                        <mat-option value="option">GH2H</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12 col-md-6 col-lg-2 order-first order-md-last">
-                <mat-card>
-                    <mat-card-content>
-                        <mat-list>
-                            <div class="row">
-                                <div class="col">Squat</div>
-                                <div class="col text-right">{{ profile.squatMax }}</div>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{ profile.name }}
+                </mat-panel-title>
+                <mat-panel-description>
+                    This is a summary of the content
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div>
+                <div class="row">
+                    <div class="col-auto">
+                        <img mat-card-lg-image>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col">
+                                <h1>{{ profile.name }}</h1>
                             </div>
-                            <div class="row">
-                                <div class="col">Bench</div>
-                                <div class="col text-right">{{ profile.benchMax }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <mat-form-field>
+                                    <input matInput placeholder="Height" [(ngModel)]="profile.height">
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <input matInput placeholder="Body Weight" [(ngModel)]="profile.weight">
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-select placeholder="Select">
+                                        <mat-option value="option">GNK</mat-option>
+                                        <mat-option value="option">GH2H</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
                             </div>
-                            <div class="row">
-                                <div class="col">Deadlift</div>
-                                <div class="col text-right">{{ profile.deadliftMax }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 col-lg-2 order-first order-md-last">
+                                <mat-card>
+                                    <mat-card-content>
+                                        <mat-list>
+                                            <div class="row">
+                                                <div class="col">Squat</div>
+                                                <div class="col text-right">{{ profile.squatMax }}</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">Bench</div>
+                                                <div class="col text-right">{{ profile.benchMax }}</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">Deadlift</div>
+                                                <div class="col text-right">{{ profile.deadliftMax }}</div>
+                                            </div>
+                                        </mat-list>
+                                    </mat-card-content>
+                                </mat-card>
                             </div>
-                        </mat-list>
-                    </mat-card-content>
-                </mat-card>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <app-training-plan [trainingPlanId]="profile.currentTrainingPlanId"></app-training-plan>
+        </mat-expansion-panel>
+
+        <!-- <app-training-plan [trainingPlanId]="profile.currentTrainingPlanId"></app-training-plan> -->
+
+        <ng-container *ngIf="profile.currentTrainingPlan | async as training">
+            <div class="row p-2">
+                <div class="col">
+                    <h5>Current Training: {{ training.name }}</h5>
+                </div>
+            </div>
+            <ng-container *ngIf="training.weeks | async as weeks">
+                <mat-tab-group>
+                    <mat-tab label="{{ week.name }}" *ngFor="let week of weeks">
+                        <ng-container *ngIf="week.days | async as days">
+                            <!-- <button (click)="openAddDayDialog(days.length)" mat-mini-fab>
+                                <mat-icon>add</mat-icon>
+                            </button> -->
+                            <div *ngFor="let day of days">
+                                <table mdbTable>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">
+                                                <div class="row no-gutters">
+                                                    <div class="col">
+                                                        {{day.name}}
+                                                    </div>
+                                                    <div class="col">
+                                                    </div>
+                                                    <button (click)="openAddWorkDialog(days.length)" mat-mini-fab>
+                                                        <mat-icon>add</mat-icon>
+                                                    </button>
+                                                </div>
+                                            </th>
+                                            <!-- <th class="d-flex justify-content-end"> </th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ng-container *ngIf="day.works | async as works">
+                                            <tr mdbTableCol *ngFor="let work of works">
+                                                <th scope="row">{{ work.name }}</th>
+                                                <td>{{ work.restTime }}</td>
+                                                <td>{{ work.reps }}</td>
+                                                <td>{{ work.sets }}</td>
+                                                <td>{{ work.weight }}</td>
+                                                <td>
+                                                    <app-training-work-load [trainingWorkId]="work.id"></app-training-work-load>
+                                                </td>
+                                                <!-- <td>
+                                                            <button mat-icon-button (click)="calcWeight(work)">
+                                                                <mat-icon>play_arrow</mat-icon>
+                                                            </button>
+                                                        </td> -->
+                                            </tr>
+
+                                        </ng-container>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <ul class="list-group py-2" *ngFor="let day of days">
+                                <li class="list-group-item"> {{ day.name }} </li>
+                                <ng-container *ngIf="day.works | async as works">
+                                    <li class="list-group-item" *ngFor="let work of works">
+                                        <div class="row">
+                                            <div class="col-12 col-md">
+                                                {{ work.name }} <small>{{ work.restTime }}</small>
+                                            </div>
+                                            <div class="col">
+                                                {{ work.reps }}
+                                            </div>
+                                            <div class="col">
+                                                {{ work.sets }}
+                                            </div>
+                                            <div class="col">
+                                                <app-training-work-load [trainingWorkId]="work.id"></app-training-work-load>
+                                            </div>
+                                            <div class="col">
+                                                <mat-menu #appMenu="matMenu">
+                                                    <button mat-menu-item>Settings</button>
+                                                    <button mat-menu-item>Help</button>
+                                                </mat-menu>
+
+                                                <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                                                    <mat-icon>more_vert</mat-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ng-container>
+                            </ul>
+                        </ng-container>
+                    </mat-tab>
+                    <mat-tab label="+">
+                        <!-- Default form register -->
+                        <form class="text-center border border-light p-5">
+
+                            <p class="h4 mb-4">Sign up</p>
+
+                            <div class="form-row mb-4">
+                                <div class="col">
+                                    <!-- First name -->
+                                    <input type="text" id="defaultRegisterFormFirstName" class="form-control"
+                                        placeholder="First name">
+                                </div>
+                                <div class="col">
+                                    <!-- Last name -->
+                                    <input type="text" id="defaultRegisterFormLastName" class="form-control"
+                                        placeholder="Last name">
+                                </div>
+                            </div>
+
+                            <!-- E-mail -->
+                            <input type="email" id="defaultRegisterFormEmail" class="form-control mb-4" placeholder="E-mail">
+
+                            <!-- Password -->
+                            <input type="password" id="defaultRegisterFormPassword" class="form-control" placeholder="Password"
+                                aria-describedby="defaultRegisterFormPasswordHelpBlock">
+                            <small id="defaultRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
+                                At least 8 characters and 1 digit
+                            </small>
+
+                            <!-- Phone number -->
+                            <input type="text" id="defaultRegisterPhonePassword" class="form-control" placeholder="Phone number"
+                                aria-describedby="defaultRegisterFormPhoneHelpBlock">
+                            <small id="defaultRegisterFormPhoneHelpBlock" class="form-text text-muted mb-4">
+                                Optional - for two step authentication
+                            </small>
+
+                            <!-- Newsletter -->
+                            <div class="row">
+                                <div class="col-md-6 mx-auto d-flex justify-content-center">
+                                    <mdb-checkbox [default]="true">Subscribe to our newsletter</mdb-checkbox>
+                                </div>
+                            </div>
+
+                            <!-- Sign up button -->
+                            <button mdbBtn color="info" block="true" class="my-4" type="submit">Sign in</button>
+
+                            <!-- Social register -->
+                            <p>or sign up with:</p>
+
+                            <a type="button" class="light-blue-text mx-2">
+                                <mdb-icon icon="facebook"></mdb-icon>
+                            </a>
+                            <a type="button" class="light-blue-text mx-2">
+                                <mdb-icon icon="twitter"></mdb-icon>
+                            </a>
+                            <a type="button" class="light-blue-text mx-2">
+                                <mdb-icon icon="linkedin"></mdb-icon>
+                            </a>
+                            <a type="button" class="light-blue-text mx-2">
+                                <mdb-icon icon="github"></mdb-icon>
+                            </a>
+
+                            <hr>
+
+                            <!-- Terms of service -->
+                            <p>By clicking
+                                <em>Sign up</em> you agree to our
+                                <a href="" target="_blank">terms of service</a> and
+                                <a href="" target="_blank">terms of service</a>. </p>
+
+                        </form>
+                        <!-- Default form register -->
+
+                    </mat-tab>
+                </mat-tab-group>
+            </ng-container>
+        </ng-container>
     </div>
 </ng-container>

@@ -5,11 +5,12 @@ import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Profile } from './profile/profile.model';
+import { ProfileService } from './profile/profile.service';
 import { TrainingPlan } from './training-plan/training-plan.model';
 import { TrainingDay } from './training-plan/training-week/training-day/training-day.model';
+import { TrainingWorkLoad } from './training-plan/training-week/training-day/training-work/training-work-load/training-work-load.model';
 import { TrainingWork } from './training-plan/training-week/training-day/training-work/training-work.model';
 import { TrainingWeek } from './training-plan/training-week/training-week.model';
-import { ProfileService } from './profile/profile.service';
 
 @Injectable({
   providedIn: 'root'
@@ -36,12 +37,43 @@ export class FirebaseService {
       );
   }
 
+  public getProfileDeep(userName: string): Observable<Profile> {
+    return this.db
+      .doc<Profile>('profiles/' + userName)
+      .snapshotChanges()
+      .pipe(
+        map((a) => {
+          const data = a.payload.data() as Profile;
+
+          data.id = a.payload.id;
+          this.profileService.setUserProfile(data);
+          data.currentTrainingPlan = this.getTrainingPlanDeep(data.currentTrainingPlanId);
+          return data;
+        })
+      );
+  }
+
   public addProfile(profile: Profile) {
     return from(this.db.collection('profiles').add(profile));
   }
 
-  public getTrainingPlan(userName: string, trainingPlanId: string): Observable<TrainingPlan> {
+  public getTrainingPlan(trainingPlanId: string): Observable<TrainingPlan> {
     return this.db.doc<TrainingPlan>(`trainingPlans/${trainingPlanId}`).valueChanges();
+  }
+
+  private getTrainingPlanDeep(trainingPlanId: string): Observable<TrainingPlan> {
+    return this.db
+      .doc<TrainingPlan>(`trainingPlans/${trainingPlanId}`)
+      .snapshotChanges()
+      .pipe(
+        map((a) => {
+          const data = a.payload.data() as TrainingPlan;
+          data.id = a.payload.id;
+          data.weeks = this.getTrainingWeeksDeep(data.id);
+
+          return data;
+        })
+      );
   }
 
   public getTrainingWeeks(trainingPlanName: string): Observable<TrainingWeek[]> {
@@ -54,6 +86,24 @@ export class FirebaseService {
             const data = a.payload.doc.data() as TrainingWeek;
             const id = a.payload.doc.id;
             return { id, ...data };
+          })
+        )
+      );
+  }
+
+  private getTrainingWeeksDeep(trainingPlanId: string): Observable<TrainingWeek[]> {
+    return this.db
+      .collection<TrainingWeek>(`trainingPlanWeeks`, (ref) => ref.where('trainingPlanId', '==', trainingPlanId))
+      .snapshotChanges()
+      .pipe(
+        map((actions) =>
+          actions.map((a) => {
+            console.log(a);
+            const data = a.payload.doc.data() as TrainingWeek;
+            data.id = a.payload.doc.id;
+            data.days = this.getTrainingDaysDeep(data.id);
+
+            return data;
           })
         )
       );
@@ -75,6 +125,26 @@ export class FirebaseService {
       );
   }
 
+  private getTrainingWorksDeep(trainingPlanDayId: string): Observable<TrainingWork[]> {
+    return this.db
+      .collection<TrainingWork>(`trainingPlanLifts`, (ref) => ref.where('trainingPlanDayId', '==', trainingPlanDayId))
+      .snapshotChanges()
+      .pipe(
+        map((actions) =>
+          actions.map((a) => {
+            console.log('Works');
+            console.log(a);
+            const data = a.payload.doc.data() as TrainingWork;
+            data.id = a.payload.doc.id;
+            console.log(data);
+            data.load = this.getTrainingWorkLoad(data.id);
+
+            return data;
+          })
+        )
+      );
+  }
+
   public addTrainingWork(item: TrainingWork) {
     return from(this.db.collection('trainingPlanLifts').add(Object.assign({}, item)));
   }
@@ -83,7 +153,17 @@ export class FirebaseService {
     const profileId = this.profileService.currentUserProfile().id;
     const workWeightPath = `trainingPlanLiftLoads/${trainingWorkId}_${profileId}`;
 
-    return this.db.doc(workWeightPath).snapshotChanges();
+    return this.db
+      .doc(workWeightPath)
+      .snapshotChanges()
+      .pipe(
+        map((a) => {
+          const data = a.payload.data() as TrainingWorkLoad;
+
+          const id = a.payload.id;
+          return { id, ...data };
+        })
+      );
   }
 
   public setTrainingWorkWeight(trainingWorkId: string, profileId: string, weight: number) {
@@ -109,20 +189,26 @@ export class FirebaseService {
       );
   }
 
-  public addTrainingDay(item: TrainingDay) {
-    return from(this.db.collection('trainingPlanDays').add(Object.assign({}, item)));
-  }
-
-  public getProfileDeep(userName: string): Observable<Profile> {
+  private getTrainingDaysDeep(trainingPlanWeekId: string): Observable<TrainingDay[]> {
     return this.db
-      .doc<Profile>('profiles/' + userName)
+      .collection<TrainingDay>(`trainingPlanDays`, (ref) =>
+        ref.where('trainingPlanWeekId', '==', trainingPlanWeekId).orderBy('order')
+      )
       .snapshotChanges()
       .pipe(
-        map((a) => {
-          const data = a.payload.data() as Profile;
-          const id = a.payload.id;
-          return { id, ...data };
-        })
+        map((actions) =>
+          actions.map((a) => {
+            const data = a.payload.doc.data() as TrainingDay;
+            data.id = a.payload.doc.id;
+            data.works = this.getTrainingWorksDeep(data.id);
+
+            return data;
+          })
+        )
       );
+  }
+
+  public addTrainingDay(item: TrainingDay) {
+    return from(this.db.collection('trainingPlanDays').add(Object.assign({}, item)));
   }
 }

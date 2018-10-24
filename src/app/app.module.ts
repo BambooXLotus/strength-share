@@ -4,7 +4,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FormsModule } from '@angular/forms';
-import { MatDialogModule } from '@angular/material';
+import { MatDialogModule, MatExpansionModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
@@ -25,6 +25,7 @@ import { TrainingDayComponent } from './training-plan/training-week/training-day
 import { TrainingWorkLoadComponent } from './training-plan/training-week/training-day/training-work/training-work-load/training-work-load.component';
 import { TrainingWorkComponent } from './training-plan/training-week/training-day/training-work/training-work.component';
 import { TrainingWeekComponent } from './training-plan/training-week/training-week.component';
+import { TrainingWorkAddComponent } from './training-work-add/training-work-add.component';
 import { ExerciseComponent } from './training/exercise/exercise.component';
 import { TrainingComponent } from './training/training.component';
 
@@ -43,13 +44,15 @@ import { TrainingComponent } from './training/training.component';
     TrainingDayComponent,
     TrainingWorkComponent,
     TrainingDayAddComponent,
-    TrainingWorkLoadComponent
+    TrainingWorkLoadComponent,
+    TrainingWorkAddComponent
   ],
   imports: [
     BrowserModule,
     MDBBootstrapModule.forRoot(),
     MaterialModule,
     MatDialogModule,
+    MatExpansionModule,
     AppRoutingModule,
     FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
@@ -58,7 +61,7 @@ import { TrainingComponent } from './training/training.component';
     AngularFireStorageModule,
     AngularFireAuthModule
   ],
-  entryComponents: [TrainingDayAddComponent],
+  entryComponents: [TrainingDayAddComponent, TrainingWorkAddComponent],
   providers: [CalcService, FirebaseService],
   bootstrap: [AppComponent],
   schemas: [NO_ERRORS_SCHEMA]

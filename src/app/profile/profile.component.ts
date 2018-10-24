@@ -1,3 +1,5 @@
+import { TrainingWorkAddComponent } from './../training-work-add/training-work-add.component';
+import { MatDialog } from '@angular/material';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -5,6 +7,7 @@ import { Observable } from 'rxjs';
 import { FirebaseService } from './../firebase.service';
 import { CalcService } from './../services/calc/calc.service';
 import { Profile } from './profile.model';
+import { TrainingWork } from '../training-plan/training-week/training-day/training-work/training-work.model';
 
 @Component({
   selector: 'app-profile',
@@ -15,7 +18,8 @@ export class ProfileComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private calcService: CalcService,
-    private firebaseService: FirebaseService
+    private firebaseService: FirebaseService,
+    public dialog: MatDialog
   ) {}
 
   //   profile: Profile;
@@ -29,9 +33,23 @@ export class ProfileComponent implements OnInit {
 
     // this.profile.currentTraining = this.createTraining();
 
-    this.currentProfile = this.firebaseService.getProfile('bambooderen');
+    this.currentProfile = this.firebaseService.getProfileDeep('bambooderen');
 
     // this.firebaseService.getProfile('sanka').subscribe((s) => console.log(s));
+  }
+
+  openAddWorkDialog(workCount: number): void {
+    const dialogRef = this.dialog.open(TrainingWorkAddComponent, {
+      width: '250px',
+      data: new TrainingWork(workCount, '', '3', 7, 6, '3-4mins')
+    });
+
+    dialogRef.afterClosed().subscribe((result: TrainingWork) => {
+      console.log('The dialog was closed');
+      console.log(result);
+
+      //   this.firebaseService.addTrainingDay(result).subscribe((s) => console.log(s));
+    });
   }
 
   //   createProfile(): Profile {

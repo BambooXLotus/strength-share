@@ -1,3 +1,6 @@
+import { Observable } from 'rxjs';
+
+import { TrainingPlan } from '../training-plan/training-plan.model';
 import { Training } from './training.model';
 
 export class Profile {
@@ -15,5 +18,7 @@ export class Profile {
 
   //   currentTraining: Training;
   currentTrainingPlanId: string;
-  training: Training[];
+  currentTrainingPlan: Observable<TrainingPlan> | null = null;
+
+  //   training: Training[];
 }

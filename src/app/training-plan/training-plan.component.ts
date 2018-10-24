@@ -1,10 +1,8 @@
-import { Profile } from './../profile/profile.model';
-import { FirebaseService } from './../firebase.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
+import { FirebaseService } from './../firebase.service';
 import { TrainingPlan } from './training-plan.model';
-import { TrainingWeek } from './training-week/training-week.model';
 
 @Component({
   selector: 'app-training-plan',
@@ -20,6 +18,6 @@ export class TrainingPlanComponent implements OnInit {
   constructor(private fbService: FirebaseService) {}
 
   ngOnInit() {
-    this.currentTraining = this.fbService.getTrainingPlan('bambooderen', this.trainingPlanId);
+    this.currentTraining = this.fbService.getTrainingPlan(this.trainingPlanId);
   }
 }

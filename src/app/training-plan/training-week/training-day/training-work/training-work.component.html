@@ -5,8 +5,14 @@
         <td>{{ work.reps }}</td>
         <td>{{ work.sets }}</td>
         <td>{{ work.weight }}</td>
-        <button mat-icon-button (click)="calcWeight(work)">
-            <mat-icon>play_arrow</mat-icon>
-        </button>
+        <td>
+            <app-training-work-load [trainingWorkId]="work.id"></app-training-work-load>
+        </td>
+        <!-- <td>
+            <button mat-icon-button (click)="calcWeight(work)">
+                <mat-icon>play_arrow</mat-icon>
+            </button>
+        </td> -->
     </tr>
+
 </ng-container>

@@ -1,5 +1,5 @@
 <ng-container *ngIf="trainingWeeks | async as weeks">
-    {{ trainingPlanName }}
+
     <mat-tab-group>
         <mat-tab label="{{ week.name }}" *ngFor="let week of weeks">
             <app-training-day [trainingWeekId]="week.id"></app-training-day>

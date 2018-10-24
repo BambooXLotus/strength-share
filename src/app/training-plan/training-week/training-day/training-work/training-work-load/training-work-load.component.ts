@@ -1,6 +1,8 @@
-import { FirebaseService } from './../../../../../firebase.service';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Component, OnInit, Input } from '@angular/core';
+
+import { FirebaseService } from './../../../../../firebase.service';
+import { TrainingWorkLoad } from './training-work-load.model';
 
 @Component({
   selector: 'app-training-work-load',
@@ -11,12 +13,11 @@ export class TrainingWorkLoadComponent implements OnInit {
   @Input()
   trainingWorkId: string;
 
-  trainingLoad: Observable<number> | null = null;
+  trainingLoad: Observable<TrainingWorkLoad> | null = null;
 
   constructor(private fbService: FirebaseService) {}
 
   ngOnInit() {
-    //TODO:
-    // this.trainingLoad = this.fbService.getTrainingWorkLoad(this.trainingWorkId);
+    this.trainingLoad = this.fbService.getTrainingWorkLoad(this.trainingWorkId);
   }
 }
