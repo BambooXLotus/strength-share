@@ -76,57 +76,44 @@
                 <mat-tab-group>
                     <mat-tab label="{{ week.name }}" *ngFor="let week of weeks">
                         <ng-container *ngIf="week.days | async as days">
-                            <!-- <button (click)="openAddDayDialog(days.length)" mat-mini-fab>
-                                <mat-icon>add</mat-icon>
-                            </button> -->
-                            <div *ngFor="let day of days">
-                                <table mdbTable>
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">
-                                                <div class="row no-gutters">
-                                                    <div class="col">
-                                                        {{day.name}}
-                                                    </div>
-                                                    <div class="col">
-                                                    </div>
-                                                    <button (click)="openAddWorkDialog(days.length)" mat-mini-fab>
-                                                        <mat-icon>add</mat-icon>
-                                                    </button>
-                                                </div>
-                                            </th>
-                                            <!-- <th class="d-flex justify-content-end"> </th> -->
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <ng-container *ngIf="day.works | async as works">
-                                            <tr mdbTableCol *ngFor="let work of works">
-                                                <th scope="row">{{ work.name }}</th>
-                                                <td>{{ work.restTime }}</td>
-                                                <td>{{ work.reps }}</td>
-                                                <td>{{ work.sets }}</td>
-                                                <td>{{ work.weight }}</td>
-                                                <td>
-                                                    <app-training-work-load [trainingWorkId]="work.id"></app-training-work-load>
-                                                </td>
-                                                <!-- <td>
-                                                            <button mat-icon-button (click)="calcWeight(work)">
-                                                                <mat-icon>play_arrow</mat-icon>
-                                                            </button>
-                                                        </td> -->
-                                            </tr>
-
-                                        </ng-container>
-                                    </tbody>
-                                </table>
-                            </div>
                             <ul class="list-group py-2" *ngFor="let day of days">
-                                <li class="list-group-item"> {{ day.name }} </li>
+                                <li class="list-group-item list-group-item-warning ">
+                                    <!-- <div class="row">
+                                        <div class="col">
+                                            {{ day.name }}
+                                        </div>
+                                        <div class="col-auto">
+                                            <mat-menu #appMenu="matMenu">
+                                                <button mat-menu-item (click)="openAddWorkDialog(days.length)">Add Work</button>
+                                                <button mat-menu-item>Help</button>
+                                            </mat-menu>
+
+                                            <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                                                <mat-icon>more_vert</mat-icon>
+                                            </button>
+                                        </div>
+                                    </div> -->
+
+                                    <div class="d-flex align-items-center">
+                                        <h6> {{ day.name }}</h6>
+
+                                        <div>
+                                            <mat-menu #appMenu="matMenu">
+                                                <button mat-menu-item (click)="openAddWorkDialog(days.length)">Add Work</button>
+                                                <button mat-menu-item>Help</button>
+                                            </mat-menu>
+
+                                            <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                                                <mat-icon>more_vert</mat-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </li>
                                 <ng-container *ngIf="day.works | async as works">
                                     <li class="list-group-item" *ngFor="let work of works">
                                         <div class="row">
                                             <div class="col-12 col-md">
-                                                {{ work.name }} <small>{{ work.restTime }}</small>
+                                                <span class="align-middle"> {{ work.name }} <small>{{ work.restTime }}</small></span>
                                             </div>
                                             <div class="col">
                                                 {{ work.reps }}
@@ -134,10 +121,10 @@
                                             <div class="col">
                                                 {{ work.sets }}
                                             </div>
-                                            <div class="col">
+                                            <div class="col-auto">
                                                 <app-training-work-load [trainingWorkId]="work.id"></app-training-work-load>
                                             </div>
-                                            <div class="col">
+                                            <div class="col-auto">
                                                 <mat-menu #appMenu="matMenu">
                                                     <button mat-menu-item>Settings</button>
                                                     <button mat-menu-item>Help</button>
