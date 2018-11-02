@@ -3,7 +3,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatExpansionModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
@@ -49,6 +49,7 @@ import { TrainingComponent } from './training/training.component';
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
     MDBBootstrapModule.forRoot(),
     MaterialModule,
     MatDialogModule,

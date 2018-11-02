@@ -38,12 +38,15 @@ export class CalcService {
     let returnValue = 0;
     const rpeTable = this.rpeTable();
 
-    const calcRpe = rpeTable.filter((f) => f.level === input.rpe && f.rep === input.reps);
+    console.log(input);
+    if (input.reps && input.rpe) {
+      const calcRpe = rpeTable.find((f) => f.level === input.rpe && f.rep === input.reps);
 
-    if (calcRpe && calcRpe.length > 0) {
-      returnValue = input.weight * calcRpe[0].percent;
+      if (calcRpe) {
+        returnValue = input.weight * calcRpe.percent;
+      }
+      return Math.ceil((returnValue * mod) / 5) * 5;
     }
-    return Math.ceil((returnValue * mod) / 5) * 5;
   }
 
   private rpeTable(): Array<RPE> {

@@ -1,13 +1,16 @@
-import { TrainingWorkAddComponent } from './../training-work-add/training-work-add.component';
-import { MatDialog } from '@angular/material';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
+import { TrainingWork } from '../training-plan/training-week/training-day/training-work/training-work.model';
 import { FirebaseService } from './../firebase.service';
 import { CalcService } from './../services/calc/calc.service';
+import { TrainingWorkAddComponent } from './../training-work-add/training-work-add.component';
 import { Profile } from './profile.model';
-import { TrainingWork } from '../training-plan/training-week/training-day/training-work/training-work.model';
+import { TrainingWorkAdd } from '../training-work-add/training-work-add.model';
+import { TrainingWorkLoad } from '../training-plan/training-week/training-day/training-work/training-work-load/training-work-load.model';
 
 @Component({
   selector: 'app-profile',
@@ -19,36 +22,49 @@ export class ProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private calcService: CalcService,
     private firebaseService: FirebaseService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private fb: FormBuilder
   ) {}
 
   //   profile: Profile;
-
+  weekForm: FormGroup;
   currentProfile: Observable<Profile> | null = null;
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('username');
+    const userName = this.route.snapshot.paramMap.get('username');
 
     // this.profile = this.createProfile();
 
     // this.profile.currentTraining = this.createTraining();
 
-    this.currentProfile = this.firebaseService.getProfileDeep('bambooderen');
+    this.currentProfile = this.firebaseService.getProfileDeep(userName);
+
+    this.weekForm = this.fb.group({
+      sushi: '',
+      message: ''
+    });
 
     // this.firebaseService.getProfile('sanka').subscribe((s) => console.log(s));
   }
 
-  openAddWorkDialog(workCount: number): void {
+  openAddWorkDialog(trainingPlanDayId: string, workCount: number): void {
+    let trainingWork = new TrainingWork(workCount + 1, 'Bench', '3', 7, 6, '3-4mins');
+    let trainingWorkAdd = new TrainingWorkAdd(trainingWork, new TrainingWorkLoad('', 0, '0'));
+
     const dialogRef = this.dialog.open(TrainingWorkAddComponent, {
-      width: '250px',
-      data: new TrainingWork(workCount, '', '3', 7, 6, '3-4mins')
+      width: '300px',
+      data: trainingWorkAdd
     });
 
-    dialogRef.afterClosed().subscribe((result: TrainingWork) => {
+    dialogRef.afterClosed().subscribe((result: TrainingWorkAdd) => {
       console.log('The dialog was closed');
-      console.log(result);
+      result.trainingWork.trainingPlanDayId = trainingPlanDayId;
 
-      //   this.firebaseService.addTrainingDay(result).subscribe((s) => console.log(s));
+      console.log(result);
+      this.firebaseService.addTrainingWork(result.trainingWork).subscribe((s) => {
+        console.log(s);
+        this.firebaseService.setTrainingWorkWeight(s.id, result.trainingWorkLoad).subscribe((s2) => console.log(s2));
+      });
     });
   }
 

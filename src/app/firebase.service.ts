@@ -145,10 +145,6 @@ export class FirebaseService {
       );
   }
 
-  public addTrainingWork(item: TrainingWork) {
-    return from(this.db.collection('trainingPlanLifts').add(Object.assign({}, item)));
-  }
-
   public getTrainingWorkLoad(trainingWorkId: string) {
     const profileId = this.profileService.currentUserProfile().id;
     const workWeightPath = `trainingPlanLiftLoads/${trainingWorkId}_${profileId}`;
@@ -166,10 +162,11 @@ export class FirebaseService {
       );
   }
 
-  public setTrainingWorkWeight(trainingWorkId: string, profileId: string, weight: number) {
+  public setTrainingWorkWeight(trainingWorkId: string, trainingLoad: TrainingWorkLoad) {
+    const profileId = this.profileService.currentUserProfile().id;
     const workWeightPath = `trainingPlanLiftLoads/${trainingWorkId}_${profileId}`;
 
-    return from(this.db.doc(workWeightPath).set({ load: weight }));
+    return from(this.db.doc(workWeightPath).set({ load: trainingLoad.load, loadDisplay: trainingLoad.loadDisplay }));
   }
 
   public getTrainingDays(trainingPlanWeekId: string): Observable<TrainingDay[]> {
@@ -210,5 +207,9 @@ export class FirebaseService {
 
   public addTrainingDay(item: TrainingDay) {
     return from(this.db.collection('trainingPlanDays').add(Object.assign({}, item)));
+  }
+
+  public addTrainingWork(item: TrainingWork) {
+    return from(this.db.collection('trainingPlanLifts').add(Object.assign({}, item)));
   }
 }

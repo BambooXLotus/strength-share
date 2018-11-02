@@ -13,5 +13,6 @@ export class TrainingWork {
   ) {}
 
   id: string;
+  trainingPlanDayId: string;
   load: Observable<TrainingWorkLoad> | null = null;
 }
