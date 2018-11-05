@@ -1,26 +1,31 @@
 <h1 mat-dialog-title>Add Work</h1>
 <div mat-dialog-content>
     <div class="example-container">
-        <div class="row">
-            <div class="col">
-                <mat-form-field>
-                    <input matInput placeholder="Name" [(ngModel)]="data.trainingWork.name">
-                </mat-form-field>
-            </div>
-        </div>
         <mat-form-field>
-            <mat-select placeholder="Select" [(ngModel)]="selectedLift" (selectionChange)="calc()">
+            <input matInput placeholder="Name" [(ngModel)]="data.trainingWork.name">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Rest Time" [(ngModel)]="data.trainingWork.restTime">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-select placeholder="Lift" [(ngModel)]="selectedLift" (selectionChange)="calc()">
                 <mat-option *ngFor="let option of liftOptions" [value]="option.value">{{ option.valueView }}</mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field>
-            <input matInput placeholder="Reps" type="number" [(ngModel)]="data.trainingWork.reps" (keyup)="calc()">
+            <input matInput placeholder="Reps" type="number" [(ngModel)]="data.trainingWork.reps" (keyup)="[calc(), repsChanged()]">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Reps Display" [(ngModel)]="data.trainingWork.repsDisplay">
         </mat-form-field>
         <mat-form-field>
             <input matInput placeholder="Sets" [(ngModel)]="data.trainingWork.sets">
         </mat-form-field>
         <mat-form-field>
             <input matInput placeholder="RPE" type="number" [(ngModel)]="data.trainingWork.rpe" (keyup)="calc()">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Mod as Decimal" type="number" [(ngModel)]="data.trainingWork.mod" (keyup)="calc()">
         </mat-form-field>
         <mat-form-field>
             <input matInput placeholder="Load Display" [(ngModel)]="data.trainingWorkLoad.loadDisplay">

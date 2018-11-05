@@ -9,10 +9,12 @@ export class TrainingWork {
     public sets: string,
     public rpe: number,
     public reps: number,
+    public repsDisplay: string,
     public restTime: string
   ) {}
 
   id: string;
   trainingPlanDayId: string;
+  mod: number;
   load: Observable<TrainingWorkLoad> | null = null;
 }

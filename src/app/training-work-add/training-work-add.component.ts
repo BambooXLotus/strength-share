@@ -57,7 +57,8 @@ export class TrainingWorkAddComponent implements OnInit {
 
     if (this.selectedLift) {
       const load = this.calcService.calcLoadV1(
-        new CalcLoadInput1(this.data.trainingWork.rpe, this.data.trainingWork.reps, this.selectedLift)
+        new CalcLoadInput1(this.data.trainingWork.rpe, this.data.trainingWork.reps, this.selectedLift),
+        this.data.trainingWork.mod
       );
 
       returnValue = load;
@@ -67,5 +68,9 @@ export class TrainingWorkAddComponent implements OnInit {
 
     this.data.trainingWorkLoad.loadDisplay = returnValue + '';
     this.data.trainingWorkLoad.load = returnValue;
+  }
+
+  repsChanged() {
+    this.data.trainingWork.repsDisplay = this.data.trainingWork.reps + '-' + (this.data.trainingWork.reps + 2);
   }
 }

@@ -111,7 +111,9 @@ export class FirebaseService {
 
   public getTrainingWorks(trainingPlanDayId: string): Observable<TrainingWork[]> {
     return this.db
-      .collection<TrainingWork>(`trainingPlanLifts`, (ref) => ref.where('trainingPlanDayId', '==', trainingPlanDayId))
+      .collection<TrainingWork>(`trainingPlanLifts`, (ref) =>
+        ref.where('trainingPlanDayId', '==', trainingPlanDayId).orderBy('order')
+      )
       .snapshotChanges()
       .pipe(
         map((actions) =>
@@ -127,7 +129,9 @@ export class FirebaseService {
 
   private getTrainingWorksDeep(trainingPlanDayId: string): Observable<TrainingWork[]> {
     return this.db
-      .collection<TrainingWork>(`trainingPlanLifts`, (ref) => ref.where('trainingPlanDayId', '==', trainingPlanDayId))
+      .collection<TrainingWork>(`trainingPlanLifts`, (ref) =>
+        ref.where('trainingPlanDayId', '==', trainingPlanDayId).orderBy('order')
+      )
       .snapshotChanges()
       .pipe(
         map((actions) =>
@@ -165,6 +169,13 @@ export class FirebaseService {
   public setTrainingWorkWeight(trainingWorkId: string, trainingLoad: TrainingWorkLoad) {
     const profileId = this.profileService.currentUserProfile().id;
     const workWeightPath = `trainingPlanLiftLoads/${trainingWorkId}_${profileId}`;
+
+    return from(this.db.doc(workWeightPath).set({ load: trainingLoad.load, loadDisplay: trainingLoad.loadDisplay }));
+  }
+
+  public setTrainingWorkResult(trainingWorkId: string, trainingLoad: TrainingWorkLoad) {
+    const profileId = this.profileService.currentUserProfile().id;
+    const workWeightPath = `trainingPlanLiftResults/${trainingWorkId}_${profileId}`;
 
     return from(this.db.doc(workWeightPath).set({ load: trainingLoad.load, loadDisplay: trainingLoad.loadDisplay }));
   }
@@ -211,5 +222,13 @@ export class FirebaseService {
 
   public addTrainingWork(item: TrainingWork) {
     return from(this.db.collection('trainingPlanLifts').add(Object.assign({}, item)));
+  }
+
+  public updateTrainingWork(item: TrainingWork) {
+    return from(this.db.doc('trainingPlanLifts/' + item.id).update(Object.assign({}, item)));
+  }
+
+  public deleteTrainingWork(id: string) {
+    return from(this.db.doc('trainingPlanLifts/' + id).delete());
   }
 }

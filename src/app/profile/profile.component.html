@@ -72,6 +72,7 @@
             <ng-container *ngIf="training.weeks | async as weeks">
                 <mat-tab-group>
                     <mat-tab label="{{ week.name }}" *ngFor="let week of weeks">
+                        <button mat-raised-button color="primary">Add Day</button>
                         <ng-container *ngIf="week.days | async as days">
                             <ul class="list-group py-2" *ngFor="let day of days">
                                 <li class="list-group-item list-group-item-warning ">
@@ -80,7 +81,7 @@
 
                                         <div>
                                             <mat-menu #appMenu="matMenu">
-                                                <button mat-menu-item (click)="openAddWorkDialog(day.id, days.length)">Add
+                                                <button mat-menu-item (click)="openAddWorkDialog(day.id, day.works.length)">Add
                                                     Work</button>
                                                 <button mat-menu-item>Help</button>
                                             </mat-menu>
@@ -95,21 +96,32 @@
                                     <li class="list-group-item" *ngFor="let work of works">
                                         <div class="row">
                                             <div class="col-12 col-md">
-                                                <span class="align-middle"> {{ work.name }} <small>{{ work.restTime }}</small></span>
+                                                <span class="align-middle"> <b>{{ work.name }}</b> <small>{{
+                                                        work.restTime }}</small></span>
                                             </div>
                                             <div class="col">
-                                                {{ work.reps }}
+                                                {{ work.repsDisplay }}
                                             </div>
                                             <div class="col">
                                                 {{ work.sets }}
                                             </div>
                                             <div class="col-auto">
-                                                <app-training-work-load [trainingWorkId]="work.id"></app-training-work-load>
+                                                <!-- <app-training-work-load [trainingWorkId]="work.id"></app-training-work-load> -->
+                                                <ng-container *ngIf="work.load | async as load">
+                                                    {{ load.loadDisplay }}
+                                                </ng-container>
                                             </div>
                                             <div class="col-auto">
                                                 <mat-menu #appMenu="matMenu">
-                                                    <button mat-menu-item>Settings</button>
-                                                    <button mat-menu-item>Help</button>
+                                                    <button mat-menu-item (click)="removeWork(work.id)">Delete</button>
+
+                                                    <button *ngIf="work.load | async as load; else nullLoad"
+                                                        mat-menu-item (click)="openEditWorkDialog(work, load)">Edit</button>
+                                                    <ng-template #nullLoad>
+                                                        <button mat-menu-item (click)="openEditWorkDialog(work)">Edit</button>
+                                                    </ng-template>
+
+                                                    <button mat-menu-item (click)="openEditWorkDialog(work)">Result</button>
                                                 </mat-menu>
 
                                                 <button mat-icon-button [matMenuTriggerFor]="appMenu">
@@ -128,7 +140,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Favorite food" value="Sushi">
+                                            <input matInput placeholder="Week Name" value="Sushi">
                                         </mat-form-field>
                                     </div>
                                 </div>

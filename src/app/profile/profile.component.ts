@@ -48,8 +48,8 @@ export class ProfileComponent implements OnInit {
   }
 
   openAddWorkDialog(trainingPlanDayId: string, workCount: number): void {
-    let trainingWork = new TrainingWork(workCount + 1, 'Bench', '3', 7, 6, '3-4mins');
-    let trainingWorkAdd = new TrainingWorkAdd(trainingWork, new TrainingWorkLoad('', 0, '0'));
+    const trainingWork = new TrainingWork(workCount + 1, 'Bench', '3', 7, 6, 6 + '-' + (6 + 2), '3-4mins');
+    const trainingWorkAdd = new TrainingWorkAdd(trainingWork, new TrainingWorkLoad('', 0, '0'));
 
     const dialogRef = this.dialog.open(TrainingWorkAddComponent, {
       width: '300px',
@@ -57,15 +57,51 @@ export class ProfileComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result: TrainingWorkAdd) => {
-      console.log('The dialog was closed');
-      result.trainingWork.trainingPlanDayId = trainingPlanDayId;
+      if (result) {
+        result.trainingWork.trainingPlanDayId = trainingPlanDayId;
 
-      console.log(result);
-      this.firebaseService.addTrainingWork(result.trainingWork).subscribe((s) => {
-        console.log(s);
-        this.firebaseService.setTrainingWorkWeight(s.id, result.trainingWorkLoad).subscribe((s2) => console.log(s2));
-      });
+        this.firebaseService.addTrainingWork(result.trainingWork).subscribe((s) => {
+          this.firebaseService.setTrainingWorkWeight(s.id, result.trainingWorkLoad).subscribe((s2) => console.log(s2));
+        });
+      }
     });
+  }
+
+  openEditWorkDialog(selectedTrainingWork: TrainingWork, load: TrainingWorkLoad): void {
+    const trainingWork = new TrainingWork(
+      selectedTrainingWork.order,
+      selectedTrainingWork.name,
+      selectedTrainingWork.sets,
+      selectedTrainingWork.rpe,
+      selectedTrainingWork.reps,
+      selectedTrainingWork.repsDisplay,
+      selectedTrainingWork.restTime
+    );
+    trainingWork.id = selectedTrainingWork.id;
+    console.log(load);
+
+    const trainingWorkAdd = new TrainingWorkAdd(trainingWork, load);
+
+    const dialogRef = this.dialog.open(TrainingWorkAddComponent, {
+      width: '300px',
+      data: trainingWorkAdd
+    });
+
+    dialogRef.afterClosed().subscribe((result: TrainingWorkAdd) => {
+      if (result) {
+        this.firebaseService.updateTrainingWork(result.trainingWork).subscribe((s) => {
+          this.firebaseService
+            .setTrainingWorkWeight(result.trainingWork.id, result.trainingWorkLoad)
+            .subscribe((s2) => console.log(s2));
+        });
+      }
+    });
+  }
+
+  openWorkResultDialog(selectedTrainingWork: TrainingWork): void {}
+
+  removeWork(trainingWorkId: string) {
+    this.firebaseService.deleteTrainingWork(trainingWorkId).subscribe();
   }
 
   //   createProfile(): Profile {
