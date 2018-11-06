@@ -74,7 +74,7 @@
                     <mat-tab label="{{ week.name }}" *ngFor="let week of weeks">
                         <button mat-raised-button color="primary">Add Day</button>
                         <ng-container *ngIf="week.days | async as days">
-                            <ul class="list-group py-2" *ngFor="let day of days">
+                            <ul class="list-group py-2" *ngFor="let day of days" sortable (stop)="updateDaysOrder($event)">
                                 <li class="list-group-item list-group-item-warning ">
                                     <div class="d-flex align-items-center">
                                         <h6> {{ day.name }}</h6>

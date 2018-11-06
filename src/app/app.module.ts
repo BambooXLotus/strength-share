@@ -28,6 +28,7 @@ import { TrainingWeekComponent } from './training-plan/training-week/training-we
 import { TrainingWorkAddComponent } from './training-work-add/training-work-add.component';
 import { ExerciseComponent } from './training/exercise/exercise.component';
 import { TrainingComponent } from './training/training.component';
+import { SortableDirective } from './shared/sortable.directive';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { TrainingComponent } from './training/training.component';
     TrainingWorkComponent,
     TrainingDayAddComponent,
     TrainingWorkLoadComponent,
-    TrainingWorkAddComponent
+    TrainingWorkAddComponent,
+    SortableDirective
   ],
   imports: [
     BrowserModule,

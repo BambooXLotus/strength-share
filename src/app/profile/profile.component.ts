@@ -104,6 +104,9 @@ export class ProfileComponent implements OnInit {
     this.firebaseService.deleteTrainingWork(trainingWorkId).subscribe();
   }
 
+  updateDaysOrder(e) {
+    console.log(e);
+  }
   //   createProfile(): Profile {
   //     const profile = new Profile();
 

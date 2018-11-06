@@ -1,0 +1,19 @@
+.draggable-container--is-dragging {
+  border: 5px blue solid;
+}
+
+.draggable-source--is-dragging {
+  transform: scale(0.8);
+  background: lightgray;
+}
+
+.draggable-source--placed {
+  background: green;
+  transform: scale(1);
+  transition: transform 700ms ease-in;
+}
+
+.draggable-mirror {
+  background: gray;
+  display: block;
+}
