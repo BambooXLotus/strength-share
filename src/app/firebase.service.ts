@@ -216,7 +216,7 @@ export class FirebaseService {
       );
   }
 
-  public getTrainingDayDeep(trainingPlanId: string, weekOrder: number, dayOrder: number) {
+  public getTrainingDayDeepByOrder(trainingPlanId: string, weekOrder: number, dayOrder: number) {
     this.db
       .collection<TrainingWeek>('trainingPlanWeeks', (ref) =>
         ref.where('trainingPlanId', '==', trainingPlanId).where('order', '==', weekOrder)
@@ -225,10 +225,28 @@ export class FirebaseService {
       .pipe(
         map((actions) =>
           actions.map((a) => {
-            console.log(a);
             const data = a.payload.doc.data() as TrainingWeek;
             data.id = a.payload.doc.id;
             data.days = this.getTrainingDaysDeep(data.id);
+
+            return data;
+          })
+        )
+      );
+  }
+
+  private getTrainingDaysDeepByOrder(trainingPlanWeekId: string): Observable<TrainingDay[]> {
+    return this.db
+      .collection<TrainingDay>(`trainingPlanDays`, (ref) =>
+        ref.where('trainingPlanWeekId', '==', trainingPlanWeekId).orderBy('order')
+      )
+      .snapshotChanges()
+      .pipe(
+        map((actions) =>
+          actions.map((a) => {
+            const data = a.payload.doc.data() as TrainingDay;
+            data.id = a.payload.doc.id;
+            data.works = this.getTrainingWorksDeep(data.id);
 
             return data;
           })
