@@ -54,8 +54,6 @@ import { SortableDirective } from './shared/sortable.directive';
     ReactiveFormsModule,
     MDBBootstrapModule.forRoot(),
     MaterialModule,
-    MatDialogModule,
-    MatExpansionModule,
     AppRoutingModule,
     FormsModule,
     AngularFireModule.initializeApp(environment.firebase),

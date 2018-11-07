@@ -1,6 +1,8 @@
+import { TrainingWeek } from './../training-plan/training-week/training-week.model';
+import { TrainingDayAddComponent } from './../training-plan/training-week/training-day/training-day-add/training-day-add.component';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -11,6 +13,7 @@ import { TrainingWorkAddComponent } from './../training-work-add/training-work-a
 import { Profile } from './profile.model';
 import { TrainingWorkAdd } from '../training-work-add/training-work-add.model';
 import { TrainingWorkLoad } from '../training-plan/training-week/training-day/training-work/training-work-load/training-work-load.model';
+import { TrainingDay } from '../training-plan/training-week/training-day/training-day.model';
 
 @Component({
   selector: 'app-profile',
@@ -23,13 +26,17 @@ export class ProfileComponent implements OnInit {
     private calcService: CalcService,
     private firebaseService: FirebaseService,
     public dialog: MatDialog,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public snackBar: MatSnackBar
   ) {}
 
   //   profile: Profile;
   weekForm: FormGroup;
   currentProfile: Observable<Profile> | null = null;
+  enableWorkSort: boolean;
+  displayedColumns: string[] = ['name', 'restTime', 'repsDisplay', 'sets', 'load'];
 
+  weekName: string;
   ngOnInit() {
     const userName = this.route.snapshot.paramMap.get('username');
 
@@ -45,6 +52,35 @@ export class ProfileComponent implements OnInit {
     });
 
     // this.firebaseService.getProfile('sanka').subscribe((s) => console.log(s));
+  }
+
+  addWeek(trainingPlanId: string, weekOrder: number) {
+    const trainingWeek = new TrainingWeek(this.weekName, weekOrder, trainingPlanId);
+
+    console.log(trainingWeek);
+
+    this.firebaseService.addTrainingWeek(trainingWeek).subscribe((s) => {
+      this.weekName = '';
+
+      this.snackBar.open('Week Added', '', { duration: 3000 });
+    });
+  }
+
+  openAddDayDialog(trainingPlanWeekId: string, dayCount: number): void {
+    const currentDayCount = dayCount + 1;
+    const trainingDay = new TrainingDay(currentDayCount, 'Day ' + currentDayCount, trainingPlanWeekId);
+
+    const dialogRef = this.dialog.open(TrainingDayAddComponent, {
+      width: '250px',
+      data: trainingDay
+    });
+
+    dialogRef.afterClosed().subscribe((result: TrainingDay) => {
+      console.log('The dialog was closed');
+      console.log(result);
+
+      this.firebaseService.addTrainingDay(result).subscribe((s) => console.log(s));
+    });
   }
 
   openAddWorkDialog(trainingPlanDayId: string, workCount: number): void {

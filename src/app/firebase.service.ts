@@ -216,6 +216,30 @@ export class FirebaseService {
       );
   }
 
+  public getTrainingDayDeep(trainingPlanId: string, weekOrder: number, dayOrder: number) {
+    this.db
+      .collection<TrainingWeek>('trainingPlanWeeks', (ref) =>
+        ref.where('trainingPlanId', '==', trainingPlanId).where('order', '==', weekOrder)
+      )
+      .snapshotChanges()
+      .pipe(
+        map((actions) =>
+          actions.map((a) => {
+            console.log(a);
+            const data = a.payload.doc.data() as TrainingWeek;
+            data.id = a.payload.doc.id;
+            data.days = this.getTrainingDaysDeep(data.id);
+
+            return data;
+          })
+        )
+      );
+  }
+
+  public addTrainingWeek(item: TrainingWeek) {
+    return from(this.db.collection('trainingPlanWeeks').add(Object.assign({}, item)));
+  }
+
   public addTrainingDay(item: TrainingDay) {
     return from(this.db.collection('trainingPlanDays').add(Object.assign({}, item)));
   }
