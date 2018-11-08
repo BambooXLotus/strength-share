@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>Sort Works</h1>
+<div mat-dialog-content class="p-0">
+  <ul class="list-group list-group-flush" cdkDropList (cdkDropListDropped)="onDrop($event)">
+    <li class="list-group-item" *ngFor="let work of data" cdkDrag>
+      <div class="row">
+        <div class="col-12 col-md">
+          <span class="align-middle">
+            <b>{{ work.name }}</b></span
+          >
+        </div>
+        <!--
+          <div class="col">{{ work.repsDisplay }}</div>
+          <div class="col">{{ work.sets }}</div>
+          <div class="col-auto">
+            <ng-container *ngIf="(work.load | async) as load"> {{ load.loadDisplay }} </ng-container>
+          </div>
+        -->
+      </div>
+    </li>
+  </ul>
+</div>
+<div mat-dialog-actions>
+  <button mat-fab color="warn" (click)="onNoClick()"><mat-icon>clear</mat-icon></button>
+  <button mat-fab [mat-dialog-close]="data" cdkFocusInitial><mat-icon>check</mat-icon></button>
+</div>

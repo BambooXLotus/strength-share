@@ -1,3 +1,4 @@
+import { TrainingWorksSortComponent } from './../training-works-sort/training-works-sort.component';
 import { TrainingWeek } from './../training-plan/training-week/training-week.model';
 import { TrainingDayAddComponent } from './../training-plan/training-week/training-day/training-day-add/training-day-add.component';
 import { Component, OnInit } from '@angular/core';
@@ -119,7 +120,7 @@ export class ProfileComponent implements OnInit {
     const trainingWorkAdd = new TrainingWorkAdd(trainingWork, load);
 
     const dialogRef = this.dialog.open(TrainingWorkAddComponent, {
-      width: '300px',
+      width: '500px',
       data: trainingWorkAdd
     });
 
@@ -131,6 +132,14 @@ export class ProfileComponent implements OnInit {
             .subscribe((s2) => console.log(s2));
         });
       }
+    });
+  }
+
+  openSortWorkDialog(works: TrainingWork[]): void {
+    console.log(works);
+    const dialogRef = this.dialog.open(TrainingWorksSortComponent, {
+      width: '500px',
+      data: works
     });
   }
 

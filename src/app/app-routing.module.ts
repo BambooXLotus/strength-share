@@ -1,3 +1,4 @@
+import { ProfileListComponent } from './profile-list/profile-list.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -8,7 +9,7 @@ const routes: Routes = [
   //   { path: 'profiles', component: ProfileComponent },
   { path: 'p', component: ProfileComponent, pathMatch: 'full' },
   { path: 'p/:username', component: ProfileComponent },
-  { path: '', component: HomeComponent }
+  { path: '', component: ProfileListComponent }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

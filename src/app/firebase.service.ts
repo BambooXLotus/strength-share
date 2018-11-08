@@ -22,6 +22,21 @@ export class FirebaseService {
     private profileService: ProfileService
   ) {}
 
+  public getProfiles(): Observable<Profile[]> {
+    return this.db
+      .collection<Profile>('profiles')
+      .snapshotChanges()
+      .pipe(
+        map((actions) =>
+          actions.map((a) => {
+            const data = a.payload.doc.data() as Profile;
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          })
+        )
+      );
+  }
+
   public getProfile(userName: string): Observable<Profile> {
     return this.db
       .doc<Profile>('profiles/' + userName)
