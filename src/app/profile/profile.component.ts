@@ -1,3 +1,4 @@
+import { WorkLoadResultComponent } from './../work-load-result/work-load-result.component';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatSnackBar } from '@angular/material';
@@ -143,7 +144,21 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  openWorkResultDialog(selectedTrainingWork: TrainingWork): void {}
+  openWorkResultDialog(selectedTrainingWork: TrainingWork, load: TrainingWorkLoad): void {
+    load.resultRpe = selectedTrainingWork.rpe;
+    load.resultLoad = load.load;
+
+    const dialogRef = this.dialog.open(WorkLoadResultComponent, {
+      width: '500px',
+      data: load
+    });
+
+    dialogRef.afterClosed().subscribe((result: TrainingWorkLoad) => {
+      if (result) {
+        this.firebaseService.setTrainingWorkWeight(selectedTrainingWork.id, result).subscribe();
+      }
+    });
+  }
 
   removeWork(trainingWorkId: string) {
     this.firebaseService.deleteTrainingWork(trainingWorkId).subscribe();

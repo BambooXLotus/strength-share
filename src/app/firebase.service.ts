@@ -185,14 +185,15 @@ export class FirebaseService {
     const profileId = this.profileService.currentUserProfile().id;
     const workWeightPath = `trainingPlanLiftLoads/${trainingWorkId}_${profileId}`;
 
-    return from(this.db.doc(workWeightPath).set({ load: trainingLoad.load, loadDisplay: trainingLoad.loadDisplay }));
-  }
-
-  public setTrainingWorkResult(trainingWorkId: string, trainingLoad: TrainingWorkLoad) {
-    const profileId = this.profileService.currentUserProfile().id;
-    const workWeightPath = `trainingPlanLiftResults/${trainingWorkId}_${profileId}`;
-
-    return from(this.db.doc(workWeightPath).set({ load: trainingLoad.load, loadDisplay: trainingLoad.loadDisplay }));
+    return from(
+      this.db.doc(workWeightPath).set({
+        load: trainingLoad.load,
+        loadDisplay: trainingLoad.loadDisplay,
+        resultLoad: trainingLoad.resultLoad,
+        resultRpe: trainingLoad.resultRpe,
+        resultDate: new Date()
+      })
+    );
   }
 
   public getTrainingDays(trainingPlanWeekId: string): Observable<TrainingDay[]> {
