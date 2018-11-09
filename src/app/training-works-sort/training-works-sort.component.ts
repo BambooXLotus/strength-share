@@ -9,17 +9,10 @@ import { TrainingWork } from '../training-plan/training-week/training-day/traini
   templateUrl: './training-works-sort.component.html',
   styleUrls: ['./training-works-sort.component.css']
 })
-export class TrainingWorksSortComponent implements OnInit, OnDestroy {
-  constructor(
-    public dialogRef: MatDialogRef<TrainingWorksSortComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: TrainingWork[]
-  ) {}
+export class TrainingWorksSortComponent implements OnInit {
+  constructor(public dialogRef: MatDialogRef<TrainingWorksSortComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit() {}
-
-  ngOnDestroy(): void {
-    //   this.data.un
-  }
 
   onNoClick(): void {
     this.dialogRef.close();

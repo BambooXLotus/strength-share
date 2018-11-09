@@ -1,20 +1,20 @@
-import { TrainingWorksSortComponent } from './../training-works-sort/training-works-sort.component';
-import { TrainingWeek } from './../training-plan/training-week/training-week.model';
-import { TrainingDayAddComponent } from './../training-plan/training-week/training-day/training-day-add/training-day-add.component';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
+import { TrainingDay } from '../training-plan/training-week/training-day/training-day.model';
+import { TrainingWorkLoad } from '../training-plan/training-week/training-day/training-work/training-work-load/training-work-load.model';
 import { TrainingWork } from '../training-plan/training-week/training-day/training-work/training-work.model';
+import { TrainingWorkAdd } from '../training-work-add/training-work-add.model';
 import { FirebaseService } from './../firebase.service';
 import { CalcService } from './../services/calc/calc.service';
+import { TrainingDayAddComponent } from './../training-plan/training-week/training-day/training-day-add/training-day-add.component';
+import { TrainingWeek } from './../training-plan/training-week/training-week.model';
 import { TrainingWorkAddComponent } from './../training-work-add/training-work-add.component';
+import { TrainingWorksSortComponent } from './../training-works-sort/training-works-sort.component';
 import { Profile } from './profile.model';
-import { TrainingWorkAdd } from '../training-work-add/training-work-add.model';
-import { TrainingWorkLoad } from '../training-plan/training-week/training-day/training-work/training-work-load/training-work-load.model';
-import { TrainingDay } from '../training-plan/training-week/training-day/training-day.model';
 
 @Component({
   selector: 'app-profile',
@@ -89,7 +89,7 @@ export class ProfileComponent implements OnInit {
     const trainingWorkAdd = new TrainingWorkAdd(trainingWork, new TrainingWorkLoad('', 0, '0'));
 
     const dialogRef = this.dialog.open(TrainingWorkAddComponent, {
-      width: '300px',
+      width: '400px',
       data: trainingWorkAdd
     });
 

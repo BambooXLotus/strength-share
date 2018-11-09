@@ -65,23 +65,24 @@
           <mat-tab label="{{ week.name }}" *ngFor="let week of weeks">
             <button mat-raised-button color="primary" (click)="openAddDayDialog(week.id)">Add Day</button>
             <ng-container *ngIf="(week.days | async) as days">
-              <ng-container *ngFor="let day of days; let works">
+              <ng-container *ngFor="let day of days">
                 <mat-card class="mb-3">
                   <mat-card-header>
                     <mat-card-title>
                       {{ day.name }}
                       <button mat-mini-fab>
-                        <mat-icon aria-label="Add Work" (click)="openAddWorkDialog(day.id, day.works.length)"
-                          >add</mat-icon
-                        >
+                        <mat-icon aria-label="Add Work" (click)="openAddWorkDialog(day.id, day.works.length)">
+                          add
+                        </mat-icon>
+                      </button>
+                      <button mat-mini-fab>
+                        <input #works [value]="day.works | async" type="hidden" />
+                        <mat-icon aria-label="Sort Works" (click)="openSortWorkDialog(day.works)"> reorder </mat-icon>
                       </button>
                     </mat-card-title>
                   </mat-card-header>
                   <mat-card-content>
                     <ng-container *ngIf="(day.works | async) as works">
-                      <button mat-mini-fab>
-                        <mat-icon aria-label="Sort Works" (click)="openSortWorkDialog(works)">reorder</mat-icon>
-                      </button>
                       <table mdbTable class="table table-striped table-responsive-md btn-table">
                         <tbody>
                           <tr mdbTableCol *ngFor="let work of works">
@@ -172,7 +173,6 @@
                   </li>
                 </ng-container>
               </ul>
-              -->
             </ng-container>
           </mat-tab>
           <mat-tab label="+" class="h-100">
