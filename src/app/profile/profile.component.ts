@@ -99,6 +99,8 @@ export class ProfileComponent implements OnInit {
         result.trainingWork.trainingPlanDayId = trainingPlanDayId;
 
         this.firebaseService.addTrainingWork(result.trainingWork).subscribe((s) => {
+          console.log('deren');
+          console.log(s);
           this.firebaseService.setTrainingWorkWeight(s.id, result.trainingWorkLoad).subscribe((s2) => console.log(s2));
         });
       }
@@ -129,7 +131,7 @@ export class ProfileComponent implements OnInit {
       if (result) {
         this.firebaseService.updateTrainingWork(result.trainingWork).subscribe((s) => {
           this.firebaseService
-            .setTrainingWorkWeight(result.trainingWork.id, result.trainingWorkLoad)
+            .setTrainingWorkWeight(selectedTrainingWork.id, result.trainingWorkLoad)
             .subscribe((s2) => console.log(s2));
         });
       }
@@ -155,7 +157,7 @@ export class ProfileComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: TrainingWorkLoad) => {
       if (result) {
-        this.firebaseService.setTrainingWorkWeight(selectedTrainingWork.id, result).subscribe();
+        this.firebaseService.setTrainingWorkResult(selectedTrainingWork.id, result).subscribe();
       }
     });
   }

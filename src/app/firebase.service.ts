@@ -185,6 +185,20 @@ export class FirebaseService {
     const profileId = this.profileService.currentUserProfile().id;
     const workWeightPath = `trainingPlanLiftLoads/${trainingWorkId}_${profileId}`;
 
+    console.log(trainingLoad);
+    return from(
+      this.db.doc(workWeightPath).set({
+        load: trainingLoad.load,
+        loadDisplay: trainingLoad.loadDisplay
+      })
+    );
+  }
+
+  public setTrainingWorkResult(trainingWorkId: string, trainingLoad: TrainingWorkLoad) {
+    const profileId = this.profileService.currentUserProfile().id;
+    const workWeightPath = `trainingPlanLiftLoads/${trainingWorkId}_${profileId}`;
+
+    console.log(trainingLoad);
     return from(
       this.db.doc(workWeightPath).set({
         load: trainingLoad.load,

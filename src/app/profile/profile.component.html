@@ -75,6 +75,7 @@
                           add
                         </mat-icon>
                       </button>
+                      <button mat-mini-fab><mat-icon>edit</mat-icon></button>
                       <ng-container *ngIf="(day.works | async) as works">
                         <button mat-mini-fab>
                           <mat-icon aria-label="Sort Works" (click)="openSortWorkDialog(works)"> reorder </mat-icon>
@@ -91,38 +92,6 @@
                               <h6 class="h6">{{ work.name }}</h6>
                               <small class="ml-3">{{ work.restTime }}</small>
                             </div>
-                            <!--
-                              <div class="d-flex w-100 justify-content-between mb-0">
-
-
-
-
-
-
-
-
-                                <span>{{ work.repsDisplay }}</span> <span>{{ work.sets }}</span>
-
-
-
-
-
-
-
-
-
-                                <ng-container *ngIf="(work.load | async) as load"> {{ load.loadDisplay }} </ng-container>
-
-
-
-
-
-
-
-
-
-                              </div>
-                            -->
                             <div class="row">
                               <div class="col">
                                 <span>{{ work.repsDisplay }}</span>
@@ -130,11 +99,12 @@
                               <div class="col">
                                 <span>{{ work.sets }}</span>
                               </div>
-                              <div class="col-auto">
-                                <ng-container *ngIf="(work.load | async) as load">
+                              <ng-container *ngIf="(work.load | async) as load">
+                                <div class="col-auto">
                                   <b> {{ load.loadDisplay }} </b>
-                                </ng-container>
-                              </div>
+                                  <b> @ {{ load.resultRpe }} - {{ load.resultLoad }} </b>
+                                </div>
+                              </ng-container>
                             </div>
                           </div>
 
