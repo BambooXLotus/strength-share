@@ -1,38 +1,54 @@
-<ng-container *ngIf="trainingDays | async as days">
-    <!-- <button (click)="openAddDayDialog(days.length)" mat-mini-fab>
-        <mat-icon>add</mat-icon>
-    </button> -->
+<ng-container *ngIf="(trainingDay | async) as day">
+  <mat-card class="mb-3">
+    <mat-card-header>
+      <mat-card-title>
+        {{ day.name }}
+        <button mat-mini-fab>
+          <mat-icon aria-label="Add Work" (click)="openAddWorkDialog(day.id, day.works.length)"> add </mat-icon>
+        </button>
+        <button mat-mini-fab><mat-icon>edit</mat-icon></button>
+        <ng-container *ngIf="(day.works | async) as works">
+          <button mat-mini-fab>
+            <mat-icon aria-label="Sort Works" (click)="openSortWorkDialog(works)"> reorder </mat-icon>
+          </button>
+        </ng-container>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <ng-container *ngIf="(day.works | async) as works">
+        <ng-container *ngFor="let work of works">
+          <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="w-100 mr-3">
+              <div class="d-flex w-100">
+                <h6 class="h6">{{ work.name }}</h6>
+                <small class="ml-3">{{ work.restTime }}</small>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <span>{{ work.repsDisplay }}</span>
+                </div>
+                <div class="col">
+                  <span>{{ work.sets }}</span>
+                </div>
+                <ng-container *ngIf="(work.load | async) as load">
+                  <div class="col-auto">
+                    <b> {{ load.loadDisplay }} </b> <b> @ {{ load.resultRpe }} - {{ load.resultLoad }} </b>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
 
-    <div *ngFor="let day of days">
-        <table mdbTable>
-            <thead>
-                <tr>
-                    <th scope="col">{{day.name}} </th>
-                    <!-- <th scope="col"> <button (click)="openAddDayDialog(days.length)" mat-mini-fab>
-                            <mat-icon>add</mat-icon>
-                        </button></th>
-                </tr> -->
-            </thead>
-            <tbody>
-                <app-training-work [trainingDayId]="day.id"></app-training-work>
-            </tbody>
-        </table>
-    </div>
-
-    <table mdbTable *ngFor="let day of days">
-        <thead>
-            <tr>
-                <th scope="col">{{day.name}} </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr mdbTableCol>
-                <th scope="row">Bench</th>
-                <td>6</td>
-                <td>10</td>
-                <td>6</td>
-            </tr>
-        </tbody>
-    </table>
-
+            <ng-container *ngIf="(work.load | async) as load">
+              <button mat-mini-fab>
+                <mat-icon aria-label="Training Result" (click)="openWorkResultDialog(work, load)"> favorite </mat-icon>
+              </button>
+              <button mat-mini-fab><mat-icon (click)="openEditWorkDialog(work, load)">edit</mat-icon></button>
+              <button mat-mini-fab><mat-icon (click)="removeWork(work.id)">delete</mat-icon></button>
+            </ng-container>
+          </div>
+        </ng-container>
+      </ng-container>
+    </mat-card-content>
+    <mat-card-actions> <button mat-button>LIKE</button> <button mat-button>SHARE</button> </mat-card-actions>
+  </mat-card>
 </ng-container>

@@ -86,7 +86,7 @@ export class ProfileComponent implements OnInit {
   }
 
   openAddWorkDialog(trainingPlanDayId: string, workCount: number): void {
-    const trainingWork = new TrainingWork(workCount + 1, 'Bench', '3', 7, 6, 6 + '-' + (6 + 2), '3-4mins');
+    const trainingWork = new TrainingWork(workCount + 1, 'Bench', 3, '3', 7, 6, 6 + '-' + (6 + 2), '3-4mins');
     const trainingWorkAdd = new TrainingWorkAdd(trainingWork, new TrainingWorkLoad('', 0, '0'));
 
     const dialogRef = this.dialog.open(TrainingWorkAddComponent, {
@@ -112,6 +112,7 @@ export class ProfileComponent implements OnInit {
       selectedTrainingWork.order,
       selectedTrainingWork.name,
       selectedTrainingWork.sets,
+      selectedTrainingWork.setsDisplay,
       selectedTrainingWork.rpe,
       selectedTrainingWork.reps,
       selectedTrainingWork.repsDisplay,
@@ -143,6 +144,20 @@ export class ProfileComponent implements OnInit {
     const dialogRef = this.dialog.open(TrainingWorksSortComponent, {
       width: '500px',
       data: works
+    });
+
+    dialogRef.afterClosed().subscribe((results: TrainingWork[]) => {
+      console.log(results);
+
+      if (results) {
+        for (let index = 0; index < results.length; index++) {
+          results[index].order = index + 1;
+        }
+
+        for (const result of results) {
+          this.firebaseService.updateTrainingWorkOrder(result).subscribe();
+        }
+      }
     });
   }
 

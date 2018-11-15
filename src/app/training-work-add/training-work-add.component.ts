@@ -73,4 +73,8 @@ export class TrainingWorkAddComponent implements OnInit {
   repsChanged() {
     this.data.trainingWork.repsDisplay = this.data.trainingWork.reps + '-' + (this.data.trainingWork.reps + 2);
   }
+
+  setsChanged() {
+    this.data.trainingWork.setsDisplay = this.data.trainingWork.sets + '';
+  }
 }

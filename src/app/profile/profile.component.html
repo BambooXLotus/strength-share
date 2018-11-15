@@ -68,7 +68,7 @@
               <ng-container *ngFor="let day of days">
                 <mat-card class="mb-3">
                   <mat-card-header>
-                    <mat-card-title class="m-0">
+                    <mat-card-title>
                       {{ day.name }}
                       <button mat-mini-fab>
                         <mat-icon aria-label="Add Work" (click)="openAddWorkDialog(day.id, day.works.length)">
@@ -81,6 +81,10 @@
                           <mat-icon aria-label="Sort Works" (click)="openSortWorkDialog(works)"> reorder </mat-icon>
                         </button>
                       </ng-container>
+
+                      <button mat-mini-fab>
+                        <mat-icon aria-label="Day" [routerLink]="['/d/' + day.id]"> arrow_forward_ios </mat-icon>
+                      </button>
                     </mat-card-title>
                   </mat-card-header>
                   <mat-card-content>
@@ -110,14 +114,14 @@
 
                           <ng-container *ngIf="(work.load | async) as load">
                             <button mat-mini-fab>
-                              <mat-icon (click)="openEditWorkDialog(work, load)">edit</mat-icon>
-                            </button>
-
-                            <button mat-mini-fab>
                               <mat-icon aria-label="Training Result" (click)="openWorkResultDialog(work, load)">
                                 favorite
                               </mat-icon>
                             </button>
+                            <button mat-mini-fab>
+                              <mat-icon (click)="openEditWorkDialog(work, load)">edit</mat-icon>
+                            </button>
+                            <button mat-mini-fab><mat-icon (click)="removeWork(work.id)">delete</mat-icon></button>
                           </ng-container>
                         </div>
                       </ng-container>

@@ -6,7 +6,8 @@ export class TrainingWork {
   constructor(
     public order: number,
     public name: string,
-    public sets: string,
+    public sets: number,
+    public setsDisplay: string,
     public rpe: number,
     public reps: number,
     public repsDisplay: string,

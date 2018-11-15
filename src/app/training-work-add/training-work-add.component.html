@@ -26,7 +26,12 @@
       <input matInput placeholder="Reps Display" [(ngModel)]="data.trainingWork.repsDisplay" />
     </mat-form-field>
   </div>
-  <mat-form-field> <input matInput placeholder="Sets" [(ngModel)]="data.trainingWork.sets" /> </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Sets" [(ngModel)]="data.trainingWork.sets" (keyup)="setsChanged()" />
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Sets Display" [(ngModel)]="data.trainingWork.setsDisplay" />
+  </mat-form-field>
   <div class="d-flex">
     <mat-form-field>
       <input matInput placeholder="RPE" type="number" [(ngModel)]="data.trainingWork.rpe" (keyup)="calc()" />

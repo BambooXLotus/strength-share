@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { TrainingDay } from './training-day.model';
 
 import { Component, Input, OnInit } from '@angular/core';
@@ -13,13 +14,15 @@ import { TrainingDayAddComponent } from './training-day-add/training-day-add.com
   styleUrls: ['./training-day.component.css']
 })
 export class TrainingDayComponent implements OnInit {
-  @Input()
-  trainingWeekId: string;
-  trainingDays: Observable<TrainingDay[]> | null = null;
+  trainingDay: Observable<TrainingDay> | null = null;
 
-  constructor(private fbService: FirebaseService, public dialog: MatDialog) {}
+  constructor(private route: ActivatedRoute, private fbService: FirebaseService, public dialog: MatDialog) {}
 
   ngOnInit() {
-    this.trainingDays = this.fbService.getTrainingDays(this.trainingWeekId);
+    const id = this.route.snapshot.paramMap.get('id');
+
+    console.log(id);
+
+    this.trainingDay = this.fbService.getTrainingDayDeep(id);
   }
 }
