@@ -83,7 +83,9 @@
                       </ng-container>
 
                       <button mat-mini-fab>
-                        <mat-icon aria-label="Day" [routerLink]="['/d/' + day.id]"> arrow_forward_ios </mat-icon>
+                        <mat-icon aria-label="Day" [routerLink]="['/p/' + profile.id + '/d/' + day.id]">
+                          arrow_forward_ios
+                        </mat-icon>
                       </button>
                     </mat-card-title>
                   </mat-card-header>

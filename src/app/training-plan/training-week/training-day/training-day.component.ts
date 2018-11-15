@@ -19,10 +19,13 @@ export class TrainingDayComponent implements OnInit {
   constructor(private route: ActivatedRoute, private fbService: FirebaseService, public dialog: MatDialog) {}
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
+    const username = this.route.snapshot.paramMap.get('username');
+    const id = this.route.snapshot.paramMap.get('dayid');
 
     console.log(id);
 
-    this.trainingDay = this.fbService.getTrainingDayDeep(id);
+    this.fbService.getProfile(username).subscribe((s) => {
+      this.trainingDay = this.fbService.getTrainingDayDeep(id);
+    });
   }
 }
