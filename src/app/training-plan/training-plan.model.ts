@@ -7,7 +7,7 @@ export class TrainingPlan {
   id: string;
   name: string;
   level: string;
-  //
-  //   weeks: TrainingWeek[];
+  detail: string;
+
   weeks: Observable<TrainingWeek[]> | null = null;
 }

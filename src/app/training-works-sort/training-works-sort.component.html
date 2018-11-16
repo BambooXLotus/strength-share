@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>Sort Works</h1>
-<div mat-dialog-content class="p-0">
+<div mat-dialog-content>
   <ul class="list-group" cdkDropList (cdkDropListDropped)="onDrop($event)">
     <li class="list-group-item" *ngFor="let work of data" cdkDrag>
       <div class="row">

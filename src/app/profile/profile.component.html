@@ -7,7 +7,18 @@
       </mat-expansion-panel-header>
       <div>
         <div class="row">
-          <div class="col-auto"><img mat-card-lg-image /></div>
+          <div class="col-6 col-md-2">
+            <input type="file" #file style="display: none" accept="image/*" (change)="uploadPhoto($event)" />
+            <ng-container *ngIf="profile.photo; else: elseUpload"></ng-container>
+            <a (click)="file.click()"> <img class="img-fluid" src="{{ profile.photo }}"/></a>
+            <ng-template #elseUpload>
+              <a (click)="file.click()">
+                <img
+                  class="img-fluid"
+                  src="https://firebasestorage.googleapis.com/v0/b/strength-share.appspot.com/o/upload_avatar.png?alt=media&token=af96ae5d-a260-40d5-a41e-3ef8b7ed7ab3"
+              /></a>
+            </ng-template>
+          </div>
           <div class="col">
             <div class="row">
               <div class="col">
@@ -55,11 +66,22 @@
       </div>
     </mat-expansion-panel>
     <ng-container *ngIf="(profile.currentTrainingPlan | async) as training">
-      <div class="row p-2">
-        <div class="col">
-          <h5>{{ training.name }}</h5>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> {{ training.name }} </mat-panel-title>
+          <mat-panel-description> {{ training.description }} </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="w-100">
+                <textarea matInput placeholder="Training Plan Details"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
         </div>
-      </div>
+      </mat-expansion-panel>
+
       <ng-container *ngIf="(training.weeks | async) as weeks">
         <mat-tab-group>
           <mat-tab label="{{ week.name }}" *ngFor="let week of weeks">

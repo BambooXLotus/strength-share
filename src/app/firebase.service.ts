@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { from, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, finalize } from 'rxjs/operators';
 
 import { Profile } from './profile/profile.model';
 import { ProfileService } from './profile/profile.service';
@@ -89,6 +89,10 @@ export class FirebaseService {
           return data;
         })
       );
+  }
+
+  public updateTrainingPlanDetail(item: TrainingPlan) {
+    return from(this.db.doc('trainingPlans/' + item.id).update({ detail: item.detail }));
   }
 
   public getTrainingWeeks(trainingPlanName: string): Observable<TrainingWeek[]> {
@@ -303,5 +307,25 @@ export class FirebaseService {
 
   public deleteTrainingWork(id: string) {
     return from(this.db.doc('trainingPlanLifts/' + id).delete());
+  }
+
+  public uploadPhoto(photo: any) {
+    const fileName = 'TEST-' + Math.random() * 100 + 1;
+    const photoRef = this.storage.ref(fileName);
+
+    const task = this.storage.upload(fileName, photo);
+
+    task
+      .snapshotChanges()
+      .pipe(
+        finalize(() =>
+          photoRef.getDownloadURL().subscribe((downloadUrl) => {
+            this.db
+              .doc<Profile>('profiles/' + this.profileService.currentUserProfile().id)
+              .update({ photo: downloadUrl });
+          })
+        )
+      )
+      .subscribe();
   }
 }

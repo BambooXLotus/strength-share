@@ -37,8 +37,8 @@ export class ProfileComponent implements OnInit {
   currentProfile: Observable<Profile> | null = null;
   enableWorkSort: boolean;
   displayedColumns: string[] = ['name', 'restTime', 'repsDisplay', 'sets', 'load'];
-
   weekName: string;
+
   ngOnInit() {
     const userName = this.route.snapshot.paramMap.get('username');
 
@@ -184,6 +184,15 @@ export class ProfileComponent implements OnInit {
   updateDaysOrder(e) {
     console.log(e);
   }
+
+  uploadPhoto(event) {
+    const file = event.target.files[0];
+
+    this.firebaseService.uploadPhoto(file);
+  }
+
+  saveTrainingPlanDetails() {}
+
   //   createProfile(): Profile {
   //     const profile = new Profile();
 
