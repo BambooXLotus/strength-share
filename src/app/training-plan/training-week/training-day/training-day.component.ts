@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -18,7 +18,12 @@ import { TrainingWork } from './training-work/training-work.model';
 export class TrainingDayComponent implements OnInit {
   trainingDay: Observable<TrainingDay> | null = null;
 
-  constructor(private route: ActivatedRoute, private fbService: FirebaseService, public dialog: MatDialog) {}
+  constructor(
+    private route: ActivatedRoute,
+    private fbService: FirebaseService,
+    public dialog: MatDialog,
+    public snackBar: MatSnackBar
+  ) {}
 
   ngOnInit() {
     const username = this.route.snapshot.paramMap.get('username');
@@ -62,7 +67,9 @@ export class TrainingDayComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: TrainingWorkLoad) => {
       if (result) {
-        this.fbService.setTrainingWorkResult(selectedTrainingWork.id, result).subscribe();
+        this.fbService.setTrainingWorkResult(selectedTrainingWork.id, result).subscribe(() => {
+          this.snackBar.open('Result Saved', '', { duration: 3000 });
+        });
       }
     });
   }

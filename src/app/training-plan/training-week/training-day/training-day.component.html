@@ -2,11 +2,7 @@
   <mat-card class="mb-3">
     <mat-card-header>
       <mat-card-title>
-        {{ day.name }}
-        <button mat-mini-fab>
-          <mat-icon aria-label="Add Work" (click)="openAddWorkDialog(day.id, day.works.length)"> add </mat-icon>
-        </button>
-        <button mat-mini-fab><mat-icon>edit</mat-icon></button>
+        {{ day.name }} <button mat-mini-fab><mat-icon>edit</mat-icon></button>
         <ng-container *ngIf="(day.works | async) as works">
           <button mat-mini-fab>
             <mat-icon aria-label="Sort Works" (click)="openSortWorkDialog(works)"> reorder </mat-icon>

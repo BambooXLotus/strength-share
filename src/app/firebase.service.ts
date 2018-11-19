@@ -209,6 +209,7 @@ export class FirebaseService {
         loadDisplay: trainingLoad.loadDisplay,
         resultLoad: trainingLoad.resultLoad,
         resultRpe: trainingLoad.resultRpe,
+        resultNote: trainingLoad.resultNote,
         resultDate: new Date()
       })
     );

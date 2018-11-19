@@ -90,10 +90,9 @@ export class ProfileComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result: TrainingDay) => {
-      console.log('The dialog was closed');
-      console.log(result);
-
-      this.firebaseService.addTrainingDay(result).subscribe((s) => console.log(s));
+      this.firebaseService.addTrainingDay(result).subscribe((s) => {
+        this.snackBar.open('Day Added', '', { duration: 3000 });
+      });
     });
   }
 
@@ -184,7 +183,24 @@ export class ProfileComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: TrainingWorkLoad) => {
       if (result) {
-        this.firebaseService.setTrainingWorkResult(selectedTrainingWork.id, result).subscribe();
+        // ONLY TEMP UNTIL FIXING REQUIRED
+        if (!result.resultNote) {
+          result.resultNote = '';
+        }
+
+        if (!result.load) {
+          result.load = 0;
+          result.resultLoad = 0;
+        }
+
+        if (!result.loadDisplay) {
+          result.loadDisplay = '';
+        }
+        //
+
+        this.firebaseService.setTrainingWorkResult(selectedTrainingWork.id, result).subscribe(() => {
+          this.snackBar.open('Result Saved', '', { duration: 3000 });
+        });
       }
     });
   }
