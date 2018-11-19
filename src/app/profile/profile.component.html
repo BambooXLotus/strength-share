@@ -75,7 +75,12 @@
           <div class="row">
             <div class="col">
               <mat-form-field class="w-100">
-                <textarea matInput placeholder="Training Plan Details"></textarea>
+                <textarea
+                  matInput
+                  placeholder="Training Plan Details"
+                  [(ngModel)]="training.detail"
+                  (keydown)="saveTrainingPlanDetails(training)"
+                ></textarea>
               </mat-form-field>
             </div>
           </div>

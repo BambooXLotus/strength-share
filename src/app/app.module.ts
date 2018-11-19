@@ -31,6 +31,7 @@ import { TrainingWorksSortComponent } from './training-works-sort/training-works
 import { ExerciseComponent } from './training/exercise/exercise.component';
 import { TrainingComponent } from './training/training.component';
 import { WorkLoadResultComponent } from './work-load-result/work-load-result.component';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { WorkLoadResultComponent } from './work-load-result/work-load-result.com
     SortableDirective,
     ProfileListComponent,
     TrainingWorksSortComponent,
-    WorkLoadResultComponent
+    WorkLoadResultComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,

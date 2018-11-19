@@ -310,7 +310,7 @@ export class FirebaseService {
   }
 
   public uploadPhoto(photo: any) {
-    const fileName = 'TEST-' + Math.random() * 100 + 1;
+    const fileName = 'profile_' + this.profileService.currentUserProfile().id + Math.random() * 100 + 1;
     const photoRef = this.storage.ref(fileName);
 
     const task = this.storage.upload(fileName, photo);

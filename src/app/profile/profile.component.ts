@@ -1,9 +1,10 @@
+import { TrainingPlan } from './../training-plan/training-plan.model';
 import { WorkLoadResultComponent } from './../work-load-result/work-load-result.component';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { TrainingDay } from '../training-plan/training-week/training-day/training-day.model';
 import { TrainingWorkLoad } from '../training-plan/training-week/training-day/training-work/training-work-load/training-work-load.model';
@@ -16,6 +17,7 @@ import { TrainingWeek } from './../training-plan/training-week/training-week.mod
 import { TrainingWorkAddComponent } from './../training-work-add/training-work-add.component';
 import { TrainingWorksSortComponent } from './../training-works-sort/training-works-sort.component';
 import { Profile } from './profile.model';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',
@@ -39,6 +41,8 @@ export class ProfileComponent implements OnInit {
   displayedColumns: string[] = ['name', 'restTime', 'repsDisplay', 'sets', 'load'];
   weekName: string;
 
+  private trainingPlanDetail$ = new Subject<TrainingPlan>();
+
   ngOnInit() {
     const userName = this.route.snapshot.paramMap.get('username');
 
@@ -53,7 +57,15 @@ export class ProfileComponent implements OnInit {
       message: ''
     });
 
-    // this.firebaseService.getProfile('sanka').subscribe((s) => console.log(s));
+    const donkey = this.trainingPlanDetail$
+      .pipe(
+        debounceTime(1000),
+        distinctUntilChanged(),
+        switchMap((s) => {
+          this.firebaseService.updateTrainingPlanDetail(s).subscribe();
+        })
+      )
+      .subscribe();
   }
 
   addWeek(trainingPlanId: string, weekOrder: number) {
@@ -191,7 +203,9 @@ export class ProfileComponent implements OnInit {
     this.firebaseService.uploadPhoto(file);
   }
 
-  saveTrainingPlanDetails() {}
+  saveTrainingPlanDetails(trainingPlan: TrainingPlan) {
+    this.trainingPlanDetail$.next(trainingPlan);
+  }
 
   //   createProfile(): Profile {
   //     const profile = new Profile();
