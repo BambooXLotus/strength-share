@@ -57,15 +57,15 @@ export class ProfileComponent implements OnInit {
       message: ''
     });
 
-    const donkey = this.trainingPlanDetail$
-      .pipe(
-        debounceTime(1000),
-        distinctUntilChanged(),
-        switchMap((s) => {
-          this.firebaseService.updateTrainingPlanDetail(s).subscribe();
-        })
-      )
-      .subscribe();
+    // const donkey = this.trainingPlanDetail$
+    //   .pipe(
+    //     debounceTime(1000),
+    //     distinctUntilChanged(),
+    //     switchMap((s) => {
+    //       this.firebaseService.updateTrainingPlanDetail(s).subscribe();
+    //     })
+    //   )
+    //   .subscribe();
   }
 
   addWeek(trainingPlanId: string, weekOrder: number) {
