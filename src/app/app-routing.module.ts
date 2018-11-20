@@ -1,8 +1,8 @@
-import { ProfileListComponent } from './profile-list/profile-list.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { HomeComponent } from './home/home.component';
+import { AdminComponent } from './admin/admin.component';
+import { ProfileListComponent } from './profile-list/profile-list.component';
 import { ProfileComponent } from './profile/profile.component';
 import { TrainingDayComponent } from './training-plan/training-week/training-day/training-day.component';
 
@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'p', component: ProfileComponent, pathMatch: 'full' },
   { path: 'p/:username/d/:dayid', component: TrainingDayComponent },
   { path: 'p/:username', component: ProfileComponent },
+  { path: 'admin', component: AdminComponent },
   { path: '', component: ProfileListComponent }
 ];
 @NgModule({

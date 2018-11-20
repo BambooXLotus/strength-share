@@ -1,3 +1,4 @@
+import { MuscleGroup } from './muscle-group/muscle-group.model';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
@@ -328,5 +329,20 @@ export class FirebaseService {
         )
       )
       .subscribe();
+  }
+
+  public getMuscleGroups() {
+    return this.db
+      .collection<MuscleGroup>('muscleGroup')
+      .snapshotChanges()
+      .pipe(
+        map((actions) =>
+          actions.map((a) => {
+            const data = a.payload.doc.data() as MuscleGroup;
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          })
+        )
+      );
   }
 }

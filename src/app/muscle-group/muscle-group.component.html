@@ -1,0 +1,23 @@
+<div class="container-fluid">
+  <mat-list role="list">
+    <div class="row">
+      <div class="col">
+        <h5>Bodybuilding Volume Recommendations</h5>
+        <button mat-mini-fab>
+          <mat-icon aria-label="Add Work" (click)="openAddWorkDialog(day.id, day.works.length)"> add </mat-icon>
+        </button>
+      </div>
+    </div>
+    <ng-container *ngFor="let muscle of (muscleGroups$ | async) as muscleGroup">
+      <mat-list-item role="listitem">
+        <div class="row w-100">
+          <div class="col" matTooltip="Muscle Group">{{ muscle.name }}</div>
+          <div class="col" matTooltip="Maintence Volume">{{ muscle.mv }}</div>
+          <div class="col" matTooltip="Minimum Effective Volume">{{ muscle.mev }}</div>
+          <div class="col" matTooltip="Maximum Adaptive Volume">{{ muscle.mavMin }}-{{ muscle.mavMax }}</div>
+          <div class="col" matTooltip="Maximum Recoverable Volume">{{ muscle.mrv }}</div>
+        </div>
+      </mat-list-item>
+    </ng-container>
+  </mat-list>
+</div>

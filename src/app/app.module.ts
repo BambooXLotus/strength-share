@@ -32,6 +32,8 @@ import { ExerciseComponent } from './training/exercise/exercise.component';
 import { TrainingComponent } from './training/training.component';
 import { WorkLoadResultComponent } from './work-load-result/work-load-result.component';
 import { AdminComponent } from './admin/admin.component';
+import { MuscleGroupComponent } from './muscle-group/muscle-group.component';
+import { MuscleGroupAddComponent } from './muscle-group/muscle-group-add/muscle-group-add.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,9 @@ import { AdminComponent } from './admin/admin.component';
     ProfileListComponent,
     TrainingWorksSortComponent,
     WorkLoadResultComponent,
-    AdminComponent
+    AdminComponent,
+    MuscleGroupComponent,
+    MuscleGroupAddComponent
   ],
   imports: [
     BrowserModule,

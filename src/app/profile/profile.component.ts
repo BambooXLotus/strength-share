@@ -173,8 +173,24 @@ export class ProfileComponent implements OnInit {
   }
 
   openWorkResultDialog(selectedTrainingWork: TrainingWork, load: TrainingWorkLoad): void {
-    load.resultRpe = selectedTrainingWork.rpe;
-    load.resultLoad = load.load;
+    // ONLY TEMP UNTIL FIXING REQUIRED
+    if (!load.resultNote) {
+      load.resultNote = '';
+    }
+
+    if (!load.load) {
+      load.load = 0;
+      load.resultLoad = 0;
+    }
+
+    if (!load.loadDisplay) {
+      load.loadDisplay = '';
+    }
+
+    if (!load.resultRpe) {
+      load.resultRpe = selectedTrainingWork.rpe;
+    }
+    //
 
     const dialogRef = this.dialog.open(WorkLoadResultComponent, {
       width: '500px',
@@ -183,21 +199,6 @@ export class ProfileComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: TrainingWorkLoad) => {
       if (result) {
-        // ONLY TEMP UNTIL FIXING REQUIRED
-        if (!result.resultNote) {
-          result.resultNote = '';
-        }
-
-        if (!result.load) {
-          result.load = 0;
-          result.resultLoad = 0;
-        }
-
-        if (!result.loadDisplay) {
-          result.loadDisplay = '';
-        }
-        //
-
         this.firebaseService.setTrainingWorkResult(selectedTrainingWork.id, result).subscribe(() => {
           this.snackBar.open('Result Saved', '', { duration: 3000 });
         });
