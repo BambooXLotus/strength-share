@@ -2,10 +2,8 @@
   <mat-list role="list">
     <div class="row">
       <div class="col">
-        <h5>Bodybuilding Volume Recommendations</h5>
-        <button mat-mini-fab>
-          <mat-icon aria-label="Add Work" (click)="openAddWorkDialog(day.id, day.works.length)"> add </mat-icon>
-        </button>
+        <span>Bodybuilding Volume Recommendations</span>
+        <button mat-mini-fab><mat-icon aria-label="Add Work"> add </mat-icon></button>
       </div>
     </div>
     <ng-container *ngFor="let muscle of (muscleGroups$ | async) as muscleGroup">
