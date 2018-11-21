@@ -1,10 +1,9 @@
-import { CalcService } from './../services/calc/calc.service';
-import { ProfileService } from './../profile/profile.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
-import { TrainingWork } from '../training-plan/training-week/training-day/training-work/training-work.model';
-import { CalcLoadInput1 } from '../services/calc/calc-load-input.model';
+import { ProfileService } from './../../../profile/profile.service';
+import { CalcLoadInput1 } from './../../../services/calc/calc-load-input.model';
+import { CalcService } from './../../../services/calc/calc.service';
 import { TrainingWorkAdd } from './training-work-add.model';
 
 export interface LiftOption {

@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { TrainingWorkLoad } from './training-work-load/training-work-load.model';
+import { TrainingWorkLoad } from '../training-work-load/training-work-load.model';
 
 export class TrainingWork {
   constructor(

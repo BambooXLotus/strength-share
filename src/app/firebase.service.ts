@@ -1,17 +1,17 @@
-import { MuscleGroup } from './muscle-group/muscle-group.model';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { from, Observable } from 'rxjs';
-import { map, finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 
+import { MuscleGroup } from './muscle-group/muscle-group.model';
 import { Profile } from './profile/profile.model';
 import { ProfileService } from './profile/profile.service';
+import { TrainingDay } from './training-plan/training-day/training-day.model';
 import { TrainingPlan } from './training-plan/training-plan.model';
-import { TrainingDay } from './training-plan/training-week/training-day/training-day.model';
-import { TrainingWorkLoad } from './training-plan/training-week/training-day/training-work/training-work-load/training-work-load.model';
-import { TrainingWork } from './training-plan/training-week/training-day/training-work/training-work.model';
 import { TrainingWeek } from './training-plan/training-week/training-week.model';
+import { TrainingWorkLoad } from './training-plan/training-work-load/training-work-load.model';
+import { TrainingWork } from './training-plan/training-work/training-work.model';
 
 @Injectable({
   providedIn: 'root'

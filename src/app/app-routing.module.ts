@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
 import { ProfileListComponent } from './profile-list/profile-list.component';
 import { ProfileComponent } from './profile/profile.component';
-import { TrainingDayComponent } from './training-plan/training-week/training-day/training-day.component';
+import { TrainingDayComponent } from './training-plan/training-day/training-day.component';
 
 const routes: Routes = [
   //   { path: 'profiles', component: ProfileComponent },

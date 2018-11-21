@@ -1,6 +1,7 @@
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Component, OnInit, Inject } from '@angular/core';
-import { TrainingWorkLoad } from '../training-plan/training-week/training-day/training-work/training-work-load/training-work-load.model';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+
+import { TrainingWorkLoad } from '../training-plan/training-work-load/training-work-load.model';
 
 @Component({
   selector: 'app-work-load-result',
