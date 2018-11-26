@@ -1,12 +1,12 @@
 export class MuscleGroup {
-  constructor() {}
+  constructor(
+    public name: string,
+    public mrv: number,
+    public mavMin: number,
+    public mavMax: number,
+    public mev: number,
+    public mv: number
+  ) {}
 
   id: string;
-  name: string;
-
-  mrv: number;
-  mavMin: number;
-  mavMax: number;
-  mev: number;
-  mv: number;
 }

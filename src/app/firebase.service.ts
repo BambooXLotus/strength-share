@@ -333,7 +333,7 @@ export class FirebaseService {
 
   public getMuscleGroups() {
     return this.db
-      .collection<MuscleGroup>('muscleGroup')
+      .collection<MuscleGroup>('muscleGroups')
       .snapshotChanges()
       .pipe(
         map((actions) =>
@@ -344,5 +344,9 @@ export class FirebaseService {
           })
         )
       );
+  }
+
+  public addMuscleGroup(item: MuscleGroup) {
+    return from(this.db.collection('muscleGroups').add(Object.assign({}, item)));
   }
 }

@@ -77,7 +77,8 @@ import { WorkLoadResultComponent } from './work-load-result/work-load-result.com
     TrainingDayAddComponent,
     TrainingWorkAddComponent,
     TrainingWorksSortComponent,
-    WorkLoadResultComponent
+    WorkLoadResultComponent,
+    MuscleGroupAddComponent
   ],
   providers: [CalcService, FirebaseService],
   bootstrap: [AppComponent],
