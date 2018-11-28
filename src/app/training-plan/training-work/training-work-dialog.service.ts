@@ -16,7 +16,7 @@ export class TrainingWorkDialogService {
 
   openAdd(trainingPlanDayId: string, workCount: number): void {
     const trainingWork = new TrainingWork(workCount + 1, 'Bench', 3, '3', 7, 6, 6 + '-' + (6 + 2), '3-4mins');
-    const trainingWorkAdd = new TrainingWorkAdd(trainingWork, new TrainingWorkLoad('', 0, '0'));
+    const trainingWorkAdd = new TrainingWorkAdd(trainingWork, new TrainingWorkLoad(0, '0'));
 
     const dialogRef = this.dialog.open(TrainingWorkAddComponent, {
       width: '400px',

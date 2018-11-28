@@ -21,9 +21,11 @@ export class TrainingDayAddDialogService {
     });
 
     dialogRef.afterClosed().subscribe((result: TrainingDay) => {
-      this.firebaseService.addTrainingDay(result).subscribe((s) => {
-        this.snackBar.open('Day Added', '', { duration: 3000 });
-      });
+      if (result) {
+        this.firebaseService.addTrainingDay(result).subscribe((s) => {
+          this.snackBar.open('Day Added', '', { duration: 3000 });
+        });
+      }
     });
   }
 }

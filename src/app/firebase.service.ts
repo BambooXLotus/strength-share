@@ -111,6 +111,21 @@ export class FirebaseService {
       );
   }
 
+  public getTrainingWeek(trainingWeekId: string) {
+    return this.db
+      .doc('trainingPlanWeeks/' + trainingWeekId)
+      .snapshotChanges()
+      .pipe(
+        map((a) => {
+          const data = a.payload.data() as TrainingWeek;
+          data.id = a.payload.id;
+          data.days = this.getTrainingDaysDeep(data.id);
+
+          return data;
+        })
+      );
+  }
+
   private getTrainingWeeksDeep(trainingPlanId: string): Observable<TrainingWeek[]> {
     return this.db
       .collection<TrainingWeek>(`trainingPlanWeeks`, (ref) => ref.where('trainingPlanId', '==', trainingPlanId))
@@ -118,7 +133,6 @@ export class FirebaseService {
       .pipe(
         map((actions) =>
           actions.map((a) => {
-            console.log(a);
             const data = a.payload.doc.data() as TrainingWeek;
             data.id = a.payload.doc.id;
             data.days = this.getTrainingDaysDeep(data.id);

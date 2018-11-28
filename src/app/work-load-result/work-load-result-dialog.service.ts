@@ -30,11 +30,15 @@ export class WorkLoadResultDialogService {
     if (!load.resultRpe) {
       load.resultRpe = selectedTrainingWork.rpe;
     }
-    //
+
+    if (!load.resultLoad) {
+      load.resultLoad = load.load;
+    }
 
     const dialogRef = this.dialog.open(WorkLoadResultComponent, {
       width: '500px',
-      data: load
+      data: load,
+      autoFocus: true
     });
 
     dialogRef.afterClosed().subscribe((result: TrainingWorkLoad) => {

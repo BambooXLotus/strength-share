@@ -33,7 +33,7 @@ export class TrainingWorkComponent implements OnInit {
       new CalcLoadInput1(trainingWork.rpe, trainingWork.reps, this.profileService.currentUserProfile().benchMax)
     );
 
-    const trainingLoad = new TrainingWorkLoad('', load, load.toString());
+    const trainingLoad = new TrainingWorkLoad(load, load.toString());
 
     this.fbService.setTrainingWorkWeight(trainingWork.id, trainingLoad).subscribe();
   }

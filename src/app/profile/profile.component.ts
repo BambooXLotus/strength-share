@@ -9,6 +9,7 @@ import { TrainingWorkLoad } from '../training-plan/training-work-load/training-w
 import { TrainingWork } from '../training-plan/training-work/training-work.model';
 import { FirebaseService } from './../firebase.service';
 import { CalcService } from './../services/calc/calc.service';
+import { TrainingDay } from './../training-plan/training-day/training-day.model';
 import { TrainingPlan } from './../training-plan/training-plan.model';
 import { TrainingWeek } from './../training-plan/training-week/training-week.model';
 import { TrainingWorkDialogService } from './../training-plan/training-work/training-work-dialog.service';
@@ -74,6 +75,48 @@ export class ProfileComponent implements OnInit {
       this.weekName = '';
 
       this.snackBar.open('Week Added', '', { duration: 3000 });
+    });
+  }
+
+  openCopyWeekDialog(weekId: string, squatMax: number, benchMax: number, deadliftMax: number): void {
+    this.firebaseService.getTrainingWeek(weekId).subscribe((resultWeek) => {
+      const dupeWeek = new TrainingWeek(resultWeek.name + '_Copy', resultWeek.order + 1, resultWeek.trainingPlanId);
+      dupeWeek.squatMax = squatMax + 5;
+      dupeWeek.benchMax = benchMax + 5;
+      dupeWeek.deadliftMax = deadliftMax + 5;
+
+      this.firebaseService.addTrainingWeek(dupeWeek).subscribe((resultAddWeek) => {
+        resultWeek.days.subscribe((resultDays) => {
+          for (const day of resultDays) {
+            const dupeDay = new TrainingDay(day.order, day.name, resultAddWeek.id);
+
+            this.firebaseService.addTrainingDay(dupeDay).subscribe((resultDupeDay) => {
+              day.works.subscribe((resultWorks) => {
+                for (const work of resultWorks) {
+                  const dupeWork = new TrainingWork(
+                    work.order,
+                    work.name,
+                    work.sets,
+                    work.setsDisplay,
+                    work.reps,
+                    work.reps,
+                    work.repsDisplay,
+                    work.restTime
+                  );
+
+                  dupeWork.trainingPlanDayId = resultDupeDay.id;
+
+                  this.firebaseService.addTrainingWork(dupeWork).subscribe((resultDupeWork) => {
+                    //Display snackbar
+                    // const dupeTrainingLoad = new TrainingWorkLoad()
+                    // this.firebaseService.setTrainingWorkWeight(resultDupeWork, )
+                  });
+                }
+              });
+            });
+          }
+        });
+      });
     });
   }
 

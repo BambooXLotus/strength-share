@@ -7,4 +7,8 @@ export class TrainingWeek {
 
   id: string;
   days: Observable<TrainingDay[]> | null = null;
+
+  squatMax: number;
+  benchMax: number;
+  deadliftMax: number;
 }

@@ -91,6 +91,7 @@
         <mat-tab-group>
           <mat-tab label="{{ week.name }}" *ngFor="let week of weeks">
             <button mat-raised-button color="primary" (click)="openAddDayDialog(week.id)">Add Day</button>
+            <button mat-raised-button color="primary" (click)="openCopyWeekDialog(week.id)">Copy Week</button>
             <ng-container *ngIf="(week.days | async) as days">
               <ng-container *ngFor="let day of days">
                 <mat-card class="mb-3">
