@@ -98,7 +98,7 @@ export class ProfileComponent implements OnInit {
                     work.name,
                     work.sets,
                     work.setsDisplay,
-                    work.reps,
+                    work.rpe,
                     work.reps,
                     work.repsDisplay,
                     work.restTime
@@ -124,12 +124,18 @@ export class ProfileComponent implements OnInit {
     this.addDayDialog.open(weekId, dayCount);
   }
 
-  openAddWorkDialog(dayId: string, workCount: number): void {
-    this.workDialog.openAdd(dayId, workCount);
+  openAddWorkDialog(dayId: string, workCount: number, squatMax: number, benchMax: number, deadliftMax: number): void {
+    this.workDialog.openAdd(dayId, workCount, squatMax, benchMax, deadliftMax);
   }
 
-  openEditWorkDialog(work: TrainingWork, load: TrainingWorkLoad): void {
-    this.workDialog.openEdit(work, load);
+  openEditWorkDialog(
+    work: TrainingWork,
+    load: TrainingWorkLoad,
+    squatMax: number,
+    benchMax: number,
+    deadliftMax: number
+  ): void {
+    this.workDialog.openEdit(work, load, squatMax, benchMax, deadliftMax);
   }
 
   openSortWorkDialog(works: TrainingWork[]): void {
@@ -138,38 +144,6 @@ export class ProfileComponent implements OnInit {
 
   openWorkResultDialog(selectedTrainingWork: TrainingWork, load: TrainingWorkLoad): void {
     this.resultDialog.Open(selectedTrainingWork, load);
-
-    // // ONLY TEMP UNTIL FIXING REQUIRED
-    // if (!load.resultNote) {
-    //   load.resultNote = '';
-    // }
-
-    // if (!load.load) {
-    //   load.load = 0;
-    //   load.resultLoad = 0;
-    // }
-
-    // if (!load.loadDisplay) {
-    //   load.loadDisplay = '';
-    // }
-
-    // if (!load.resultRpe) {
-    //   load.resultRpe = selectedTrainingWork.rpe;
-    // }
-    // //
-
-    // const dialogRef = this.dialog.open(WorkLoadResultComponent, {
-    //   width: '500px',
-    //   data: load
-    // });
-
-    // dialogRef.afterClosed().subscribe((result: TrainingWorkLoad) => {
-    //   if (result) {
-    //     this.firebaseService.setTrainingWorkResult(selectedTrainingWork.id, result).subscribe(() => {
-    //       this.snackBar.open('Result Saved', '', { duration: 3000 });
-    //     });
-    //   }
-    // });
   }
 
   removeWork(trainingWorkId: string) {
@@ -188,6 +162,12 @@ export class ProfileComponent implements OnInit {
 
   saveTrainingPlanDetails(trainingPlan: TrainingPlan) {
     this.trainingPlanDetail$.next(trainingPlan);
+  }
+
+  copyFromProfile(weekId: string) {
+    this.firebaseService.saveMaxToWeek(weekId).subscribe(() => {
+      this.snackBar.open('Copied Over', '', { duration: 3000 });
+    });
   }
 
   //   createProfile(): Profile {

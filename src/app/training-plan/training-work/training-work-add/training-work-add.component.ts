@@ -29,18 +29,18 @@ export class TrainingWorkAddComponent implements OnInit {
 
   ngOnInit() {
     const bnOption = {
-      value: this.profileService.currentUserProfile().benchMax,
-      valueView: 'Bench - ' + this.profileService.currentUserProfile().benchMax
+      value: this.data.benchMax,
+      valueView: 'Bench - ' + this.data.benchMax
     };
 
     const sqOption = {
-      value: this.profileService.currentUserProfile().squatMax,
-      valueView: 'Squat - ' + this.profileService.currentUserProfile().squatMax
+      value: this.data.squatMax,
+      valueView: 'Squat - ' + this.data.squatMax
     };
 
     const dlOption = {
-      value: this.profileService.currentUserProfile().deadliftMax,
-      valueView: 'Deadlift - ' + this.profileService.currentUserProfile().deadliftMax
+      value: this.data.deadliftMax,
+      valueView: 'Deadlift - ' + this.data.deadliftMax
     };
 
     this.liftOptions = [bnOption, sqOption, dlOption];

@@ -128,7 +128,9 @@ export class FirebaseService {
 
   private getTrainingWeeksDeep(trainingPlanId: string): Observable<TrainingWeek[]> {
     return this.db
-      .collection<TrainingWeek>(`trainingPlanWeeks`, (ref) => ref.where('trainingPlanId', '==', trainingPlanId))
+      .collection<TrainingWeek>(`trainingPlanWeeks`, (ref) =>
+        ref.where('trainingPlanId', '==', trainingPlanId).orderBy('order', 'desc')
+      )
       .snapshotChanges()
       .pipe(
         map((actions) =>
@@ -362,5 +364,17 @@ export class FirebaseService {
 
   public addMuscleGroup(item: MuscleGroup) {
     return from(this.db.collection('muscleGroups').add(Object.assign({}, item)));
+  }
+
+  public saveMaxToWeek(weekId: string) {
+    const squatMax = this.profileService.currentUserProfile().squatMax;
+    const benchMax = this.profileService.currentUserProfile().benchMax;
+    const deadliftMax = this.profileService.currentUserProfile().deadliftMax;
+
+    return from(
+      this.db
+        .doc<TrainingWeek>('trainingPlanWeeks/' + weekId)
+        .update({ benchMax: benchMax, squatMax: squatMax, deadliftMax: deadliftMax })
+    );
   }
 }

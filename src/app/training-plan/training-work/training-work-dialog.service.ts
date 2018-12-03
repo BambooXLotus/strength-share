@@ -14,9 +14,13 @@ import { TrainingWork } from './training-work.model';
 export class TrainingWorkDialogService {
   constructor(private dialog: MatDialog, private firebaseService: FirebaseService) {}
 
-  openAdd(trainingPlanDayId: string, workCount: number): void {
+  openAdd(trainingPlanDayId: string, workCount: number, squatMax: number, benchMax: number, deadliftMax: number): void {
     const trainingWork = new TrainingWork(workCount + 1, 'Bench', 3, '3', 7, 6, 6 + '-' + (6 + 2), '3-4mins');
     const trainingWorkAdd = new TrainingWorkAdd(trainingWork, new TrainingWorkLoad(0, '0'));
+
+    trainingWorkAdd.squatMax = squatMax;
+    trainingWorkAdd.benchMax = benchMax;
+    trainingWorkAdd.deadliftMax = deadliftMax;
 
     const dialogRef = this.dialog.open(TrainingWorkAddComponent, {
       width: '400px',
@@ -28,15 +32,19 @@ export class TrainingWorkDialogService {
         result.trainingWork.trainingPlanDayId = trainingPlanDayId;
 
         this.firebaseService.addTrainingWork(result.trainingWork).subscribe((s) => {
-          console.log('deren');
-          console.log(s);
           this.firebaseService.setTrainingWorkWeight(s.id, result.trainingWorkLoad).subscribe((s2) => console.log(s2));
         });
       }
     });
   }
 
-  openEdit(selectedTrainingWork: TrainingWork, load: TrainingWorkLoad): void {
+  openEdit(
+    selectedTrainingWork: TrainingWork,
+    load: TrainingWorkLoad,
+    squatMax: number,
+    benchMax: number,
+    deadliftMax: number
+  ): void {
     const trainingWork = new TrainingWork(
       selectedTrainingWork.order,
       selectedTrainingWork.name,
@@ -50,6 +58,9 @@ export class TrainingWorkDialogService {
     trainingWork.id = selectedTrainingWork.id;
 
     const trainingWorkAdd = new TrainingWorkAdd(trainingWork, load);
+    trainingWorkAdd.squatMax = squatMax;
+    trainingWorkAdd.benchMax = benchMax;
+    trainingWorkAdd.deadliftMax = deadliftMax;
 
     const dialogRef = this.dialog.open(TrainingWorkAddComponent, {
       width: '500px',
