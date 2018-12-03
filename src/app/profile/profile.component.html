@@ -90,7 +90,36 @@
       <ng-container *ngIf="(training.weeks | async) as weeks">
         <mat-tab-group>
           <mat-tab label="{{ week.name }}" *ngFor="let week of weeks">
-            <button mat-raised-button color="primary" (click)="openAddDayDialog(week.id)">Add Day</button>
+            <div class="row">
+              <div class="col col-md-2">
+                <mat-form-field class="w-100">
+                  <input matInput type="number" placeholder="Squat e1rm" [(ngModel)]="week.squatMax" />
+                </mat-form-field>
+              </div>
+              <div class="col col-md-2">
+                <mat-form-field class="w-100">
+                  <input matInput type="number" placeholder="Bench e1rm" [(ngModel)]="week.benchMax" />
+                </mat-form-field>
+              </div>
+              <div class="col col-md-2">
+                <mat-form-field class="w-100">
+                  <input matInput type="number" placeholder="Deadlift e1rm" [(ngModel)]="week.deadliftMax" />
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <button mat-mini-fab (click)="copyFromProfile(week.id)">
+                  <mat-icon aria-label="Copy from profile">build</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-1">
+                <button mat-raised-button color="primary" (click)="openAddDayDialog(week.id)">Add Day</button>
+              </div>
+              <div class="col-1">
+                <button mat-raised-button color="primary" (click)="openCopyWeekDialog(week.id)">Copy Week</button>
+              </div>
+            </div>
             <ng-container *ngIf="(week.days | async) as days">
               <ng-container *ngFor="let day of days">
                 <mat-card class="mb-3">
@@ -98,7 +127,12 @@
                     <mat-card-title>
                       {{ day.name }}
                       <button mat-mini-fab>
-                        <mat-icon aria-label="Add Work" (click)="openAddWorkDialog(day.id, day.works.length)">
+                        <mat-icon
+                          aria-label="Add Work"
+                          (click)="
+                            openAddWorkDialog(day.id, day.works.length, week.squatMax, week.benchMax, week.deadliftMax)
+                          "
+                        >
                           add
                         </mat-icon>
                       </button>
@@ -148,7 +182,10 @@
                               </mat-icon>
                             </button>
                             <button mat-mini-fab>
-                              <mat-icon (click)="openEditWorkDialog(work, load)">edit</mat-icon>
+                              <mat-icon
+                                (click)="openEditWorkDialog(work, load, week.squatMax, week.benchMax, week.deadliftMax)"
+                                >edit</mat-icon
+                              >
                             </button>
                             <button mat-mini-fab><mat-icon (click)="removeWork(work.id)">delete</mat-icon></button>
                           </ng-container>

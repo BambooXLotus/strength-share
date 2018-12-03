@@ -1,8 +1,8 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
-import { TrainingWork } from '../training-plan/training-week/training-day/training-work/training-work.model';
+import { TrainingWork } from '../training-plan/training-work/training-work.model';
 
 @Component({
   selector: 'app-training-works-sort',

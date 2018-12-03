@@ -1,3 +1,22 @@
-<p>
-  muscle-group-add works!
-</p>
+<h1 mat-dialog-title>Muscle Group</h1>
+<div mat-dialog-content>
+  <mat-form-field class="w-100">
+    <input matInput placeholder="Muscle Group Name" [(ngModel)]="data.name" />
+  </mat-form-field>
+  <mat-form-field>
+    <input type="number" matInput placeholder="Maintence Volume" [(ngModel)]="data.mv" />
+  </mat-form-field>
+  <mat-form-field>
+    <input type="number" matInput placeholder="Minimum Effective Volume" [(ngModel)]="data.mev" />
+  </mat-form-field>
+  <mat-form-field> <input type="number" matInput placeholder="MAV Min" [(ngModel)]="data.mavMin" /> </mat-form-field>
+  -
+  <mat-form-field> <input type="number" matInput placeholder="MAV Max" [(ngModel)]="data.mavMax" /> </mat-form-field>
+  <mat-form-field>
+    <input type="number" matInput placeholder="Maximum Recoverable Volume" [(ngModel)]="data.mrv" />
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-fab color="warn" (click)="onNoClick()"><mat-icon>clear</mat-icon></button>
+  <button mat-fab [mat-dialog-close]="data" cdkFocusInitial><mat-icon>check</mat-icon></button>
+</div>

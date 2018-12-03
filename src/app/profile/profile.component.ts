@@ -1,23 +1,20 @@
-import { TrainingPlan } from './../training-plan/training-plan.model';
-import { WorkLoadResultComponent } from './../work-load-result/work-load-result.component';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 
-import { TrainingDay } from '../training-plan/training-week/training-day/training-day.model';
-import { TrainingWorkLoad } from '../training-plan/training-week/training-day/training-work/training-work-load/training-work-load.model';
-import { TrainingWork } from '../training-plan/training-week/training-day/training-work/training-work.model';
-import { TrainingWorkAdd } from '../training-work-add/training-work-add.model';
+import { TrainingDayAddDialogService } from '../training-plan/training-day/training-day-add/training-day-add-dialog.service';
+import { TrainingWorkLoad } from '../training-plan/training-work-load/training-work-load.model';
+import { TrainingWork } from '../training-plan/training-work/training-work.model';
 import { FirebaseService } from './../firebase.service';
 import { CalcService } from './../services/calc/calc.service';
-import { TrainingDayAddComponent } from './../training-plan/training-week/training-day/training-day-add/training-day-add.component';
+import { TrainingDay } from './../training-plan/training-day/training-day.model';
+import { TrainingPlan } from './../training-plan/training-plan.model';
 import { TrainingWeek } from './../training-plan/training-week/training-week.model';
-import { TrainingWorkAddComponent } from './../training-work-add/training-work-add.component';
-import { TrainingWorksSortComponent } from './../training-works-sort/training-works-sort.component';
+import { TrainingWorkDialogService } from './../training-plan/training-work/training-work-dialog.service';
+import { WorkLoadResultDialogService } from './../work-load-result/work-load-result-dialog.service';
 import { Profile } from './profile.model';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',
@@ -31,7 +28,10 @@ export class ProfileComponent implements OnInit {
     private firebaseService: FirebaseService,
     public dialog: MatDialog,
     private fb: FormBuilder,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
+    private resultDialog: WorkLoadResultDialogService,
+    private addDayDialog: TrainingDayAddDialogService,
+    private workDialog: TrainingWorkDialogService
   ) {}
 
   //   profile: Profile;
@@ -68,10 +68,8 @@ export class ProfileComponent implements OnInit {
     //   .subscribe();
   }
 
-  addWeek(trainingPlanId: string, weekOrder: number) {
-    const trainingWeek = new TrainingWeek(this.weekName, weekOrder, trainingPlanId);
-
-    console.log(trainingWeek);
+  addWeek(planId: string, weekOrder: number) {
+    const trainingWeek = new TrainingWeek(this.weekName, weekOrder, planId);
 
     this.firebaseService.addTrainingWeek(trainingWeek).subscribe((s) => {
       this.weekName = '';
@@ -80,130 +78,72 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  openAddDayDialog(trainingPlanWeekId: string, dayCount: number): void {
-    const currentDayCount = dayCount + 1;
-    const trainingDay = new TrainingDay(currentDayCount, 'Day ' + currentDayCount, trainingPlanWeekId);
+  openCopyWeekDialog(weekId: string, squatMax: number, benchMax: number, deadliftMax: number): void {
+    this.firebaseService.getTrainingWeek(weekId).subscribe((resultWeek) => {
+      const dupeWeek = new TrainingWeek(resultWeek.name + '_Copy', resultWeek.order + 1, resultWeek.trainingPlanId);
+      dupeWeek.squatMax = squatMax + 5;
+      dupeWeek.benchMax = benchMax + 5;
+      dupeWeek.deadliftMax = deadliftMax + 5;
 
-    const dialogRef = this.dialog.open(TrainingDayAddComponent, {
-      width: '250px',
-      data: trainingDay
-    });
+      this.firebaseService.addTrainingWeek(dupeWeek).subscribe((resultAddWeek) => {
+        resultWeek.days.subscribe((resultDays) => {
+          for (const day of resultDays) {
+            const dupeDay = new TrainingDay(day.order, day.name, resultAddWeek.id);
 
-    dialogRef.afterClosed().subscribe((result: TrainingDay) => {
-      this.firebaseService.addTrainingDay(result).subscribe((s) => {
-        this.snackBar.open('Day Added', '', { duration: 3000 });
+            this.firebaseService.addTrainingDay(dupeDay).subscribe((resultDupeDay) => {
+              day.works.subscribe((resultWorks) => {
+                for (const work of resultWorks) {
+                  const dupeWork = new TrainingWork(
+                    work.order,
+                    work.name,
+                    work.sets,
+                    work.setsDisplay,
+                    work.rpe,
+                    work.reps,
+                    work.repsDisplay,
+                    work.restTime
+                  );
+
+                  dupeWork.trainingPlanDayId = resultDupeDay.id;
+
+                  this.firebaseService.addTrainingWork(dupeWork).subscribe((resultDupeWork) => {
+                    //Display snackbar
+                    // const dupeTrainingLoad = new TrainingWorkLoad()
+                    // this.firebaseService.setTrainingWorkWeight(resultDupeWork, )
+                  });
+                }
+              });
+            });
+          }
+        });
       });
     });
   }
 
-  openAddWorkDialog(trainingPlanDayId: string, workCount: number): void {
-    const trainingWork = new TrainingWork(workCount + 1, 'Bench', 3, '3', 7, 6, 6 + '-' + (6 + 2), '3-4mins');
-    const trainingWorkAdd = new TrainingWorkAdd(trainingWork, new TrainingWorkLoad('', 0, '0'));
-
-    const dialogRef = this.dialog.open(TrainingWorkAddComponent, {
-      width: '400px',
-      data: trainingWorkAdd
-    });
-
-    dialogRef.afterClosed().subscribe((result: TrainingWorkAdd) => {
-      if (result) {
-        result.trainingWork.trainingPlanDayId = trainingPlanDayId;
-
-        this.firebaseService.addTrainingWork(result.trainingWork).subscribe((s) => {
-          console.log('deren');
-          console.log(s);
-          this.firebaseService.setTrainingWorkWeight(s.id, result.trainingWorkLoad).subscribe((s2) => console.log(s2));
-        });
-      }
-    });
+  openAddDayDialog(weekId: string, dayCount: number): void {
+    this.addDayDialog.open(weekId, dayCount);
   }
 
-  openEditWorkDialog(selectedTrainingWork: TrainingWork, load: TrainingWorkLoad): void {
-    const trainingWork = new TrainingWork(
-      selectedTrainingWork.order,
-      selectedTrainingWork.name,
-      selectedTrainingWork.sets,
-      selectedTrainingWork.setsDisplay,
-      selectedTrainingWork.rpe,
-      selectedTrainingWork.reps,
-      selectedTrainingWork.repsDisplay,
-      selectedTrainingWork.restTime
-    );
-    trainingWork.id = selectedTrainingWork.id;
-    console.log(load);
+  openAddWorkDialog(dayId: string, workCount: number, squatMax: number, benchMax: number, deadliftMax: number): void {
+    this.workDialog.openAdd(dayId, workCount, squatMax, benchMax, deadliftMax);
+  }
 
-    const trainingWorkAdd = new TrainingWorkAdd(trainingWork, load);
-
-    const dialogRef = this.dialog.open(TrainingWorkAddComponent, {
-      width: '500px',
-      data: trainingWorkAdd
-    });
-
-    dialogRef.afterClosed().subscribe((result: TrainingWorkAdd) => {
-      if (result) {
-        this.firebaseService.updateTrainingWork(result.trainingWork).subscribe((s) => {
-          this.firebaseService
-            .setTrainingWorkWeight(selectedTrainingWork.id, result.trainingWorkLoad)
-            .subscribe((s2) => console.log(s2));
-        });
-      }
-    });
+  openEditWorkDialog(
+    work: TrainingWork,
+    load: TrainingWorkLoad,
+    squatMax: number,
+    benchMax: number,
+    deadliftMax: number
+  ): void {
+    this.workDialog.openEdit(work, load, squatMax, benchMax, deadliftMax);
   }
 
   openSortWorkDialog(works: TrainingWork[]): void {
-    console.log(works);
-    const dialogRef = this.dialog.open(TrainingWorksSortComponent, {
-      width: '500px',
-      data: works
-    });
-
-    dialogRef.afterClosed().subscribe((results: TrainingWork[]) => {
-      console.log(results);
-
-      if (results) {
-        for (let index = 0; index < results.length; index++) {
-          results[index].order = index + 1;
-        }
-
-        for (const result of results) {
-          this.firebaseService.updateTrainingWorkOrder(result).subscribe();
-        }
-      }
-    });
+    this.workDialog.openSort(works);
   }
 
   openWorkResultDialog(selectedTrainingWork: TrainingWork, load: TrainingWorkLoad): void {
-    // ONLY TEMP UNTIL FIXING REQUIRED
-    if (!load.resultNote) {
-      load.resultNote = '';
-    }
-
-    if (!load.load) {
-      load.load = 0;
-      load.resultLoad = 0;
-    }
-
-    if (!load.loadDisplay) {
-      load.loadDisplay = '';
-    }
-
-    if (!load.resultRpe) {
-      load.resultRpe = selectedTrainingWork.rpe;
-    }
-    //
-
-    const dialogRef = this.dialog.open(WorkLoadResultComponent, {
-      width: '500px',
-      data: load
-    });
-
-    dialogRef.afterClosed().subscribe((result: TrainingWorkLoad) => {
-      if (result) {
-        this.firebaseService.setTrainingWorkResult(selectedTrainingWork.id, result).subscribe(() => {
-          this.snackBar.open('Result Saved', '', { duration: 3000 });
-        });
-      }
-    });
+    this.resultDialog.Open(selectedTrainingWork, load);
   }
 
   removeWork(trainingWorkId: string) {
@@ -222,6 +162,12 @@ export class ProfileComponent implements OnInit {
 
   saveTrainingPlanDetails(trainingPlan: TrainingPlan) {
     this.trainingPlanDetail$.next(trainingPlan);
+  }
+
+  copyFromProfile(weekId: string) {
+    this.firebaseService.saveMaxToWeek(weekId).subscribe(() => {
+      this.snackBar.open('Copied Over', '', { duration: 3000 });
+    });
   }
 
   //   createProfile(): Profile {

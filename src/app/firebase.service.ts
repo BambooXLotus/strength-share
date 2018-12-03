@@ -1,17 +1,17 @@
-import { MuscleGroup } from './muscle-group/muscle-group.model';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { from, Observable } from 'rxjs';
-import { map, finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 
+import { MuscleGroup } from './muscle-group/muscle-group.model';
 import { Profile } from './profile/profile.model';
 import { ProfileService } from './profile/profile.service';
+import { TrainingDay } from './training-plan/training-day/training-day.model';
 import { TrainingPlan } from './training-plan/training-plan.model';
-import { TrainingDay } from './training-plan/training-week/training-day/training-day.model';
-import { TrainingWorkLoad } from './training-plan/training-week/training-day/training-work/training-work-load/training-work-load.model';
-import { TrainingWork } from './training-plan/training-week/training-day/training-work/training-work.model';
 import { TrainingWeek } from './training-plan/training-week/training-week.model';
+import { TrainingWorkLoad } from './training-plan/training-work-load/training-work-load.model';
+import { TrainingWork } from './training-plan/training-work/training-work.model';
 
 @Injectable({
   providedIn: 'root'
@@ -111,14 +111,30 @@ export class FirebaseService {
       );
   }
 
+  public getTrainingWeek(trainingWeekId: string) {
+    return this.db
+      .doc('trainingPlanWeeks/' + trainingWeekId)
+      .snapshotChanges()
+      .pipe(
+        map((a) => {
+          const data = a.payload.data() as TrainingWeek;
+          data.id = a.payload.id;
+          data.days = this.getTrainingDaysDeep(data.id);
+
+          return data;
+        })
+      );
+  }
+
   private getTrainingWeeksDeep(trainingPlanId: string): Observable<TrainingWeek[]> {
     return this.db
-      .collection<TrainingWeek>(`trainingPlanWeeks`, (ref) => ref.where('trainingPlanId', '==', trainingPlanId))
+      .collection<TrainingWeek>(`trainingPlanWeeks`, (ref) =>
+        ref.where('trainingPlanId', '==', trainingPlanId).orderBy('order', 'desc')
+      )
       .snapshotChanges()
       .pipe(
         map((actions) =>
           actions.map((a) => {
-            console.log(a);
             const data = a.payload.doc.data() as TrainingWeek;
             data.id = a.payload.doc.id;
             data.days = this.getTrainingDaysDeep(data.id);
@@ -333,7 +349,7 @@ export class FirebaseService {
 
   public getMuscleGroups() {
     return this.db
-      .collection<MuscleGroup>('muscleGroup')
+      .collection<MuscleGroup>('muscleGroups')
       .snapshotChanges()
       .pipe(
         map((actions) =>
@@ -344,5 +360,21 @@ export class FirebaseService {
           })
         )
       );
+  }
+
+  public addMuscleGroup(item: MuscleGroup) {
+    return from(this.db.collection('muscleGroups').add(Object.assign({}, item)));
+  }
+
+  public saveMaxToWeek(weekId: string) {
+    const squatMax = this.profileService.currentUserProfile().squatMax;
+    const benchMax = this.profileService.currentUserProfile().benchMax;
+    const deadliftMax = this.profileService.currentUserProfile().deadliftMax;
+
+    return from(
+      this.db
+        .doc<TrainingWeek>('trainingPlanWeeks/' + weekId)
+        .update({ benchMax: benchMax, squatMax: squatMax, deadliftMax: deadliftMax })
+    );
   }
 }

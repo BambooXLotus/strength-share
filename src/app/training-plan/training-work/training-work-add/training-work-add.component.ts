@@ -1,10 +1,9 @@
-import { CalcService } from './../services/calc/calc.service';
-import { ProfileService } from './../profile/profile.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
-import { TrainingWork } from '../training-plan/training-week/training-day/training-work/training-work.model';
-import { CalcLoadInput1 } from '../services/calc/calc-load-input.model';
+import { ProfileService } from './../../../profile/profile.service';
+import { CalcLoadInput1 } from './../../../services/calc/calc-load-input.model';
+import { CalcService } from './../../../services/calc/calc.service';
 import { TrainingWorkAdd } from './training-work-add.model';
 
 export interface LiftOption {
@@ -30,18 +29,18 @@ export class TrainingWorkAddComponent implements OnInit {
 
   ngOnInit() {
     const bnOption = {
-      value: this.profileService.currentUserProfile().benchMax,
-      valueView: 'Bench - ' + this.profileService.currentUserProfile().benchMax
+      value: this.data.benchMax,
+      valueView: 'Bench - ' + this.data.benchMax
     };
 
     const sqOption = {
-      value: this.profileService.currentUserProfile().squatMax,
-      valueView: 'Squat - ' + this.profileService.currentUserProfile().squatMax
+      value: this.data.squatMax,
+      valueView: 'Squat - ' + this.data.squatMax
     };
 
     const dlOption = {
-      value: this.profileService.currentUserProfile().deadliftMax,
-      valueView: 'Deadlift - ' + this.profileService.currentUserProfile().deadliftMax
+      value: this.data.deadliftMax,
+      valueView: 'Deadlift - ' + this.data.deadliftMax
     };
 
     this.liftOptions = [bnOption, sqOption, dlOption];

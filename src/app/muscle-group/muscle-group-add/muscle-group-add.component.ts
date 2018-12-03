@@ -1,15 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+
+import { MuscleGroup } from './../muscle-group.model';
 
 @Component({
-  selector: 'muscle-group-add',
+  selector: 'app-muscle-group-add',
   templateUrl: './muscle-group-add.component.html',
   styleUrls: ['./muscle-group-add.component.css']
 })
 export class MuscleGroupAddComponent implements OnInit {
+  constructor(
+    public dialogRef: MatDialogRef<MuscleGroupAddComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: MuscleGroup
+  ) {}
 
-  constructor() { }
+  ngOnInit() {}
 
-  ngOnInit() {
+  onNoClick(): void {
+    this.dialogRef.close();
   }
-
 }

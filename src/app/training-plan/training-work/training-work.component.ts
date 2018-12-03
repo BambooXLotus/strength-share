@@ -1,12 +1,12 @@
+import { CalcLoadInput1 } from './../../services/calc/calc-load-input.model';
+import { FirebaseService } from './../../firebase.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { FirebaseService } from './../../../../firebase.service';
-import { ProfileService } from './../../../../profile/profile.service';
-import { CalcLoadInput1 } from './../../../../services/calc/calc-load-input.model';
-import { CalcService } from './../../../../services/calc/calc.service';
+import { TrainingWorkLoad } from '../training-work-load/training-work-load.model';
+import { ProfileService } from './../../profile/profile.service';
+import { CalcService } from './../../services/calc/calc.service';
 import { TrainingWork } from './training-work.model';
-import { TrainingWorkLoad } from './training-work-load/training-work-load.model';
 
 @Component({
   selector: 'app-training-work',
@@ -33,7 +33,7 @@ export class TrainingWorkComponent implements OnInit {
       new CalcLoadInput1(trainingWork.rpe, trainingWork.reps, this.profileService.currentUserProfile().benchMax)
     );
 
-    const trainingLoad = new TrainingWorkLoad('', load, load.toString());
+    const trainingLoad = new TrainingWorkLoad(load, load.toString());
 
     this.fbService.setTrainingWorkWeight(trainingWork.id, trainingLoad).subscribe();
   }
