@@ -57,6 +57,12 @@ export class TrainingWorkDialogService {
     );
     trainingWork.id = selectedTrainingWork.id;
 
+    console.log(load);
+    if (!load.load) {
+      load.load = 0;
+      load.loadDisplay = '0';
+    }
+
     const trainingWorkAdd = new TrainingWorkAdd(trainingWork, load);
     trainingWorkAdd.squatMax = squatMax;
     trainingWorkAdd.benchMax = benchMax;
