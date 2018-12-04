@@ -81,9 +81,6 @@ export class ProfileComponent implements OnInit {
   openCopyWeekDialog(weekId: string, squatMax: number, benchMax: number, deadliftMax: number): void {
     this.firebaseService.getTrainingWeek(weekId).subscribe((resultWeek) => {
       const dupeWeek = new TrainingWeek(resultWeek.name + '_Copy', resultWeek.order + 1, resultWeek.trainingPlanId);
-      dupeWeek.squatMax = squatMax + 5;
-      dupeWeek.benchMax = benchMax + 5;
-      dupeWeek.deadliftMax = deadliftMax + 5;
 
       this.firebaseService.addTrainingWeek(dupeWeek).subscribe((resultAddWeek) => {
         resultWeek.days.subscribe((resultDays) => {
@@ -125,6 +122,7 @@ export class ProfileComponent implements OnInit {
   }
 
   openAddWorkDialog(dayId: string, workCount: number, squatMax: number, benchMax: number, deadliftMax: number): void {
+    console.log(benchMax);
     this.workDialog.openAdd(dayId, workCount, squatMax, benchMax, deadliftMax);
   }
 
@@ -135,6 +133,7 @@ export class ProfileComponent implements OnInit {
     benchMax: number,
     deadliftMax: number
   ): void {
+    console.log(benchMax);
     this.workDialog.openEdit(work, load, squatMax, benchMax, deadliftMax);
   }
 
@@ -164,8 +163,8 @@ export class ProfileComponent implements OnInit {
     this.trainingPlanDetail$.next(trainingPlan);
   }
 
-  copyFromProfile(weekId: string) {
-    this.firebaseService.saveMaxToWeek(weekId).subscribe(() => {
+  copyMaxFromProfile(weekId: string, profileId: string) {
+    this.firebaseService.setTrainingPlanWeekMax(weekId, profileId).subscribe(() => {
       this.snackBar.open('Copied Over', '', { duration: 3000 });
     });
   }

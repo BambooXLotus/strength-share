@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { from, Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { finalize, map, share, shareReplay } from 'rxjs/operators';
 
 import { MuscleGroup } from './muscle-group/muscle-group.model';
 import { Profile } from './profile/profile.model';
 import { ProfileService } from './profile/profile.service';
 import { TrainingDay } from './training-plan/training-day/training-day.model';
 import { TrainingPlan } from './training-plan/training-plan.model';
+import { TrainingWeekMax } from './training-plan/training-week/training-week-max.model';
 import { TrainingWeek } from './training-plan/training-week/training-week.model';
 import { TrainingWorkLoad } from './training-plan/training-work-load/training-work-load.model';
 import { TrainingWork } from './training-plan/training-work/training-work.model';
@@ -138,10 +139,28 @@ export class FirebaseService {
             const data = a.payload.doc.data() as TrainingWeek;
             data.id = a.payload.doc.id;
             data.days = this.getTrainingDaysDeep(data.id);
+            data.max = this.getTrainingWeekMax(data.id).pipe(shareReplay());
 
             return data;
           })
         )
+      );
+  }
+
+  public getTrainingWeekMax(trainingWeekId: string) {
+    const profileId = this.profileService.currentUserProfile().id;
+    const path = `trainingPlanWeekMax/${trainingWeekId}_${profileId}`;
+
+    return this.db
+      .doc(path)
+      .snapshotChanges()
+      .pipe(
+        map((a) => {
+          const data = a.payload.data() as TrainingWeekMax;
+
+          const id = a.payload.id;
+          return { id, ...data };
+        })
       );
   }
 
@@ -172,12 +191,9 @@ export class FirebaseService {
       .pipe(
         map((actions) =>
           actions.map((a) => {
-            console.log('Works');
-            console.log(a);
             const data = a.payload.doc.data() as TrainingWork;
             data.id = a.payload.doc.id;
-            console.log(data);
-            data.load = this.getTrainingWorkLoad(data.id);
+            data.load = this.getTrainingWorkLoad(data.id).pipe(share());
 
             return data;
           })
@@ -219,7 +235,6 @@ export class FirebaseService {
     const profileId = this.profileService.currentUserProfile().id;
     const workWeightPath = `trainingPlanLiftLoads/${trainingWorkId}_${profileId}`;
 
-    console.log(trainingLoad);
     return from(
       this.db.doc(workWeightPath).set({
         load: trainingLoad.load,
@@ -366,15 +381,32 @@ export class FirebaseService {
     return from(this.db.collection('muscleGroups').add(Object.assign({}, item)));
   }
 
-  public saveMaxToWeek(weekId: string) {
+  //   public saveMaxToWeek(weekId: string) {
+  //     const squatMax = this.profileService.currentUserProfile().squatMax;
+  //     const benchMax = this.profileService.currentUserProfile().benchMax;
+  //     const deadliftMax = this.profileService.currentUserProfile().deadliftMax;
+
+  //     return from(
+  //       this.db
+  //         .doc<TrainingWeek>('trainingPlanWeeks/' + weekId)
+  //         .update({ benchMax: benchMax, squatMax: squatMax, deadliftMax: deadliftMax })
+  //     );
+  //   }
+
+  public setTrainingPlanWeekMax(weekId: string, profileId: string) {
     const squatMax = this.profileService.currentUserProfile().squatMax;
     const benchMax = this.profileService.currentUserProfile().benchMax;
     const deadliftMax = this.profileService.currentUserProfile().deadliftMax;
 
+    const trainingPlanPath = `trainingPlanWeekMax/${weekId}_${profileId}`;
+
     return from(
-      this.db
-        .doc<TrainingWeek>('trainingPlanWeeks/' + weekId)
-        .update({ benchMax: benchMax, squatMax: squatMax, deadliftMax: deadliftMax })
+      this.db.doc(trainingPlanPath).set({
+        benchMax: benchMax,
+        squatMax: squatMax,
+        deadliftMax: deadliftMax,
+        date: new Date()
+      })
     );
   }
 }

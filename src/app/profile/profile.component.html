@@ -91,31 +91,42 @@
         <mat-tab-group>
           <mat-tab label="{{ week.name }}" *ngFor="let week of weeks">
             <div class="row">
-              <div class="col col-md-2">
-                <mat-form-field class="w-100">
-                  <input matInput type="number" placeholder="Squat e1rm" [(ngModel)]="week.squatMax" />
-                </mat-form-field>
-              </div>
-              <div class="col col-md-2">
-                <mat-form-field class="w-100">
-                  <input matInput type="number" placeholder="Bench e1rm" [(ngModel)]="week.benchMax" />
-                </mat-form-field>
-              </div>
-              <div class="col col-md-2">
-                <mat-form-field class="w-100">
-                  <input matInput type="number" placeholder="Deadlift e1rm" [(ngModel)]="week.deadliftMax" />
-                </mat-form-field>
-              </div>
+              <ng-container *ngIf="(week.max | async) as weekMax">
+                <div class="col col-md-2">
+                  <mat-form-field class="w-100">
+                    <input matInput type="number" placeholder="Squat e1rm" [(ngModel)]="weekMax.squatMax" />
+                  </mat-form-field>
+                </div>
+                <div class="col col-md-2">
+                  <mat-form-field class="w-100">
+                    <input matInput type="number" placeholder="Bench e1rm" [(ngModel)]="weekMax.benchMax" />
+                  </mat-form-field>
+                </div>
+                <div class="col col-md-2">
+                  <mat-form-field class="w-100">
+                    <input matInput type="number" placeholder="Deadlift e1rm" [(ngModel)]="weekMax.deadliftMax" />
+                  </mat-form-field>
+                </div>
+              </ng-container>
               <div class="col">
-                <button mat-mini-fab (click)="copyFromProfile(week.id)">
+                <button mat-mini-fab (click)="copyMaxFromProfile(week.id, profile.id)">
                   <mat-icon aria-label="Copy from profile">build</mat-icon>
                 </button>
               </div>
             </div>
             <div class="row">
-              <div class="col-1">
-                <button mat-raised-button color="primary" (click)="openAddDayDialog(week.id)">Add Day</button>
-              </div>
+              <ng-container *ngIf="(week.days | async) as days; else: elseTemplate">
+                <div class="col-1">
+                  <button mat-raised-button color="primary" (click)="openAddDayDialog(week.id, days.count())">
+                    Add Day
+                  </button>
+                </div>
+              </ng-container>
+              <ng-template #elseTemplate>
+                <div class="col-1">
+                  <button mat-raised-button color="primary" (click)="openAddDayDialog(week.id)">Add Day</button>
+                </div>
+              </ng-template>
               <div class="col-1">
                 <button mat-raised-button color="primary" (click)="openCopyWeekDialog(week.id)">Copy Week</button>
               </div>
@@ -126,16 +137,24 @@
                   <mat-card-header>
                     <mat-card-title>
                       {{ day.name }}
-                      <button mat-mini-fab>
-                        <mat-icon
-                          aria-label="Add Work"
-                          (click)="
-                            openAddWorkDialog(day.id, day.works.length, week.squatMax, week.benchMax, week.deadliftMax)
-                          "
-                        >
-                          add
-                        </mat-icon>
-                      </button>
+                      <ng-container *ngIf="(week.max | async) as weekMax">
+                        <button mat-mini-fab>
+                          <mat-icon
+                            aria-label="Add Work"
+                            (click)="
+                              openAddWorkDialog(
+                                day.id,
+                                day.works.length,
+                                weekMax.squatMax,
+                                weekMax.benchMax,
+                                weekMax.deadliftMax
+                              )
+                            "
+                          >
+                            add
+                          </mat-icon>
+                        </button>
+                      </ng-container>
                       <button mat-mini-fab><mat-icon>edit</mat-icon></button>
                       <ng-container *ngIf="(day.works | async) as works">
                         <button mat-mini-fab>
@@ -181,12 +200,22 @@
                                 favorite
                               </mat-icon>
                             </button>
-                            <button mat-mini-fab>
-                              <mat-icon
-                                (click)="openEditWorkDialog(work, load, week.squatMax, week.benchMax, week.deadliftMax)"
-                                >edit</mat-icon
-                              >
-                            </button>
+                            <ng-container *ngIf="(week.max | async) as weekMax">
+                              <button mat-mini-fab>
+                                <mat-icon
+                                  (click)="
+                                    openEditWorkDialog(
+                                      work,
+                                      load,
+                                      weekMax.squatMax,
+                                      weekMax.benchMax,
+                                      weekMax.deadliftMax
+                                    )
+                                  "
+                                  >edit</mat-icon
+                                >
+                              </button>
+                            </ng-container>
                             <button mat-mini-fab><mat-icon (click)="removeWork(work.id)">delete</mat-icon></button>
                           </ng-container>
                         </div>

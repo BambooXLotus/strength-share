@@ -13,6 +13,7 @@ export class WorkLoadResultDialogService {
   constructor(private dialog: MatDialog, private firebaseService: FirebaseService, private snackBar: MatSnackBar) {}
 
   Open(selectedTrainingWork: TrainingWork, load: TrainingWorkLoad) {
+    console.log(load);
     // ONLY TEMP UNTIL FIXING REQUIRED
     if (!load.resultNote) {
       load.resultNote = '';
@@ -20,6 +21,9 @@ export class WorkLoadResultDialogService {
 
     if (!load.load) {
       load.load = 0;
+    }
+
+    if (!load.resultLoad) {
       load.resultLoad = 0;
     }
 
@@ -31,7 +35,7 @@ export class WorkLoadResultDialogService {
       load.resultRpe = selectedTrainingWork.rpe;
     }
 
-    if (!load.resultLoad) {
+    if (load.resultLoad === 0) {
       load.resultLoad = load.load;
     }
 
