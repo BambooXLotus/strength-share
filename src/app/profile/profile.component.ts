@@ -133,7 +133,6 @@ export class ProfileComponent implements OnInit {
     benchMax: number,
     deadliftMax: number
   ): void {
-    console.log(benchMax);
     this.workDialog.openEdit(work, load, squatMax, benchMax, deadliftMax);
   }
 

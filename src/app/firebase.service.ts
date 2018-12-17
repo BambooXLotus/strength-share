@@ -13,6 +13,7 @@ import { TrainingWeekMax } from './training-plan/training-week/training-week-max
 import { TrainingWeek } from './training-plan/training-week/training-week.model';
 import { TrainingWorkLoad } from './training-plan/training-work-load/training-work-load.model';
 import { TrainingWork } from './training-plan/training-work/training-work.model';
+import { EventVote } from './extra/nye/event-vote.model';
 
 @Injectable({
   providedIn: 'root'
@@ -408,5 +409,22 @@ export class FirebaseService {
         date: new Date()
       })
     );
+  }
+
+  public getVote(id: string) {
+    return this.db
+      .doc<EventVote>('event-vote/' + id)
+      .snapshotChanges()
+      .pipe(
+        map((a) => {
+          const data = a.payload.data() as EventVote;
+
+          return data.vote;
+        })
+      );
+  }
+
+  public vote(id: string, currentVote: number) {
+    return from(this.db.doc(`event-vote/'${id}`).set({ vote: currentVote + 1 }));
   }
 }
