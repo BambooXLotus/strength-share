@@ -34,6 +34,7 @@ import { TrainingWorksSortComponent } from './training-works-sort/training-works
 import { ExerciseComponent } from './training/exercise/exercise.component';
 import { TrainingComponent } from './training/training.component';
 import { WorkLoadResultComponent } from './work-load-result/work-load-result.component';
+import { NyeComponent } from './extra/nye/nye.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { WorkLoadResultComponent } from './work-load-result/work-load-result.com
     WorkLoadResultComponent,
     AdminComponent,
     MuscleGroupComponent,
-    MuscleGroupAddComponent
+    MuscleGroupAddComponent,
+    NyeComponent
   ],
   imports: [
     BrowserModule,

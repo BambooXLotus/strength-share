@@ -1,0 +1,54 @@
+<!--
+  <table>
+    <tr>
+      <th>Event</th>
+      <th>Price (Per Person)</th>
+      <th>Food?</th>
+      <th>Open Bar?</th>
+
+    </tr>
+
+    <tr *ngFor="let event of nyeEvents">
+      <td>{{ event.name }}</td>
+      <td>{{ event.price | currency }}</td>
+      <td>{{ event.food }}</td>
+      <td>{{ event.bar }}</td>
+
+    </tr>
+  </table>
+-->
+
+<table mat-table [dataSource]="nyeEvents" class="w-100 mat-elevation-z8">
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+  </ng-container>
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef>price</th>
+    <td mat-cell *matCellDef="let element">{{ element.price | currency }}</td>
+  </ng-container>
+  <ng-container matColumnDef="food">
+    <th mat-header-cell *matHeaderCellDef>Food</th>
+    <td mat-cell *matCellDef="let element">
+      <ng-container *ngIf="element.food; else: elseBlock"><mat-icon color="basic">done_outline</mat-icon></ng-container>
+      <ng-template #elseBlock><mat-icon color="warn">close</mat-icon> </ng-template>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="bar">
+    <th mat-header-cell *matHeaderCellDef>Bar</th>
+    <td mat-cell *matCellDef="let element">
+      <ng-container *ngIf="element.bar; else: elseBlock"><mat-icon color="basic">done_outline</mat-icon></ng-container>
+      <ng-template #elseBlock><mat-icon color="warn">close</mat-icon> </ng-template>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="location">
+    <th mat-header-cell *matHeaderCellDef>location</th>
+    <td mat-cell *matCellDef="let element">
+      <a target="_blank" href="{{element.location}}"><mat-icon color="basic">map</mat-icon></a>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
