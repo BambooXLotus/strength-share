@@ -57,11 +57,11 @@
   <ng-container matColumnDef="vote">
     <th mat-header-cell *matHeaderCellDef>vote</th>
     <td mat-cell *matCellDef="let element">
-      <ng-container *ngIf="(element.vote | async) as voteCount">
-        <a
-          ><mat-icon color="basic">favorite</mat-icon><span>{{ voteCount }}</span></a
-        >
-      </ng-container>
+      <!-- <ng-container *ngIf="(element.vote | async) as voteCount"> -->
+      <a (click)="vote(element.id)">
+        <mat-icon color="basic">favorite</mat-icon><span>{{ (element.vote | async)?.length }}</span>
+      </a>
+      <!-- </ng-container> -->
     </td>
   </ng-container>
 

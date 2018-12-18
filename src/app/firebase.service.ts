@@ -411,20 +411,19 @@ export class FirebaseService {
     );
   }
 
-  public getVote(id: string) {
+  public getVotes(id: string) {
     return this.db
       .doc<EventVote>('event-vote/' + id)
-      .snapshotChanges()
-      .pipe(
-        map((a) => {
-          const data = a.payload.data() as EventVote;
-
-          return data.vote;
-        })
-      );
+      .collection('votes')
+      .snapshotChanges();
   }
 
-  public vote(id: string, currentVote: number) {
-    return from(this.db.doc(`event-vote/'${id}`).set({ vote: currentVote + 1 }));
+  public addVote(id: string) {
+    return from(
+      this.db
+        .doc(`event-vote/${id}`)
+        .collection('votes')
+        .add({})
+    );
   }
 }

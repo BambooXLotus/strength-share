@@ -9,6 +9,6 @@ export class NyeEvent {
     public bar: boolean,
     public location: string,
     public info: string,
-    public vote: Observable<Number>
+    public vote: Observable<any>
   ) {}
 }
