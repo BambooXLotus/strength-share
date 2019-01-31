@@ -41,6 +41,8 @@ export class ProfileComponent implements OnInit {
   displayedColumns: string[] = ['name', 'restTime', 'repsDisplay', 'sets', 'load'];
   weekName: string;
 
+  logs: Observable<TrainingWork[]> | null = null;
+
   private trainingPlanDetail$ = new Subject<TrainingPlan>();
 
   ngOnInit() {
@@ -56,6 +58,8 @@ export class ProfileComponent implements OnInit {
       sushi: '',
       message: ''
     });
+
+    this.logs = this.firebaseService.getTrainingWorksByUser(userName);
 
     // const donkey = this.trainingPlanDetail$
     //   .pipe(

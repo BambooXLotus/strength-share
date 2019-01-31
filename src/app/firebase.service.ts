@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { from, Observable } from 'rxjs';
-import { finalize, map, share, shareReplay } from 'rxjs/operators';
+import { finalize, map, share, shareReplay, filter } from 'rxjs/operators';
 
+import { EventVote } from './extra/nye/event-vote.model';
 import { MuscleGroup } from './muscle-group/muscle-group.model';
 import { Profile } from './profile/profile.model';
 import { ProfileService } from './profile/profile.service';
@@ -13,7 +14,7 @@ import { TrainingWeekMax } from './training-plan/training-week/training-week-max
 import { TrainingWeek } from './training-plan/training-week/training-week.model';
 import { TrainingWorkLoad } from './training-plan/training-work-load/training-work-load.model';
 import { TrainingWork } from './training-plan/training-work/training-work.model';
-import { EventVote } from './extra/nye/event-vote.model';
+import { firestore } from 'firebase';
 
 @Injectable({
   providedIn: 'root'
@@ -68,7 +69,8 @@ export class FirebaseService {
           data.currentTrainingPlan = this.getTrainingPlanDeep(data.currentTrainingPlanId);
           return data;
         })
-      );
+      )
+      .pipe(share());
   }
 
   public addProfile(profile: Profile) {
@@ -195,6 +197,23 @@ export class FirebaseService {
             const data = a.payload.doc.data() as TrainingWork;
             data.id = a.payload.doc.id;
             data.load = this.getTrainingWorkLoad(data.id).pipe(share());
+
+            return data;
+          })
+        )
+      );
+  }
+
+  public getTrainingWorksByUser(userName: string): Observable<TrainingWork[]> {
+    return this.db
+      .collection<TrainingWork>(`trainingPlanLifts`)
+      .snapshotChanges()
+      .pipe(
+        map((actions) =>
+          actions.map((a) => {
+            const data = a.payload.doc.data() as TrainingWork;
+            data.id = a.payload.doc.id;
+            data.load = this.getTrainingWorkLoad(data.id).pipe(filter((res) => res.id.endsWith(userName)));
 
             return data;
           })

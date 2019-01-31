@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import {
   MatButtonModule,
   MatCheckboxModule,
+  MatChipsModule,
   MatDatepickerModule,
   MatDialogModule,
   MatExpansionModule,
@@ -11,11 +12,12 @@ import {
   MatNativeDateModule,
   MatSidenavModule,
   MatSlideToggleModule,
+  MatSnackBarModule,
+  MatTableModule,
   MatTabsModule,
   MatToolbarModule,
-  MatTableModule,
-  MatSnackBarModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatAutocompleteModule
 } from '@angular/material';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -45,7 +47,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatSlideToggleModule,
     MatTableModule,
     MatSnackBarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatChipsModule,
+    MatAutocompleteModule
   ],
   exports: [
     MatButtonModule,
@@ -69,7 +73,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatSlideToggleModule,
     MatTableModule,
     MatSnackBarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatChipsModule,
+    MatAutocompleteModule
   ]
 })
 export class MaterialModule {}

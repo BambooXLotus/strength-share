@@ -1,6 +1,18 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { FirebaseService } from './../../../firebase.service';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import {
+  MAT_DIALOG_DATA,
+  MatAutocomplete,
+  MatAutocompleteSelectedEvent,
+  MatChipInputEvent,
+  MatDialogRef
+} from '@angular/material';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
+import { MuscleGroup } from './../../../muscle-group/muscle-group.model';
 import { ProfileService } from './../../../profile/profile.service';
 import { CalcLoadInput1 } from './../../../services/calc/calc-load-input.model';
 import { CalcService } from './../../../services/calc/calc.service';
@@ -20,10 +32,24 @@ export class TrainingWorkAddComponent implements OnInit {
   liftOptions: LiftOption[] = [];
   selectedLift: 0;
 
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  fruitCtrl = new FormControl();
+  filteredFruits: Observable<string[]>;
+  fruits: MuscleGroup[] = [];
+  allMuscleGroups: Observable<MuscleGroup[]> | null = null;
+
+  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
+  @ViewChild('auto') matAutocomplete: MatAutocomplete;
+
   constructor(
     public dialogRef: MatDialogRef<TrainingWorkAddComponent>,
     private profileService: ProfileService,
     private calcService: CalcService,
+    private fbService: FirebaseService,
     @Inject(MAT_DIALOG_DATA) public data: TrainingWorkAdd
   ) {}
 
@@ -44,6 +70,13 @@ export class TrainingWorkAddComponent implements OnInit {
     };
 
     this.liftOptions = [bnOption, sqOption, dlOption];
+
+    // this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+    //   startWith(null),
+    //   map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice()))
+    // );
+
+    this.allMuscleGroups = this.fbService.getMuscleGroups();
   }
 
   onNoClick(): void {
@@ -76,4 +109,41 @@ export class TrainingWorkAddComponent implements OnInit {
   setsChanged() {
     this.data.trainingWork.setsDisplay = this.data.trainingWork.sets + '';
   }
+
+  add(event: MatChipInputEvent): void {
+    // Add fruit only when MatAutocomplete is not open
+    // To make sure this does not conflict with OptionSelected Event
+    // if (!this.matAutocomplete.isOpen) {
+    //   const input = event.input;
+    //   const value = event.value;
+    //   // Add our fruit
+    //   if ((value || '').trim()) {
+    //     this.fruits.push(value);
+    //   }
+    //   // Reset the input value
+    //   if (input) {
+    //     input.value = '';
+    //   }
+    //   this.fruitCtrl.setValue(null);
+    // }
+  }
+
+  remove(fruit: string): void {
+    // const index = this.fruits.indexOf(fruit);
+    // if (index >= 0) {
+    //   this.fruits.splice(index, 1);
+    // }
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    // this.fruits.push(event.option.viewValue);
+    // this.fruitInput.nativeElement.value = '';
+    // this.fruitCtrl.setValue(null);
+  }
+
+  //   private _filter(value: string): string[] {
+  //     const filterValue = value.toLowerCase();
+
+  //     return this.allMuscleGroups.filter((fruit) => fruit.toLowerCase().indexOf(filterValue) === 0);
+  //   }
 }

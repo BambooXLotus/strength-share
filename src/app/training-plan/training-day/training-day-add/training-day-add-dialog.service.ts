@@ -12,6 +12,8 @@ export class TrainingDayAddDialogService {
   constructor(private dialog: MatDialog, private firebaseService: FirebaseService, private snackBar: MatSnackBar) {}
 
   open(trainingPlanWeekId: string, dayCount: number): void {
+    console.log(dayCount);
+
     const currentDayCount = dayCount + 1;
     const trainingDay = new TrainingDay(currentDayCount, 'Day ' + currentDayCount, trainingPlanWeekId);
 

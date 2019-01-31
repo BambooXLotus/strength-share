@@ -5,4 +5,5 @@ export class TrainingWorkLoad {
   resultLoad: number;
   resultRpe: number;
   resultNote: string;
+  resultDate: any;
 }

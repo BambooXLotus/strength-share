@@ -117,7 +117,7 @@
             <div class="row">
               <ng-container *ngIf="(week.days | async) as days; else: elseTemplate">
                 <div class="col-1">
-                  <button mat-raised-button color="primary" (click)="openAddDayDialog(week.id, days.count())">
+                  <button mat-raised-button color="primary" (click)="openAddDayDialog(week.id, days.length)">
                     Add Day
                   </button>
                 </div>
@@ -236,6 +236,16 @@
             <button mat-fab cdkFocusInitial (click)="addWeek(training.id, weeks.length + 1)">
               <mat-icon>check</mat-icon>
             </button>
+          </mat-tab>
+          <mat-tab label="Log" class="h-100">
+            <!-- <ng-container *ngIf="currentProfile | async"> -->
+            <ng-container *ngFor="let log of (logs | async) as trainingLog">
+              <div class="row">
+                <div class="col">{{ log.name }}</div>
+                <div class="col">{{ (log.load | async)?.resultDate?.seconds * 1000 | date:'MM-dd-yyyy hh:ss' }}</div>
+              </div>
+              <!-- </ng-container> -->
+            </ng-container>
           </mat-tab>
         </mat-tab-group>
       </ng-container>

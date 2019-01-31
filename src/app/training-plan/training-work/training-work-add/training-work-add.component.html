@@ -48,6 +48,37 @@
     </mat-form-field>
     {{ data.trainingWorkLoad.load }}
   </div>
+
+  <div class="d-flex">
+    <mat-form-field class="example-chip-list">
+      <mat-chip-list #chipList>
+        <mat-chip
+          *ngFor="let fruit of fruits"
+          [selectable]="selectable"
+          [removable]="removable"
+          (removed)="remove(fruit)"
+        >
+          {{ fruit }}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input
+          placeholder="Muscle Group"
+          #fruitInput
+          [formControl]="fruitCtrl"
+          [matAutocomplete]="auto"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="add($event)"
+        />
+      </mat-chip-list>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let muscleGroups of (allMuscleGroups | async)" [value]="muscleGroups">
+          {{ muscleGroups.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
 </div>
 <div mat-dialog-actions>
   <button mat-fab color="warn" (click)="onNoClick()"><mat-icon>clear</mat-icon></button>
