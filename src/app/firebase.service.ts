@@ -413,11 +413,21 @@ export class FirebaseService {
   //     );
   //   }
 
-  public setTrainingPlanWeekMax(weekId: string, profileId: string) {
+  public setTrainingPlanWeekMaxFromProfile(weekId: string, profileId: string) {
     const squatMax = this.profileService.currentUserProfile().squatMax;
     const benchMax = this.profileService.currentUserProfile().benchMax;
     const deadliftMax = this.profileService.currentUserProfile().deadliftMax;
 
+    return this.setTrainingPlanWeekMax(weekId, profileId, squatMax, benchMax, deadliftMax);
+  }
+
+  public setTrainingPlanWeekMax(
+    weekId: string,
+    profileId: string,
+    squatMax: number,
+    benchMax: number,
+    deadliftMax: number
+  ) {
     const trainingPlanPath = `trainingPlanWeekMax/${weekId}_${profileId}`;
 
     return from(

@@ -59,7 +59,7 @@ export class ProfileComponent implements OnInit {
       message: ''
     });
 
-    this.logs = this.firebaseService.getTrainingWorksByUser(userName);
+    // this.logs = this.firebaseService.getTrainingWorksByUser(userName);
 
     // const donkey = this.trainingPlanDetail$
     //   .pipe(
@@ -167,8 +167,14 @@ export class ProfileComponent implements OnInit {
   }
 
   copyMaxFromProfile(weekId: string, profileId: string) {
-    this.firebaseService.setTrainingPlanWeekMax(weekId, profileId).subscribe(() => {
+    this.firebaseService.setTrainingPlanWeekMaxFromProfile(weekId, profileId).subscribe(() => {
       this.snackBar.open('Copied Over', '', { duration: 3000 });
+    });
+  }
+
+  saveMax(weekId: string, profileId: string, squatMax: number, benchMax: number, deadliftMax: number) {
+    this.firebaseService.setTrainingPlanWeekMax(weekId, profileId, squatMax, benchMax, deadliftMax).subscribe(() => {
+      this.snackBar.open('Save Max', '', { duration: 3000 });
     });
   }
 
