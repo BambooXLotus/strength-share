@@ -1,5 +1,10 @@
 <h1 mat-dialog-title>Add Work</h1>
 <div mat-dialog-content>
+  <mat-form-field>
+    <mat-select placeholder="Lift" [(ngModel)]="selectedLift" (selectionChange)="calc()">
+      <mat-option *ngFor="let option of liftOptions" [value]="option.value">{{ option.valueView }}</mat-option>
+    </mat-select>
+  </mat-form-field>
   <div class="d-flex">
     <mat-form-field>
       <input matInput placeholder="Name" [(ngModel)]="data.trainingWork.name" required />
@@ -9,11 +14,6 @@
       <input matInput placeholder="Rest Time" [(ngModel)]="data.trainingWork.restTime" />
     </mat-form-field>
   </div>
-  <mat-form-field>
-    <mat-select placeholder="Lift" [(ngModel)]="selectedLift" (selectionChange)="calc()">
-      <mat-option *ngFor="let option of liftOptions" [value]="option.value">{{ option.valueView }}</mat-option>
-    </mat-select>
-  </mat-form-field>
   <div class="d-flex">
     <mat-form-field>
       <input
@@ -28,12 +28,14 @@
       <input matInput placeholder="Reps Display" [(ngModel)]="data.trainingWork.repsDisplay" />
     </mat-form-field>
   </div>
-  <mat-form-field>
-    <input matInput placeholder="Sets" [(ngModel)]="data.trainingWork.sets" (keyup)="setsChanged()" />
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="Sets Display" [(ngModel)]="data.trainingWork.setsDisplay" />
-  </mat-form-field>
+  <div class="d-flex">
+    <mat-form-field>
+      <input matInput placeholder="Sets" [(ngModel)]="data.trainingWork.sets" (keyup)="setsChanged()" />
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Sets Display" [(ngModel)]="data.trainingWork.setsDisplay" />
+    </mat-form-field>
+  </div>
   <div class="d-flex">
     <mat-form-field>
       <input matInput placeholder="RPE" type="number" [(ngModel)]="data.trainingWork.rpe" (keyup)="calc()" />
