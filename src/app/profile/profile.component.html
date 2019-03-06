@@ -84,6 +84,18 @@
               </mat-form-field>
             </div>
           </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="w-100">
+                <textarea matInput placeholder="Notes" [(ngModel)]="profile.notes"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="col-auto">
+              <button mat-mini-fab (click)="saveNotes(profile.notes)">
+                <mat-icon aria-label="save notes">save</mat-icon>
+              </button>
+            </div>
+          </div>
         </div>
       </mat-expansion-panel>
 
@@ -113,12 +125,12 @@
                     />
                   </mat-form-field>
                 </div>
-                <div class="d-none d-xl-block col-auto">
+                <div class="col-auto d-none d-lg-block">
                   <button mat-mini-fab (click)="copyMaxFromProfile(week.id, profile.id)">
                     <mat-icon aria-label="Copy from profile">build</mat-icon>
                   </button>
                 </div>
-                <div class="d-none d-xl-block col-auto">
+                <div class="col-auto d-none d-lg-block">
                   <button
                     mat-mini-fab
                     (click)="saveMax(week.id, profile.id, weekMax.squatMax, weekMax.benchMax, weekMax.deadliftMax)"
@@ -130,18 +142,18 @@
             </div>
             <div class="row">
               <ng-container *ngIf="(week.days | async) as days; else elseTemplate">
-                <div class="d-none d-xl-block col-1">
+                <div class="col-1">
                   <button mat-raised-button color="primary" (click)="openAddDayDialog(week.id, days.length)">
                     Add Day
                   </button>
                 </div>
               </ng-container>
               <ng-template #elseTemplate>
-                <div class="d-none d-xl-block col-1">
+                <div class="col-1">
                   <button mat-raised-button color="primary" (click)="openAddDayDialog(week.id)">Add Day</button>
                 </div>
               </ng-template>
-              <div class="d-none d-xl-block col-1">
+              <div class="col-1">
                 <button mat-raised-button color="primary" (click)="openCopyWeekDialog(week.id)">Copy Week</button>
               </div>
             </div>
@@ -150,37 +162,46 @@
                 <mat-card class="mb-3">
                   <mat-card-header>
                     <mat-card-title>
-                      {{ day.name }}
-                      <ng-container *ngIf="(week.max | async) as weekMax">
-                        <button class="d-none d-xl-block" mat-mini-fab>
-                          <mat-icon
-                            aria-label="Add Work"
-                            (click)="
-                              openAddWorkDialog(
-                                day.id,
-                                day.works.length,
-                                weekMax.squatMax,
-                                weekMax.benchMax,
-                                weekMax.deadliftMax
-                              )
-                            "
-                          >
-                            add
-                          </mat-icon>
-                        </button>
-                      </ng-container>
-                      <button class="d-none d-xl-block" mat-mini-fab><mat-icon>edit</mat-icon></button>
-                      <ng-container *ngIf="(day.works | async) as works">
-                        <button class="d-none d-xl-block" mat-mini-fab>
-                          <mat-icon aria-label="Sort Works" (click)="openSortWorkDialog(works)"> reorder </mat-icon>
-                        </button>
-                      </ng-container>
-
-                      <button mat-mini-fab>
-                        <mat-icon aria-label="Day" [routerLink]="['/p/' + profile.id + '/d/' + day.id]">
-                          arrow_forward_ios
-                        </mat-icon>
-                      </button>
+                      <div class="row">
+                        <div class="col-auto">{{ day.name }}</div>
+                        <div class="col-auto d-none d-lg-block">
+                          <ng-container *ngIf="(week.max | async) as weekMax">
+                            <button mat-mini-fab>
+                              <mat-icon
+                                aria-label="Add Work"
+                                (click)="
+                                  openAddWorkDialog(
+                                    day.id,
+                                    day.works.length,
+                                    weekMax.squatMax,
+                                    weekMax.benchMax,
+                                    weekMax.deadliftMax
+                                  )
+                                "
+                              >
+                                add
+                              </mat-icon>
+                            </button>
+                          </ng-container>
+                        </div>
+                        <div class="col-auto d-none d-lg-block">
+                          <button mat-mini-fab><mat-icon>edit</mat-icon></button>
+                        </div>
+                        <div class="col-auto d-none d-lg-block">
+                          <ng-container *ngIf="(day.works | async) as works">
+                            <button mat-mini-fab>
+                              <mat-icon aria-label="Sort Works" (click)="openSortWorkDialog(works)"> reorder </mat-icon>
+                            </button>
+                          </ng-container>
+                        </div>
+                        <div class="col-auto">
+                          <button mat-mini-fab>
+                            <mat-icon aria-label="Day" [routerLink]="['/p/' + profile.id + '/d/' + day.id]">
+                              arrow_forward_ios
+                            </mat-icon>
+                          </button>
+                        </div>
+                      </div>
                     </mat-card-title>
                   </mat-card-header>
                   <mat-card-content>
@@ -215,7 +236,7 @@
                               </mat-icon>
                             </button>
                             <ng-container *ngIf="(week.max | async) as weekMax">
-                              <button mat-mini-fab class="d-none d-xl-block">
+                              <button class="d-none d-lg-block" mat-mini-fab>
                                 <mat-icon
                                   (click)="
                                     openEditWorkDialog(
@@ -230,7 +251,7 @@
                                 >
                               </button>
                             </ng-container>
-                            <button class="d-none d-xl-block" mat-mini-fab>
+                            <button class="d-none d-lg-block" mat-mini-fab>
                               <mat-icon (click)="removeWork(work.id)">delete</mat-icon>
                             </button>
                           </ng-container>

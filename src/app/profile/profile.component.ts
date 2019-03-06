@@ -178,6 +178,12 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  saveNotes(notes: string) {
+    this.firebaseService.updateProfileNotes(notes).subscribe(() => {
+      this.snackBar.open('Save Notes', '', { duration: 3000 });
+    });
+  }
+
   //   createProfile(): Profile {
   //     const profile = new Profile();
 

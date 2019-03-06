@@ -11,6 +11,7 @@ export class Profile {
   photo: string;
   weight: number;
   height: number;
+  notes: string;
 
   benchMax: number;
   squatMax: number;

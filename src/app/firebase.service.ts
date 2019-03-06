@@ -440,6 +440,12 @@ export class FirebaseService {
     );
   }
 
+  public updateProfileNotes(notes: string) {
+    return from(
+      this.db.doc<Profile>('profiles/' + this.profileService.currentUserProfile().id).update({ notes: notes })
+    );
+  }
+
   public getVotes(id: string) {
     return this.db
       .doc<EventVote>('event-vote/' + id)
